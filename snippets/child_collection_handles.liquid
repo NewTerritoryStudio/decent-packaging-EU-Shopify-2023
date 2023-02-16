@@ -1,0 +1,44 @@
+{% assign separator = separator | default: '|##|' %}
+{%- assign nav_link_found = false -%}
+{%- assign collection_handles = collection_handles | default: '' -%}
+
+{%- assign collections_hierarchy = linklists[settings.collections_hierarchy_link_list] -%}
+{%- for link in collections_hierarchy.links -%}
+  {%- if link.url contains collection.url or collection.handle == 'all' -%}
+    {%- assign nav_link_found = true -%}
+  {%- endif -%}
+  {%- assign child_list_handle = link.title | handle -%}
+  {%- if linklists[child_list_handle].links != blank -%}
+    {%- for childlink in linklists[child_list_handle].links -%}
+      {%- if nav_link_found == true and childlink.url contains '/collections/' -%}
+        {%- assign collection_handles = collection_handles | append: childlink.url | append: separator -%}
+      {%- endif -%}
+      {%- if childlink.url contains collection.url -%}
+        {%- assign child_nav_link_found = true -%}
+      {%- endif -%}
+      {%- assign grand_child_list_handle = childlink.title | handle -%}
+      {%- if linklists[grand_child_list_handle].links != blank -%}
+        {%- for grandchildlink in linklists[grand_child_list_handle].links -%}
+          {%- if child_nav_link_found == true and grandchildlink.url contains '/collections/' -%}
+            {% assign collection_handles = collection_handles | append: grandchildlink.url | append: separator %}
+          {%- endif -%}
+          {%- if grandchildlink.url contains collection.url -%}
+            {%- assign grandchild_nav_link_found = true -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if grandchild_nav_link_found -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endif -%}
+      {%- if child_nav_link_found -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+  {%- if nav_link_found and collection.handle != 'all' -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- assign collection_handles = collection_handles | replace: '/collections/', '' -%}
+{%- assign collection_handles = collection_handles | split: separator -%}

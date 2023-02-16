@@ -1,0 +1,28 @@
+
+
+.product__price span, 
+.product__price s {
+    vertical-align: center;
+}
+.og-price {
+    text-decoration: line-through;
+    margin-bottom: 8px;
+    margin-right: 8px;
+    opacity: 0.4;
+    height: min-content;
+}
+
+.discount-price {
+    color: red;
+    height: min-content;
+}
+
+.discount-save {
+    padding: 2px 4px;
+    background-color: #dfdfdf;
+}
+
+.cart-drawer-item__adjustments-content {
+    display: flex;
+    flex-wrap: wrap;
+}

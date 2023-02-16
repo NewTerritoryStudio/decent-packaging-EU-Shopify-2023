@@ -1,0 +1,170 @@
+{%- comment %} This template also contains code for related product logic. Take care when editing. {% endcomment -%}
+{%- capture product_template_url %}{% raw %}{ product.url }{% endraw %}{% endcapture -%}
+{%- capture product_template_title %}{% raw %}{ product.title }{% endraw %}{% endcapture -%}
+{%- capture product_template_id %}{% raw %}{ product.id }{% endraw %}{% endcapture -%}
+{%- assign quick_shop = quick_shop | default: settings.product_grid_item_quick_shop -%}
+{%- assign show_sku = section.settings.show_sku | default: false -%}
+{%- assign badge_position = section.settings.badge_position | default: settings.product_grid_item_badge_position -%}
+{%- assign show_sku_text = section.settings.show_sku_text | default: false -%}
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign is_new_item = false -%}
+{%- assign is_preorder_item = false -%}
+{%- assign enable_badges = false -%}
+{%- assign order_form = order_form | default: false -%}
+
+{%- for image in product.images -%}
+  {%- if current_variant.id == image.variants[0].id -%}
+    {%- assign thumb_image = image -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if thumb_image != blank -%}
+  {%- assign hover_image = product.featured_image -%}
+{% else %}
+  {%- assign hover_image = blank -%}
+  {%- assign thumb_image = product.featured_image -%}
+{%- endif -%}
+
+<div class="product-grid-item product-grid-item--quick-shop-{{ quick_shop }}{% unless product.available %} product-grid-item--sold-out{% endunless %}" id="product-grid-item-{{ product.id | default: product_template_id }}">
+
+  <div class="product-grid-item__image">
+    <a href="{{ product.url | default: product_template_url }}">
+      {%- if product %}
+
+        {% include 'img' with thumb_image, fade: false, placeholder: false, img_class: 'product-grid-item__thumb-image' %}
+
+        {%- if hover_image != blank -%}
+          {% include 'img' with hover_image, fade: false, placeholder: false, img_class: 'product-grid-item__hover-image' %}
+        {%- endif -%}
+
+      {% else %}
+        {% raw %}<img rv-data-src="product.featured_image | productImageSize '{width}x'" rv-class="lazyload" rv-alt="product.title">{% endraw %}
+      {% endif -%}
+    </a>
+  </div>
+
+  <div class="product-grid-item__details">
+
+      <a href="{{ product.url | default: product_template_url }}">
+
+        <div class="product-grid-item__title">
+          {{ product.title | default: product_template_title }}
+        </div>
+
+        {%- if order_form != true -%}
+
+          <div class="product-grid-item__options">
+              {% assign product_variants_count = product.variants | where: "available", true %}
+            {%- if product_variants_count.size > 1 -%}
+              {{ 'products.product.number_variants_available' | t: count: product_variants_count.size }}
+            {% else %}
+              {{ product_variants_count.first.title }}
+            {%- endif -%}
+          </div>
+
+          <div class="product__price product-grid-item__price">
+
+            {%- if product %}
+              {%- if product.price_varies -%}
+                <span class="product-grid-item__from-text"> {{ 'products.product.from_text' | t }}</span>
+              {%- endif -%}
+              {% include 'price' with product %}
+              {%- unless product.available -%}
+                {{ 'products.product.sold_out' | t }}
+              {%- endunless -%}
+            {% else %}
+              {% raw %}<span rv-if="product.price_varies">{% endraw %}{{ 'products.product.on_sale_from_html' | t }}</span>{% raw %} <span rv-html="product.price | money shop.currency"></span>{% endraw %}
+            {% endif -%}
+          </div>
+
+         {%- endif -%}
+      </a>
+
+    {%- if order_form == true -%}
+
+      <div class="product-grid-item__order-forms">
+
+      <p class="product-grid-item__order-form-note">
+
+          {% if shop.taxes_included != true %}
+            <span>{{ 'products.product.tax_excluded' | t }}</span>
+          {% else %}
+            <span>{{ 'products.product.tax_included' | t }}</span>
+          {% endif %}
+
+          {%- if product.metafields.details.carton_quantity -%}
+            <span class="product-form__units-per-carton">{{ 'products.product.units_par_carton' | t }}
+              <span>{{ product.metafields.details.carton_quantity }}</span>
+            </span>
+          {%- endif -%}
+
+          {% comment %}
+          {%- if form_item == 'primary' -%}
+            <span class="product-form__half-carton-available" data-form="halfCarton" rv-on-click="methods.formToggle" rv-if="products.halfCarton.id">{{ 'products.product.half_cartons_available' | t }}</span>
+          {%- endif -%}
+          {% endcomment %}
+
+      </p>
+        
+        {%- for variant in product.variants -%}
+
+          {% form 'product', product, class: 'product-grid-item__order-form', data-cart-submit: '', data-varaint-id: variant.id %}
+            <input type="hidden" name="id" value="{{ variant.id }}">
+            <div class="product-grid-item__order-title">
+              <p>{{ variant.title }}</p>
+            </div>
+            <div class="product-grid-item__order-price">
+              {% include 'price' with product, current_variant: variant %}
+            </div>
+            <div class="product-grid-item__order-quantity">
+              <input type="number" id="Quantity" name="quantity" value="0" min="0" pattern="[0-9]*">
+            </div>
+          {%- endform -%}
+
+        {%- endfor -%}
+
+        <button
+          data-add-to-cart
+          data-progress-element
+          class="btn btn-black-o btn--wide btn--large product-grid-item__order-submit">
+
+          <span data-add-to-cart-text>
+            {% if product.available %}
+              {{ 'products.product.add_to_cart' | t }}
+            {% else %}
+              {{ 'products.product.sold_out' | t }}
+            {% endif %}
+          </span>
+
+        </button>
+
+      </div>
+    {%- endif -%}
+
+  </div>
+
+  <script type="application/json" data-product-json>
+    {{ product | json }}
+  </script>
+  <script type="application/json" data-product-metafields-json>
+    {
+      "details": {{ product.metafields.details | json }}
+    }
+  </script>
+  <script type="application/json" data-product-variant-inventory-json>
+    [
+    {%- for variant in product.variants -%}
+      {%- unless forloop.first -%},{%- endunless -%}
+      {
+        "id": {{ variant.id | json }},
+        "inventory_quantity": {{ variant.inventory_quantity | json }}
+      }
+    {%- endfor -%}
+    ]
+  </script>
+
+</div>
+
+{%- assign hover_image = blank -%}
+{%- assign thumb_image = blank -%}

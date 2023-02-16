@@ -1,0 +1,93 @@
+{%- assign blog = blogs[section.settings.blog] -%}
+
+{%- assign blog_page = true -%}
+
+{%- unless template contains 'account.news' -%}
+  {%- assign blog_page = false -%}
+{%- endunless -%}
+
+{%- assign paginate = 3 -%}
+{%- if blog_page == true -%}
+  {%- assign paginate = 12 -%}
+{%- endif -%}
+
+{%- paginate blog.articles by paginate -%}
+
+  <div class="row">
+    {%- for article in blog.articles -%}
+
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-6 col-xl-4">
+          <div class="news-grid-item">
+            <a class="news-grid-item__image" href="{{ article.url }}">
+              {%- include 'img' with article.image -%}
+            </a>
+            <div class="news-grid-item__text">
+              <p class="news-grid-item__title">{{ article.title }}</p>
+              <p>{{ article.published_at | date: "%d %B" }}</p>
+              <a href="{{ article.url }}">{{ 'customer.news.read_more' | t }}</a>
+            </div>
+          </div>
+        </div>
+
+    {%- endfor -%}
+
+  </div>
+
+  {%- if blog_page == true -%}
+    <div class="row">
+      {%- if paginate.pages > 1 -%}
+        <div class="pagination-wrap col-xs-12">
+            {% include 'pagination' %}
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+{%- endpaginate -%}
+
+
+
+{% schema %}
+  {
+    "name": "News",
+    "class": "news-section",
+    "settings": [
+      {
+        "type": "blog",
+        "id": "blog",
+        "label": "News blog"
+      }
+    ]
+  }
+{% endschema %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

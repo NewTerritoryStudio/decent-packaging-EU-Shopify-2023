@@ -1,0 +1,116 @@
+<div data-section-id="{{ section.id }}" data-section-type="featured-collection">
+  <div class="section">
+    <div class="container">
+      {%- if section.settings.title != blank -%}
+        <div class="section-header text-center">
+          <h2 class="section-header__title">
+            <span>{{ section.settings.title | escape }}</span>
+          </h2>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.collection != blank -%}
+        {%- assign collection = collections[section.settings.collection] -%}
+      {%- else -%}
+        {%- assign collection = collections.all -%}
+      {%- endif -%}
+      <div class="row">
+        <div class="col-xs-12 featured-collection-wrap">
+          <div class="featured-collection"
+               id="featured-collection-{{ section.id }}"
+               data-autoplay="{% if section.settings.autoplay == 'mobile' %}false{% else %}true{% endif %}"
+               data-autoplay-mobile="{% if section.settings.autoplay == 'desktop' %}false{% else %}true{% endif %}"
+               data-speed="{{ section.settings.autoplay_speed }}">
+            {%- for product in collection.products limit: section.settings.limit -%}
+              <div class="featured-collection__slide">
+                {% include 'product-grid-item' %}
+              </div>
+            {%- endfor -%}
+          </div>
+          {% comment %}
+          <button type="button" class="featured-collection__prev">{% include 'icon-chevron-left' %}</button>
+          <button type="button" class="featured-collection__next">{% include 'icon-chevron-right' %}</button>
+          {% endcomment %}
+        </div>
+        {%- if section.settings.show_button and section.settings.button_text != blank -%}
+          <div class="col-xs-12 featured-collection__actions">
+            <a href="{{ collection.url }}" class="btn btn-primary-o">
+              {{ section.settings.button_text }}
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Featured collection",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Featured collection"
+      },
+      {
+        "id": "collection",
+        "type": "collection",
+        "label": "Collection"
+      },
+      {
+        "type": "range",
+        "id": "limit",
+        "min": 4,
+        "max": 12,
+        "step": 1,
+        "label": "Number of products",
+        "default": 6
+      },
+      {
+        "type": "select",
+        "id": "autoplay",
+        "options": [
+          { "value": "mobile", "label": "On small screens only"},
+          { "value": "desktop", "label": "On large screens only"},
+          { "value": "all", "label": "On all screen sizes"}
+        ],
+        "label": "Auto-rotate slides",
+        "default": "mobile"
+      },
+      {
+        "type": "select",
+        "id": "autoplay_speed",
+        "label": "Change slides every",
+        "options": [
+          { "value": "5000", "label": "5 seconds" },
+          { "value": "6000", "label": "6 seconds" },
+          { "value": "7000", "label": "7 seconds" },
+          { "value": "8000", "label": "8 seconds" },
+          { "value": "9000", "label": "9 seconds" },
+          { "value": "10000", "label": "10 seconds" }
+        ],
+        "default": "7000"
+      },
+      {
+        "id": "show_button",
+        "type": "checkbox",
+        "label": "Enable 'View More' button"
+      },
+      {
+        "id": "button_text",
+        "type": "text",
+        "label": "Button Text",
+        "default": "More Products"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Featured collection",
+        "category": "Collection"
+      }
+    ]
+  }
+
+{% endschema %}

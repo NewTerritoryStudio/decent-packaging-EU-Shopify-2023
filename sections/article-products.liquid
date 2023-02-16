@@ -1,0 +1,31 @@
+<div class="article-products row" data-section-id="{{ section.id }}" data-section-type="related-product">
+
+    {% assign product_handles = article.metafields.related.product | split: '|' %}
+
+    {% for product_handle in product_handles %}
+        {%- assign product = all_products[product_handle] -%}
+
+        {%- if product.handle == blank -%}
+          {%- continue -%}
+        {%- endif -%}
+
+        <div class="prod-item col-xs-6 col-md-3">
+            <a href="{{ product.url }}" class="prod-item__pic">
+                {%- include 'img' with product.featured_image -%}
+            </a>
+            <div class="prod-item__ttl">
+                <a href="{{ product.url }}">{{ product.title }}</a>
+            </div>
+            <div class="prod-item__txt">{{ product.type }}</div>
+            <div class="prod-item__price">
+                {%- include 'price' with product -%}
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% schema %}
+{
+    "name": "Related product"
+}
+{% endschema %}

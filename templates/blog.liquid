@@ -1,0 +1,70 @@
+{% section 'header-image' %}
+
+{%- paginate blog.articles by 12 -%}
+
+  <div class="container blog">
+    <div class="row">
+      <div class="col-xs-12">
+            
+        {%- assign blog_title = blog.title -%}
+
+        {%- if current_tags -%}
+          {% capture blog_title %}
+            {{ blog.title | link_to: blog.url }}
+            {% if current_tags != blank %}
+              <br><span class="visually-hidden">&mdash;</span>
+              <small>
+                Filtered by {{ current_tags.first }}
+                {% if current_tags.size > 1 %}
+                  + {{ current_tags.size | minus: 1 }} More
+                {% endif %}
+              </small>
+            {% endif %}
+          {% endcapture %}
+        {%- endif -%}
+
+        <div class="section-header text-{{ settings.page_header_text_align }}">
+          <h1 class="blog__title">{{ blog_title }}</h1>
+        </div>
+
+        {%- if blog.all_tags.size > 0 -%}
+          <div class="blog__categories">
+            <h2 class="blog__categories-title">{{ 'blogs.general.categories' | t }}</h2>
+
+            <ul class="blog__categories-list">
+              {%- for tag in blog.all_tags -%}
+
+                {%- if current_tags contains tag -%}
+                  {% capture link_content %}<span>{{ tag }}</span>{% include 'icon-minus' %}{% endcapture %}
+                  <li class="blog__categories-btn blog__categories-remove">{{ link_content | link_to_remove_tag: tag }}</li>
+                {%- else -%}
+                  {% capture link_content %}<span>{{ tag }}</span>{% include 'icon-plus' %}{% endcapture %}
+                  <li class="blog__categories-btn blog__categories-add">{{ link_content | link_to_add_tag: tag }}</li>
+                {%- endif -%}
+
+              {%- endfor -%}
+              
+              {%- if current_tags.size > 0 -%}
+                <li class=""><a href="{{ blog.url }}" class="btn btn-link">Clear All</a></li>
+              {%- endif -%}
+
+            </ul>
+          </div>
+        {%- endif -%}
+
+        <div class="row">
+          {%- for article in blog.articles -%}
+            {% include 'article-grid-item' with class: 'col-xs col-md-4' %}
+          {%- endfor -%}
+        </div>
+
+        {%- if paginate.pages > 1 -%}
+          {% include 'pagination' %}
+        {%- endif -%}
+
+      </div>
+    </div>
+  </div>
+
+{%- endpaginate -%}
+

@@ -1,0 +1,50 @@
+{%- capture related_articles %}
+    {% assign article_handles = article.metafields.related.article | split: '|' %}
+
+    {% for article_handle in article_handles %}
+        {%- assign article = articles[article_handle] -%}
+
+        {%- if article.handle == blank -%}
+          {%- continue -%}
+        {%- endif -%}
+
+        <div class="slide">
+            <div class="slide__pic">
+                {% include 'img' with article.image, alt: article.title %}
+            </div>
+            <div class="slide__ttl">{{ article.title }}</div>
+            <div class="slide__txt">{{ article.published_at | time_tag: format: 'month_day_year' }}</div>
+            <div class="slide__link">
+                <a href="{{ article.url }}">read more</a>
+            </div>
+        </div>
+    {% endfor %}
+{% endcapture -%}
+
+{%- if related_articles != blank -%}
+  <div class="related-articles" data-section-id="{{ section.id }}" data-section-type="related-articles">
+    <div class="related-articles__container">
+      <div class="related-articles__title">
+        <h3 class="sl-ttl">Related articles</h3>
+        <div class="sl-controls">
+          <button type="button" class="sl-prev"></button>
+          <button type="button" class="sl-next"></button>
+        </div>
+      </div>
+
+      <div class="sl-wrap not-init">
+        <div class="slider">
+          {{ related_articles }}
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+
+
+{% schema %}
+    {
+    "name": "Related articles"
+    }
+{% endschema %}

@@ -1,0 +1,195 @@
+<div data-section-id="{{ section.id }}" data-section-type="video-with-text">
+  <div class="feature-row-wrap feature-row-wrap--{{ section.settings.theme }}">
+    <div class="page-width">
+      {% capture video_layout %}
+        <div class="feature-row__item">
+          {%- if section.settings.video != blank -%}
+            <div id="FeatureRowImageWrapper-{{ section.id }}" class="feature-row__image-wrapper feature-row__image-wrapper--flush js">
+              {% capture img_id %}FeatureRowImage-{{ section.id }}{% endcapture %}
+
+              <div class="feature-row__video hidden-xs hidden-sm">
+                <iframe frameborder="0" height="100%" width="100%"
+                        src="https://youtube.com/embed/{{ section.settings.video.id }}?controls=0&autoplay=1&disablekb=1&mute=1&showinfo=0&rel=0&playlist={{ section.settings.video.id }}&loop=1&modestbranding=1">
+                </iframe>
+              </div>
+              <div class="hidden-md hidden-lg hidden-xl">
+                {%- if section.settings.image != blank -%}
+                  {% include 'img' with section.settings.image, id: img_id, img_class: 'feature-row__image' %}
+                {%- else -%}
+                  <span class="video-lightbox__placeholder">
+                    {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                  </span>
+                {%- endif -%}
+              </div>
+              {% comment %}
+            <a class="video-lightbox__trigger" href="https://youtube.com/watch?v={{ section.settings.video.id }}" data-video-id="{{ section.settings.video.id }}">
+
+              {%- if section.settings.image != blank -%}
+                {% include 'img' with section.settings.image, id: img_id, img_class: 'feature-row__image' %}
+              {%- else -%}
+                <span class="video-lightbox__placeholder">
+                  {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                </span>
+              {%- endif -%}
+
+                <span class="video-lightbox__trigger-overlay"></span>
+                <span class="video-lightbox__trigger-button">
+                  {% include 'icon-play' %}
+                </span>
+              </a>
+              {% endcomment %}
+            </div>
+          {%- endif -%}
+        </div>
+      {% endcapture %}
+
+      <div class="feature-row feature-row--mobile-{{ section.settings.layout_mobile }}">
+        {%- if section.settings.layout == 'left' -%}
+          {{ video_layout }}
+        {%- endif -%}
+
+        <div class="feature-row__item feature-row__text feature-row__text--{{ section.settings.layout }}">
+          {%- if section.settings.title != blank -%}
+            <h2 class="feature-row__title h3 color-{{ section.settings.title_color }}">{{ section.settings.title | escape }}</h2>
+          {%- endif -%}
+          {%- if section.settings.text != blank -%}
+            <div class="rte feature-row__subtext">{{ section.settings.text }}</div>
+          {%- endif -%}
+          {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+            <a href="{{ section.settings.button_link }}" class="btn btn--large btn-{{ section.settings.btn_style }}">
+              {{ section.settings.button_label | escape }}
+            </a>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.layout == 'right' -%}
+          {{ video_layout }}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Video with text",
+    "class": "index-section video-with-text",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Placeholder image",
+        "info": "Images should be a minimum of 1000px wide x 800px tall. Larger images will be sized to fit automatically."
+      },
+      {
+        "id": "video",
+        "type": "video_url",
+        "label": "Video URL",
+        "accept": ["youtube"],
+        "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Text position on large screens",
+        "default": "left",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "layout_mobile",
+        "label": "Text position on small screens",
+        "default": "above",
+        "options": [
+          {
+            "value": "above",
+            "label": "Above"
+          },
+          {
+            "value": "below",
+            "label": "Below"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Video with text"
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text",
+        "default": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>"
+      },
+      {
+        "type": "text",
+        "id": "button_label",
+        "label": "Button label"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button link"
+      },
+      {
+       "type": "header",
+       "content": "Format"
+      },
+      {
+        "type": "select",
+        "id": "theme",
+        "label": "Theme",
+        "options": [
+          { "value": "dark inverse", "label": "Dark" },
+          { "value": "light", "label": "Light" }
+        ],
+        "default": "dark inverse"
+      },
+      {
+        "type": "select",
+        "id": "title_color",
+        "label": "Heading color",
+        "options": [
+          { "value": "default", "label": "Default" },
+          { "value": "primary", "label": "Brand Primary" },
+          { "value": "secondary", "label": "Brand Secondary" },
+          { "value": "tertiary", "label": "Brand Tertiary" }
+        ],
+        "default": "default"
+      },
+      {
+        "type": "select",
+        "id": "btn_style",
+        "label": "Button style",
+        "options": [
+          { "value": "primary", "label": "Brand Primary" },
+          { "value": "secondary", "label": "Brand Secondary" },
+          { "value": "tertiary", "label": "Brand Tertiary" },
+          { "value": "primary-o", "label": "Outlined Brand Primary" },
+          { "value": "secondary-o", "label": "Outlined Brand Secondary" },
+          { "value": "tertiary-o", "label": "Outlined Brand Tertiary" },
+          { "value": "white-o", "label": "Outlined White" },
+          { "value": "link", "label": "Plain" }
+        ],
+        "default": "primary"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Video with text",
+        "category": "Video"
+      }
+    ]
+  }
+{% endschema %}

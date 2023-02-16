@@ -1,0 +1,146 @@
+{%- assign featured_collection_headings = '' -%}
+{%- assign featured_collection_slides = '' -%}
+{%- assign active_collections = 0 -%}
+{%- assign first_product_index = 0 -%}
+{%- for block in section.blocks -%}
+  {%- assign collection = collections[block.settings.collection] -%}
+  {%- if collection.products.size > 0 -%}
+    {% capture featured_collection_heading %}
+      <a href="{{ collection.url }}" class="featured_colections__header-item" data-related-collection="{{ block.settings.collection }}" data-first-product="{{ first_product_index }}">
+        {{ block.settings.title | default: collection.title }}
+      </a>
+    {% endcapture %}
+    
+    {% capture featured_collection_slide_group %}
+      {%- for product in collection.products limit: block.settings.limit -%}
+        <div class="featured-collections__slide" data-block-id="{{ block.id }}" data-related-collection="{{ block.settings.collection }}">
+          {% include 'product-grid-item' %}
+        </div>
+        {% assign first_product_index = first_product_index | plus: 1 %}
+      {%- endfor -%}
+    {% endcapture %}
+
+    {%- assign active_collections = active_collections | plus: 1 -%}
+    {%- assign featured_collection_headings = featured_collection_headings | append: featured_collection_heading -%}
+    {%- assign featured_collection_slides = featured_collection_slides | append: featured_collection_slide_group -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{% if featured_collection_slides != blank %}
+  <div data-section-id="{{ section.id }}" data-section-type="featured-collections">
+    <div class="section">
+      {%- if section.settings.title != blank -%}
+        <div class="page-width">
+          <div class="section-header text-center">
+            <h2 class="section-header__title">
+              <span>{{ section.settings.title | escape }}</span>
+            </h2>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if active_collections > 1 -%}
+        <div class="featured-collections__header">
+          {{ featured_collection_headings }}
+        </div>
+      {%- endif -%}
+      
+      {%- if section.settings.collection != blank -%}
+        {%- assign collection = collections[section.settings.collection] -%}
+      {%- else -%}
+        {%- assign collection = collections.all -%}
+      {%- endif -%}
+      <div class="page-width featured-collections-wrap slideshow-wrapper">
+        <div class="featured-collections" 
+             id="Slideshow-{{ section.id }}" 
+             data-autoplay="{% if section.settings.autoplay == 'mobile' %}false{% else %}true{% endif %}" 
+             data-autoplay-mobile="{% if section.settings.autoplay == 'desktop' %}false{% else %}true{% endif %}" 
+             data-arrows="true"
+             data-infinite="false"
+             data-slides-show-desktop="3" 
+             data-slides-show="2" 
+             data-speed="{{ section.settings.autoplay_speed }}"
+             data-collection-count="{{ section.blocks.size }}">
+          {{ featured_collection_slides }}
+        </div>
+        <button type="button" class="slideshow__prev featured-collections__prev">{% include 'icon-chevron-left' %}</button>
+        <button type="button" class="slideshow__next featured-collections__next">{% include 'icon-chevron-right' %}</button>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Featured collections",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Featured collection"
+      },
+      {
+        "type": "select",
+        "id": "autoplay",
+        "options": [
+          { "value": "mobile", "label": "On small screens only"},
+          { "value": "desktop", "label": "On large screens only"},
+          { "value": "all", "label": "On all screen sizes"}
+        ],
+        "label": "Auto-rotate slides",
+        "default": "mobile"
+      },
+      {
+        "type": "select",
+        "id": "autoplay_speed",
+        "label": "Change slides every",
+        "options": [
+          { "value": "5000", "label": "5 seconds" },
+          { "value": "6000", "label": "6 seconds" },
+          { "value": "7000", "label": "7 seconds" },
+          { "value": "8000", "label": "8 seconds" },
+          { "value": "9000", "label": "9 seconds" },
+          { "value": "10000", "label": "10 seconds" }
+        ],
+        "default": "7000"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "collection",
+        "name": "Featured collection",
+        "limit": 3,
+        "settings": [
+          {
+            "id": "title",
+            "type": "text",
+            "label": "Title",
+            "info": "Collection title will be used by default"
+          },
+          {
+            "id": "collection",
+            "type": "collection",
+            "label": "Collection"
+          },
+          {
+            "type": "range",
+            "id": "limit",
+            "min": 4,
+            "max": 12,
+            "step": 1,
+            "label": "Number of products",
+            "default": 6
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Featured collections",
+        "category": "Collection"
+      }
+    ]
+  }
+
+{% endschema %}

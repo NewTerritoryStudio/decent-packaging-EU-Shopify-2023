@@ -1,0 +1,130 @@
+<div data-section-id="{{ section.id }}" data-section-type="call-to-action">
+
+  <div class="background--{{ section.settings.background_color }}">
+    {%- include 'call-to-action' -%}
+  </div>
+
+</div>
+
+{% schema %}
+  {
+    "name": "Call to Action",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "NOTE: This is the default page template - changes made here will be reflected accross all pages using the default page template."
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Section Heading"
+      },
+      {
+        "type": "textarea",
+        "id": "text",
+        "label": "Text",
+        "default": "This section can contain a call to action, and link to a product or page with the button below. All elements are optional."
+      },
+      {
+        "type": "text",
+        "id": "title_customer",
+        "label": "Heading (signed in)",
+        "default": "Section Heading"
+      },
+      {
+        "type": "textarea",
+        "id": "text_customer",
+        "label": "Text (signed in)"
+      },
+      {
+        "type": "image_picker",
+        "id": "icon",
+        "label": "Icon",
+        "info": "Will be reduced to 120px wide"
+      },
+      {
+        "type": "text",
+        "id": "btn_one_text",
+        "label": "Button One Text",
+        "default": "View More"
+      },
+      {
+        "type": "url",
+        "id": "btn_one_url",
+        "label": "Button One Link"
+      },
+      {
+        "type": "text",
+        "id": "btn_two_text",
+        "label": "Button Two Text",
+        "default": "View More"
+      },
+      {
+        "type": "url",
+        "id": "btn_two_url",
+        "label": "Button Two Link"
+      },
+      {
+        "type": "text",
+        "id": "btn_one_text_customer",
+        "label": "Button One Text (signed in)"
+      },
+      {
+        "type": "url",
+        "id": "btn_one_url_customer",
+        "label": "Button One Link (signed in)"
+      },
+      {
+        "type": "text",
+        "id": "btn_two_text_customer",
+        "label": "Button Two Text (signed in)"
+      },
+      {
+        "type": "url",
+        "id": "btn_two_url_customer",
+        "label": "Button Two Link (signed in)"
+      },
+      {
+        "type": "select",
+        "id": "background_color",
+        "label": "Background",
+        "options": [
+          {
+            "value": "white",
+            "label": "White"
+          },
+          {
+            "value": "secondary",
+            "label": "Auto"
+          },
+          {
+            "value": "orange-secondary",
+            "label": "Orange"
+          },
+          {
+            "value": "blue-secondary",
+            "label": "Blue"
+          },
+          {
+            "value": "yellow-secondary",
+            "label": "Yellow"
+          }
+        ],
+        "default": "secondary"
+      },
+      {
+        "type": "checkbox",
+        "id": "center_align",
+        "label": "Center align",
+        "default": false
+      }
+    ],
+    "presets": [
+      {
+        "name": "Call to Action",
+        "category": "Content"
+      }
+    ]
+  }
+{% endschema %}

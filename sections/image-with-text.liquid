@@ -1,0 +1,247 @@
+{% if section.settings.page_width %}
+<div class="container page-width">
+{% endif %}
+
+  {%- unless section.settings.header == 'none' -%}
+    <div class="hero-header hero-header--{{ section.settings.header }}">
+      <div class="hero-header__inner">
+        {%- if section.settings.header_image != blank -%}
+          {%- assign image_width = section.settings.header_image.width | divided_by: 2 | round -%}
+          {%- include 'img' with section.settings.header_image, max_width: image_width, placeholder: false -%}
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endunless -%}
+
+  <div class="hero hero--text-{{ section.settings.theme }} hero--{{ section.settings.style }} hero--{{ section.settings.hero_size }}{% if section.settings.title != blank or section.settings.text != blank or section.settings.button_label != blank %} {% if section.settings.enable_overlay %} hero__overlay {% endif %}{% endif %} lazyload js"
+       {% if section.settings.image %}
+       data-bgset="{% include 'bgset', image: section.settings.image %}"
+       data-sizes="auto"
+       data-parent-fit="cover"
+       style="background-position: {{ section.settings.alignment }}; background-image: url('{{ section.settings.image | img_url: '300x300' }});"
+       {% endif %}>
+    {% if section.settings.image == blank %}
+      <div class="placeholder-background">
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      </div>
+    {% endif %}
+    <div class="hero__inner text-{{ section.settings.text_align }}">
+      <div class="hero__inner-content page-width">
+        {% if section.settings.title != blank %}
+          <h2 class="h1 mega-title{% unless section.settings.text_size == 'medium' %} mega-title--{{ section.settings.text_size }}{% endunless %}">{{ section.settings.title | escape }}</h2>
+        {% endif %}
+        {% if section.settings.text != blank %}
+          <div class="rte mega-subtitle{% unless section.settings.text_size == 'medium' %} mega-subtitle--{{ section.settings.text_size }}{% endunless %}">{{ section.settings.text }}</div>
+        {% endif %}
+        {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+          <a href="{{ section.settings.button_link }}" class="btn btn--text hero__btn">
+            {{ section.settings.button_label | escape }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <noscript>
+    <div class="hero hero--{{ section.settings.hero_size }}{% if section.settings.title != blank or section.settings.text != blank or section.settings.button_label != blank %} {% if section.settings.enable_overlay %} hero__overlay {% endif %} {% endif %} "{% if section.settings.image %} style="background-image: url('{{ section.settings.image | img_url: '2048x' }}'); background-position: center {{ section.settings.alignment }};"{% endif %}></div>
+  </noscript>
+
+{% if section.settings.page_width %}
+</div>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Image with text overlay",
+    "class": "index-section index-section--flush",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "select",
+        "id": "alignment",
+        "label": "Image alignment",
+        "default": "center",
+        "options": [
+          {
+            "value": "top",
+            "label": "Top"
+          },
+          {
+            "value": "center",
+            "label": "Middle"
+          },
+          {
+            "value": "bottom",
+            "label": "Bottom"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Image with text overlay"
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text",
+        "default": "<p>Use overlay text to give your customers insight into your brand. Select imagery and text that relates to your style and story.</p>"
+      },
+      {
+        "type": "select",
+        "id": "text_align",
+        "label": "Text alignment",
+        "default": "center",
+        "options": [
+          {
+            "label": "Left",
+            "value": "left"
+          },
+          {
+            "label": "Centre",
+            "value": "center"
+          },
+          {
+            "label": "Right",
+            "value": "right"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "hero_size",
+        "label": "Section height",
+        "default": "medium",
+        "options": [
+          {
+            "label": "Extra Small",
+            "value": "x-small"
+          },
+          {
+            "label": "Small",
+            "value": "small"
+          },
+          {
+            "label": "Medium",
+            "value": "medium"
+          },
+          {
+            "label": "Large",
+            "value": "large"
+          },
+          {
+            "label": "Extra Large",
+            "value": "x-large"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "text_size",
+        "label": "Text size",
+        "default": "medium",
+        "options": [
+          {
+            "label": "Medium",
+            "value": "medium"
+          },
+          {
+            "label": "Large",
+            "value": "large"
+          },
+          {
+            "label": "Extra Large",
+            "value": "x-large"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "button_label",
+        "label": "Button label"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button link"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_overlay",
+        "default": true,
+        "label": "Enable overlay for readability"
+      },
+      {
+        "type": "checkbox",
+        "id": "page_width",
+        "label": "Limit to content width",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "theme",
+        "label": "Text colour",
+        "default": "light",
+        "options": [
+          {
+            "label": "Light",
+            "value": "light"
+          },
+          {
+            "label": "Dark",
+            "value": "dark"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "style",
+        "label": "Layout",
+        "default": "default",
+        "options": [
+          {
+            "label": "Default",
+            "value": "default"
+          },
+          {
+            "label": "Boxed text",
+            "value": "boxed-text"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "header",
+        "label": "Header type",
+        "default": "none",
+        "options": [
+          {
+            "label": "None",
+            "value": "none"
+          },
+          {
+            "label": "Image",
+            "value": "image"
+          }
+        ]
+      },
+      {
+        "type": "image_picker",
+        "id": "header_image",
+        "label": "Header Image",
+        "info": "If image header is selected"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image with text overlay",
+        "category": "Image"
+      }
+    ]
+  }
+{% endschema %}

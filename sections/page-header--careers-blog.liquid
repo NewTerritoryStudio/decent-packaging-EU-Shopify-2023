@@ -1,0 +1,159 @@
+{%- include 'page-header' -%}
+
+{% schema %}
+{
+  "name": "Page Header",
+  "max_blocks": 1,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Overwrite title"
+    },
+    {
+      "type": "textarea",
+      "id": "content",
+      "label": "Overwrite content"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "button_text_1",
+      "label": "Button 1 text"
+    },
+    {
+      "type": "url",
+      "id": "button_url_1",
+      "label": "Button 1 url"
+    },
+    {
+      "type": "text",
+      "id": "button_text_2",
+      "label": "Button 2 text"
+    },
+    {
+      "type": "url",
+      "id": "button_url_2",
+      "label": "Button 2 url"
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icon",
+      "options": [
+        {
+          "value": "careers",
+          "label": "Careers"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "careers"
+    },
+    {
+      "type": "header",
+      "content": "Theme"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_titles",
+      "label": "Hide titles"
+    },
+    {
+      "type": "checkbox",
+      "id": "condense_titles",
+      "label": "Condense text",
+      "default": false
+    },
+     {
+      "type": "checkbox",
+      "id": "hide_breadcrumbs",
+      "label": "Hide breadcrumbs",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_border_bottom",
+      "label": "Bottom border"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Overwrite background color"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "checkbox",
+          "id": "container",
+          "label": "Align to content width",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "image_gravity",
+          "label": "Pin image to",
+          "info": "When responding to different screen sizes, images will be aligned to this part of the image frame.",
+          "default": "center",
+          "options": [
+            {
+              "value": "top",
+              "label": "Top"
+            },
+            {
+              "value": "center",
+              "label": "Centre"
+            },
+            {
+              "value": "bottom",
+              "label": "Bottom"
+            },
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "radio",
+          "id": "image_size",
+          "label": "Image size",
+          "options": [
+            { 
+              "value": "cover", 
+              "label": "Cover header"
+            },
+            { 
+              "value": "contain",
+              "label": "Contain witin header"
+            }
+          ],
+          "default": "contain"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

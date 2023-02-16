@@ -1,0 +1,14 @@
+<div class="account__view-title">
+  <h1 class="h2">{{ 'customer.orders.title' | t }}</h2>
+</div>
+
+<div class="account__view-description">
+  <p>{{ 'customer.orders.description' | t }}</p>
+</div>
+
+{% comment %} ORDER HISTORY {% endcomment %}
+<div class="account-section">
+  <div class="account-section__body">
+    {%- include 'account-order-history-table' -%}
+  </div>
+</div>

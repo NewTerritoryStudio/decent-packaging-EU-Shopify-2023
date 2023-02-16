@@ -1,0 +1,553 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Base",
+    "theme_version": "1.0",
+    "theme_author": "New Territory",
+    "theme_documentation_url": "https:\/\/newterritory.studio\/",
+    "theme_support_url": "https:\/\/newterritory.studio\/"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Brand"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary color",
+        "default": "#4e4e4e"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "label": "Secondary color",
+        "default": "#797979"
+      },
+      {
+        "type": "color",
+        "id": "color_tertiary",
+        "label": "Tertiary color",
+        "default": "#008a7e"
+      },
+      {
+        "type": "header",
+        "content": "Text & Links"
+      },
+      {
+        "type": "color",
+        "id": "color_body_text",
+        "label": "Text",
+        "default": "#303030"
+      },
+      {
+        "type": "color",
+        "id": "color_heading_text",
+        "label": "Headings",
+        "default": "#303030"
+      },
+      {
+        "type": "color",
+        "id": "color_body_text_inverse",
+        "label": "Text (Inverted)",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "color_heading_text_inverse",
+        "label": "Headings (Inverted)",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "color_link_text",
+        "label": "Links",
+        "default": "#4192c1"
+      },
+      {
+        "type": "color",
+        "id": "color_link_text_hover",
+        "label": "Link hover",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "color_header_text",
+        "label": "Site header text",
+        "default": "#8b8f91"
+      },
+      {
+        "type": "color",
+        "id": "color_header_text_inverse",
+        "label": "Site header text (Inverted)",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "color_footer_text",
+        "label": "Site footer text",
+        "default": "#222"
+      },
+      {
+        "type": "color",
+        "id": "color_footer_text_inverse",
+        "label": "Site footer text (Inverted)",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "color_sale_text",
+        "label": "Sale text",
+        "default": "#7796A8"
+      },
+      {
+        "type": "color",
+        "id": "color_borders",
+        "label": "Borders and lines",
+        "default": "#dfdfdf"
+      },
+      {
+        "type": "header",
+        "content": "Forms & Inputs"
+      },
+      {
+        "type": "color",
+        "id": "color_input_bg",
+        "label": "Text fields",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "color_input_text",
+        "label": "Text field text",
+        "default": "#303030"
+      },
+      {
+        "type": "color",
+        "id": "color_input_text_inverse",
+        "label": "Text field text (Inverted)",
+        "default": "#fff"
+      },
+      {
+        "type": "header",
+        "content": "Background"
+      },
+      {
+        "type": "color",
+        "id": "color_body_bg",
+        "label": "Background",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "color_body_bg_inverse",
+        "label": "Background (Inverted)",
+        "default": "#303030"
+      },
+      {
+        "type": "color",
+        "id": "color_header_bg",
+        "label": "Header",
+        "default": "#272727"
+      },
+      {
+        "type": "color",
+        "id": "color_footer_bg",
+        "label": "Footer",
+        "default": "#1b1f23"
+      }
+    ]
+  },
+  {
+    "name": "Content",
+    "settings": [
+      {
+        "type": "select",
+        "id": "page_header_text_align",
+        "label": "Page title alignment",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Centre"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "header",
+        "content": "Product Grid Items"
+      },
+      {
+        "type": "select",
+        "id": "product_grid_item_badge_position",
+        "label": "Badge position",
+        "options": [
+          {
+            "value": "top-left",
+            "label": "Top left"
+          },
+          {
+            "value": "top-right",
+            "label": "Top right"
+          },
+          {
+            "value": "bottom-left",
+            "label": "Bottom left"
+          },
+          {
+            "value": "bottom-right",
+            "label": "Bottom right"
+          }
+        ],
+        "default": "top-right"
+      },
+      {
+        "type": "checkbox",
+        "id": "product_grid_item_quick_shop",
+        "label": "Enable quick shop",
+        "default": false
+      }
+    ]
+  },
+  {
+    "name": "Default links",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Default page links that are used in multiple areas across the site."
+      },
+      {
+        "type": "url",
+        "id": "default_page_contact",
+        "label": "Contact Page",
+        "info": "The main site contact page."
+      }
+    ]
+  },
+  {
+    "name": "Navigation links",
+    "settings": [
+      {
+        "type": "link_list",
+        "id": "collections_hierarchy_link_list",
+        "label": "Collections Hierarchy"
+      }
+    ]
+  },
+  {
+    "name": "Newsletter",
+    "settings": [
+      {
+        "type": "text",
+        "id": "newsletter_title",
+        "label": "Title"
+      },
+      {
+        "type": "textarea",
+        "id": "newsletter_subheading",
+        "label": "Subheading"
+      },
+      {
+        "type": "header",
+        "content": "Popup"
+      },
+      {
+        "type": "checkbox",
+        "id": "newsletter_modal_enable",
+        "label": "Enable newsletter popup",
+        "default": true
+      },
+      {
+        "type": "image_picker",
+        "id": "newsletter_modal_image",
+        "label": "Main Image"
+      },
+      {
+        "type": "range",
+        "id": "newsletter_modal_delay",
+        "min": 1,
+        "max": 30,
+        "step": 1,
+        "unit": "sec",
+        "label": "Appears after",
+        "info": "Popup will appear once user has been on a page for this amount of time.",
+        "default": 12
+      },
+      {
+        "type": "range",
+        "id": "newsletter_modal_expiry",
+        "min": 1,
+        "max": 12,
+        "step": 1,
+        "unit": "wks",
+        "label": "Shows at most every",
+        "info": "Limits how often in weeks the popup will appear once viewed.",
+        "default": 2
+      },
+      {
+        "type": "url",
+        "id": "newsletter_modal_redirect_url",
+        "label": "Redirect on sign up"
+      },
+      {
+        "type": "paragraph",
+        "content": "Any customers who sign up will have an account created for them in Shopify. [View customers](\/admin\/customers?query=&accepts_marketing=1)"
+      },
+      {
+        "type": "paragraph",
+        "content": "Wording can be changed via theme language settings."
+      },
+      {
+        "type": "checkbox",
+        "id": "newsletter_modal_developer_mode",
+        "label": "Developer Mode",
+        "default": false,
+        "info": "Forces the popup to appear on every page load."
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Social sharing options"
+      },
+      {
+        "type": "checkbox",
+        "id": "social_sharing_blog",
+        "label": "Enable sharing for blog articles",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "share_facebook",
+        "label": "Share on Facebook",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "share_twitter",
+        "label": "Tweet on Twitter",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "share_pinterest",
+        "label": "Pin on Pinterest",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Social links"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "Twitter link"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook link"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest_link",
+        "label": "Pinterest link"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram link"
+      },
+      {
+        "type": "text",
+        "id": "social_snapchat_link",
+        "label": "Snapchat link"
+      },
+      {
+        "type": "text",
+        "id": "social_linkedin_link",
+        "label": "LinkedIn link"
+      },
+      {
+        "type": "text",
+        "id": "social_tumblr_link",
+        "label": "Tumblr link"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "YouTube link"
+      },
+      {
+        "type": "text",
+        "id": "social_vimeo_link",
+        "label": "Vimeo link"
+      }
+    ]
+  },
+  {
+    "name": "Cart sidebar",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "cart_notes_enable",
+        "label": "Enable cart notes",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_show_payment_icons",
+        "label": "Enable cart payment icons",
+        "default": false
+      },
+      {
+        "type": "collection",
+        "id": "popular_collection",
+        "label": "Popular collection",
+        "info": "This collection will be displayed in the sidebar"
+      },
+      {
+        "type": "collection",
+        "id": "full_range_collection",
+        "label": "Full range collection",
+        "info": "This collection will be displayed on the Place Order account page"
+      },
+      {
+        "type": "collection",
+        "id": "eat_collection",
+        "label": "Eat collection",
+        "info": "This collection will be displayed on the Place Order account page"
+      },
+      {
+        "type": "collection",
+        "id": "drink_collection",
+        "label": "Drink collection",
+        "info": "This collection will be displayed on the Place Order account page"
+      }
+    ]
+  },
+  {
+    "name": "Payment & Currency",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Additional Payment Methods",
+        "info": "Enables displaying additional payment gateway information throughout the site"
+      },
+      {
+        "type": "checkbox",
+        "id": "payment_enable_afterpay",
+        "label": "Enable Afterpay",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "payment_enable_zipmoney",
+        "label": "Enable ZipMoney",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "Multiple Currencies"
+      },
+      {
+        "type": "paragraph",
+        "content": "To offer multiple currencies on your online store, you must first [edit your store's currency formatting]({{ site.url }}\/manual\/using-themes\/troubleshooting\/help-script-find-money-formats)."
+      },
+      {
+        "type": "checkbox",
+        "id": "show_multiple_currencies",
+        "label": "Enable currency conversion",
+        "default": true,
+        "info": "Even though prices are displayed in different currencies, orders will still be processed in your store's currency."
+      },
+      {
+        "type": "select",
+        "id": "currency_format",
+        "label": "Format",
+        "options": [
+          {
+            "value": "money_format",
+            "label": "Without currency ($10.00)"
+          },
+          {
+            "value": "money_with_currency_format",
+            "label": "With currency ($10.00 AUD)"
+          }
+        ],
+        "default": "money_with_currency_format"
+      },
+      {
+        "type": "text",
+        "id": "supported_currencies",
+        "label": "Supported currencies",
+        "default": "AUD USD CAD GBP EUR JPY",
+        "info": "Use the country's ISO [currency code](http:\/\/www.xe.com\/iso4217.php). Separate your currency codes with a space."
+      },
+      {
+        "type": "text",
+        "id": "default_currency",
+        "label": "Default currency",
+        "default": "AUD"
+      }
+    ]
+  },
+  {
+    "name": "Favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon image",
+        "info": "Will be scaled down to 32 x 32px"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon_large",
+        "label": "Large icon image",
+        "info": "Used for larger brand areas, mobile device icons, etc."
+      }
+    ]
+  },
+  {
+    "name": "SEO",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "default_product_description",
+        "label": "Default Product Meta Description",
+        "info": "Product names, vendors, etc. can be substituted by using:      Product name: [title]      Product brand: [vendor]      Product type: [type]      Store name: [store]",
+        "default": "Buy [title] online at [store]"
+      }
+    ]
+  },
+  {
+    "name": "Customers",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "default_profile_image",
+        "label": "Default profile image"
+      },
+      {
+        "type": "richtext",
+        "id": "checkout_reminder",
+        "label": "Checkout Customer Reminder",
+        "default": "<p>Please double check your order before confirming. Changes aren't able to be made after purchase. All orders placed before 2pm Monday  - Friday will be delivered the following working day.<\/p>"
+      }
+    ]
+  }
+]

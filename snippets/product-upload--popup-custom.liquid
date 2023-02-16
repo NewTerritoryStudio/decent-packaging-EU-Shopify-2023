@@ -1,0 +1,136 @@
+<div class="product-upload--popup" id="product-upload--popup-{{ forloop.index0 }}">
+
+
+  <div id="custom_branded--product_{{ forloop.index0 }}" class="shirt custom_branded--product">
+  
+  
+      
+    {% comment %} <img id="output-{{ forloop.index0 }}" src="{{ block.settings.image.src | img_url: 'master' }}" loading="lazy" /> {% endcomment %}
+      
+      {% comment %} <div class="prod_overlay prod_overlay_{{ forloop.index0 }}" style="display: none;"></div> {% endcomment %}
+      
+      <div class="prod_overlay__pattern_{{ forloop.index0 }} prod_overlay__pattern" data-image="{{ block.settings.image.src | img_url: 'master' }}"></div>
+      
+      <canvas id="glCanvas_{{ forloop.index0 }}"  class="canvas-custom"></canvas>
+  
+  
+      <!--
+  
+        <div class="prod_overlay__pattern_{{ forloop.index0 }} prod_overlay__pattern"></div>
+        
+        {% comment %} <img src="https://cdn.shopify.com/s/files/1/0113/9032/0697/files/web_2plyDinnerNapkinBrown_v2.png?v=1629686579" /> {% endcomment %}
+        <img src="{{ block.settings.image.src | img_url: 'master' }}" />
+      </div>
+  
+    -->
+    <!-- 
+  
+      <div class="prod_overlay--scales">
+        <div class="prod_overlay--scales-inner">
+          <div class="range--box">
+            <label for="size-{{ forloop.index0 }}">Branding Image Size</label>
+            <input type="range" min="0" max="100" value="100" class="size" id="size-{{ forloop.index0 }}" step="1" oninput="sizeFunction(event, this)" data-index="{{ forloop.index0 }}">
+          </div>
+  
+          <div class="range--box">
+            <label for="size-{{ forloop.index0 }}">Branding Image Position Horizontal</label>
+            <input type="range" min="0" max="100" value="50" class="posX" id="posX-{{ forloop.index0 }}" step="1" oninput="posXFunction(event, this)" data-index="{{ forloop.index0 }}">
+          </div>
+  
+          <div class="range--box">
+            <label for="size-{{ forloop.index0 }}">Branding Image Position Vertical</label>
+            <input type="range" min="0" max="100" value="50" class="posY" id="posY-{{ forloop.index0 }}" step="1" oninput="posYFunction(event, this)" data-index="{{ forloop.index0 }}">
+          </div>
+  
+        </div>
+      </div> 
+    
+    -->
+  
+  
+  </div>
+  
+  
+  
+  
+  <div class="custom_branded--form">
+  
+    <div id="output-{{ forloop.index0 }}" class="faux-canvas-{{ forloop.index0 }}"></div>
+    
+    <div class="custom_branded--form-inner">
+      <div class="custom_branded--form-text">
+        <h4>{{ section.settings.pop_up_title }}</h4>
+        {{ section.settings.pop_up_text }}
+  
+        <button id="pop-up--close" type="button" class="btn btn--link pop-up--close" data-tippy-content="{{ 'cart.drawer.close' | t }}">
+          {% render 'icon-close' %}
+          <span class="icon-fallback-text">{{ 'cart.drawer.close' | t }}</span>
+        </button>
+      </div>
+  
+      {% assign form_id = "branding_form_" | append: forloop.index0 %}
+      {% form 'contact', id:form_id  %}
+        {{ form_errors | default_errors }}
+  
+          <div class="form-group">
+            <div class="row">
+              <input class="visually-hidden" type="text" name="contact[Product_Name]" value="{{ product_title }}"/>
+
+              <div class="col-xs-12 col-md-6 form-control first-name">
+                <label class="visually-hidden" for="contact[first_name]">First name</label>
+                <input type="text" name="contact[first_name]" placeholder="First name"/>
+              </div>
+      
+              <div class="last-name col-xs-12 col-md-6 form-control">
+                <label class="visually-hidden" for="contact[last_name]" >Last name</label>
+                <input type="text" name="contact[last_name]" placeholder="Last name"/>
+              </div>
+            </div>
+    
+            <div class="row">
+              <div class="email form-control col-xs-12">
+                <label class="visually-hidden" for="contact[company]">Company</label>
+                <input type="text" name="contact[company]" placeholder="Company" />
+              </div>
+            </div>
+    
+            <div class="row">
+              <div class="email form-control col-xs-12">
+                <label class="visually-hidden" for="contact[phone]">Phone</label>
+                <input placeholder="Phone" type="tel" autocomplete="phone" name="contact[phone]" />
+              </div>
+            </div>
+    
+            <div class="row">
+              <div class="email form-control col-xs-12">
+                <label class="visually-hidden" for="contact[email]">Email</label>
+                <input type="email" name="contact[email]" placeholder="Email" />
+              </div>
+            </div>
+      
+            <div class="row">
+              <div class="message form-control col-xs-12">
+                <label  class="visually-hidden" for="contact[body]">Message</label>
+                <textarea name="contact[body]" placeholder="Message"></textarea>
+              </div>
+            </div>
+      
+            <div class="row">
+              <div data-output="{{ forloop.index0 }}" class="save_image save_image_{{ forloop.index0 }} btn btn-black-o">Save Configured Image</div>
+              {% comment %} <input class="visually hidden" id="image_storage_{{ forloop.index0 }}" name="contact[image]" type="text" placeholder="images"> {% endcomment %}
+            </div>
+      
+            <div class="row">
+              <div class="submit form-control col-xs-12">
+                <input class="btn btn-black btn--wide" type="submit" value="Enquire" />
+              </div>
+            </div>
+      
+          </div>
+      {% endform %}
+
+    </div>
+  </div>
+</div>
+
+<input class="visually-hidden" id="file-{{ forloop.index0 }}" type="file">

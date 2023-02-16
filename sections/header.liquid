@@ -1,0 +1,481 @@
+{%- include 'globals' -%}
+
+{%- assign header_background_color = settings.color_header_bg -%}
+{%- if header_background_color == 'rgba(0,0,0,0)' -%}
+  {%- assign header_background_color = settings.color_body_bg -%}
+{%- endif -%}
+{%- assign header_contrast_with_dark = header_background_color | color_contrast: '#000' -%}
+{%- assign header_contrast_with_light = header_background_color | color_contrast: '#fff' -%}
+{%- if header_contrast_with_light > header_contrast_with_dark -%}
+  {%- assign header_theme = 'dark inverse' -%}
+{%- else -%}
+  {%- assign header_theme = 'light' -%}
+{%- endif -%}
+
+{% comment %} RESPONSIVE BREAKPOINTS {% endcomment %}
+{%- assign class_hide_on_small = 'hidden-xs hidden-sm' -%}
+{%- assign class_block_on_small = 'visible-xs visible-sm' -%}
+{%- assign class_flex_on_small = 'flex-xs flex-sm' -%}
+
+
+{%- comment -%} LOGO {%- endcomment -%}
+{%- capture header_logo %}
+  {%- if section.settings.logo != blank -%}
+    <style>
+      .site-header__logo-image {
+        max-width: {{ section.settings.logo_max_width }}px;
+      }
+    </style>
+  {%- endif -%}
+
+  <div class="site-header__section site-header__section--logo">
+    <div class="site-header__logo">
+      {%- if template.name == 'index' -%}
+        <h1 itemscope itemtype="http://schema.org/Organization">
+      {%- else -%}
+        <div class="h1" itemscope itemtype="http://schema.org/Organization">
+      {%- endif -%}
+          <a href="/" itemprop="url" class="site-logo" itemprop="logo">
+            {%- include 'logo' with shop.name -%}
+          </a>
+      {%- if template.name == 'index' -%}
+        </h1>
+      {%- else -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+{% endcapture -%}
+
+
+{%- comment -%} MAIN NAV {%- endcomment -%}
+{%- capture header_nav %}
+  <div class="site-header__section site-header__section--nav {{ class_hide_on_small }}">
+    <div class="site-nav-wrap">
+      <nav id="AccessibleNav" role="navigation">
+        {% include 'site-nav' with section.settings.primary_linklist, type: 'default', id: 'SiteNav', dropdown: 'tippy', show_arrows: false %}
+      </nav>
+    </div>
+  </div>
+{% endcapture -%}
+
+{%- comment -%} SECONDARY NAV {%- endcomment -%}
+{%- capture header_nav_secondary %}
+  <div class="secondary-site-nav {{ class_hide_on_small }}">
+    {% include 'site-nav' with section.settings.secondary_linklist, id: 'SecondarySiteNav' %}
+  </div>
+{% endcapture -%}
+
+{%- comment -%} MOBILE NAV TOGGLE {%- endcomment -%}
+{%- capture header_nav_toggle_mobile %}
+  <button type="button" class="site-header__link site-header__menu js-drawer-open-left  site-header__mobile-nav-link {{ class_block_on_small }}">
+    {%- include 'icon-hamburger' -%}
+    {%- include 'icon-close' -%}
+    <span class="icon-fallback-text">{{ 'layout.navigation.toggle' | t }}</span>
+  </button>
+{% endcapture -%}
+
+
+{%- comment -%} SEARCH TOGGLE BUTTON {%- endcomment -%}
+{%- capture header_search_toggle -%}
+  <button type="button" class="js-search-toggle mobile-search--open">
+    {%- include 'icon-search' -%}
+    {%- comment -%}{%- include 'icon-close' -%}{%- endcomment -%}
+    <span class="hidden-xs hidden-sm">{{ 'general.search.submit' | t }}</span>
+  </button>
+{%- endcapture -%}
+
+{%- comment -%} DESKTOP SEARCH {%- endcomment -%}
+{%- capture header_search %}
+  <div class="site-header__link site-header__search">
+    <div class="site-header__search-toggle site-header__search-toggle--desktop {{ class_hide_on_small }}">
+      {{ header_search_toggle }}
+    </div>
+
+    <form action="/search" method="get" class="search-header search" role="search">
+      <label for="Search" class="label-hidden">
+        {{ 'general.search.placeholder' | t }}
+      </label>
+      <div class="input-group input-group--underlined">
+        <input type="search" 
+               name="q" 
+               id="Search" 
+               class="input-group__field search-header__input search__input" 
+               value="{{ search.terms | escape }}" 
+               placeholder="{{ 'general.search.placeholder' | t }}" 
+               aria-label="Search">
+        <button class="input-group__btn search-header__submit search__submit btn" type="submit">
+          {% include 'icon-search' %}
+          <span class="icon-fallback-text">{{ 'general.search.submit' | t }}</span>
+        </button>
+      </div>
+    </form>
+  </div>
+{% endcapture -%}
+
+{%- comment -%} MOBILE SEARCH {%- endcomment -%}
+{%- capture header_search_mobile %}
+  <div class="site-header__link site-header__search-toggle site-header__search-toggle--mobile">
+    {{ header_search_toggle }}
+  </div>
+{% endcapture -%}
+
+
+{%- comment -%} CART {%- endcomment -%}
+{%- capture header_cart %}
+  <div class="site-header__link site-header__cart">
+    <a href="/cart" id="header-cart" class="cart__toggle js-drawer-open-right" data-cart-view="data-cart-view" rv-data-count="cart.item_count" data-count="{{ cart.item_count }}">
+      {% comment %}{% include 'icon-cart' %}{% endcomment %}
+      <span class="{{ class_hide_on_small }}">{{ 'layout.cart.title' | t }}</span>
+      <span rv-class-cart-count--even="cart.item_count | modulo 2 | eq 0" rv-class-cart-count--odd="cart.item_count | modulo 2 | eq 1" class="cart-count" rv-html="cart.item_count">{{ cart.item_count }}</span>
+    </a>
+  </div>
+{% endcapture -%}
+
+
+{%- comment -%} ACCOUNT LINKS {%- endcomment -%}
+{%- capture header_account %}
+  {%- if shop.customer_accounts_enabled -%}
+    {%- assign customer_accounts_show_text = false -%}
+    <div class="site-header__link site-header__account">
+
+        {%- if customer -%}
+
+
+          {%- assign customer_image = customer.metafields.customr['Profile_image'] -%}
+          {%- assign no_image = false -%}
+
+
+          {%- if customer_image == blank -%}
+            {%- assign no_image = true -%}
+            {%- assign customer_image = settings.default_profile_image -%}
+          {%- endif -%}
+
+          <div class="site-header__account-link site-header__account-link--dropdown hidden-xs hidden-sm">
+            <div class="account-link__image">
+              {%- if no_image -%}
+                {%- include 'img' with customer_image -%}
+              {% else %}
+                {%- include 'img' with customer_image, type: 'url' -%}
+              {%- endif -%}
+            </div>
+            <div class="account-link__name">
+              <a href="/account"><span>{{ 'layout.customer.welcome' | t: first_name: customer_name }}</span></a>
+
+              <div class="js-template" data-template-for="header-account-nav" tabindex="-1" aria-hidden="true">
+                <div class="account-link__dropdown-content">
+
+                    {%- if customer -%}
+                      {%- include 'user-details' with address: false, type: true -%}
+                    {%- endif -%}
+
+                    {%- assign account_nav = linklists[section.settings.account_linklist] -%}
+                    <ul class="account-dropdown__nav">
+                      {%- for link in account_nav.links -%}
+                        {%- if link.links == blank -%}
+                          <li class="account-dropdown__nav-item">
+                            <a href="{{ link.url }}" {% if link.url contains 'logout' %}data-no-instant{% endif %}>{{ link.title }}</a>
+                          </li>
+                        {%- endif -%}
+                      {%- endfor -%}
+                    </ul>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="site-header__account-link visible-xs visible-sm">
+            <div class="account-link__icon js-drawer-open-account">
+              {%- include 'icon' with 'account', color: true -%}
+            </div>
+          </div>
+          
+        {%- else -%}
+
+          <div class="site-header__account-link visible-xs visible-sm">
+            <div class="account-link__icon">
+              <a href="/account">
+                {%- include 'icon' with 'account', color: true -%}
+              </a>
+            </div>
+          </div>
+          
+          {%- assign header_right_nav = linklists[section.settings.secondary_linklist] -%}
+
+          <ul class="site-header__login-links hidden-xs hidden-sm">
+          {%- for link in header_right_nav.links -%}
+            <li class="site-header__login-link"><a href="{{ link.url }}" class="btn">{{ link.title }}</a></li>
+          {%- endfor -%}
+          </ul>
+
+        {%- endif -%}
+
+
+      </ul>
+    </div>
+  {%- endif -%}
+{% endcapture -%}
+
+
+{%- comment -%} CONTACT INFO {%- endcomment -%}
+{%- capture header_contact_info %}
+  <ul class="site-header__contact {{ class_hide_on_small }}">
+    {%- include 'globals' with output: 'phone', icon: true, style: 'tooltip' -%}
+    {%- if section.settings.contact_page != blank and section.settings.contact_link_icon or section.settings.contact_link_title != blank -%}
+      <li>
+        <a href="{{ section.settings.contact_page }}">
+          {%- if section.settings.contact_link_icon -%}{%- include 'icon-fa-envelope' -%}{%- endif -%}
+          {{ section.settings.contact_link_title }}
+        </a>
+      </li>
+    {%- endif -%}
+  </ul>
+{% endcapture -%}
+
+
+{%- comment -%} CURRENCY SELECTOR {%- endcomment -%}
+{%- capture header_currency_selector %}
+  {%- if settings.show_multiple_currencies -%}
+    <div class="site-header__link site-header__currency {{ class_hide_on_small }}">
+      {%- include 'currency-picker' -%}
+    </div>
+  {%- endif -%}
+{% endcapture -%}
+
+
+<div data-section-id="{{ section.id }}" data-section-type="header-section" class="site-header site-header--{{ header_theme }}">
+
+  {%- include 'mobile-nav' with mobile_navlists -%}
+
+  <header role="banner" class="header--fixed-height">
+    
+    {%- if section.settings.notice_bar_text != blank -%}
+      <div class="site-header__notice-bar" style="color: {{ section.settings.notice_bar_text_color }}; background-color: {{ section.settings.notice_bar_bg_color }};">
+        <div class="container text-center">
+          {% include 'text' with section.settings.notice_bar_text %}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%}
+
+      AVAILABLE SECTIONS: 
+      header_logo
+      header_nav
+      header_nav_secondary
+      header_nav_toggle_mobile
+      header_search_toggle
+      header_search
+      header_search_mobile
+      header_cart
+      header_account
+      header_contact_info
+      header_currency_selector
+
+    {%- endcomment -%}
+
+    <div class="container page-width site-header__main">
+
+      <div class="site-header__section site-header__section--links site-header__links site-header__links--left {{ class_flex_on_small }}">
+        {{ header_nav_toggle_mobile }}
+        {{ header_search_mobile }}
+      </div>
+
+      {{ header_logo }}
+    
+      {{ header_nav }}
+
+      <div class="site-header__section site-header__section--links site-header__links site-header__links--right">
+        {% comment %}{{ header_contact_info }}{% endcomment %}
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'location' -%}
+              <div class="site-header__link site-header__location">
+                {% assign locations = block.settings.locations | split: ", " %}
+                {% assign locationsUrl = block.settings.locations_url | split: ", " %}
+                
+                <details>
+                  <summary><p><span class="site-header__desk">Location: </span>🇬🇧 UK</p></summary>
+                  {% if locations != blank and locationsUrl != blank %}
+                    <ul class="tippy-tooltip light-theme">
+                      {% for l in locations %}
+                        <li>
+                          <a href="{{ locationsUrl[forloop.index0] }}" aria-label="Visit {{ l }} website">{{- l -}}</a>
+                        </li>
+                      {% endfor  %}
+                    </ul>
+                  {% endif %}
+                </details>
+              </div>
+          {%- endcase -%}
+        {%- endfor -%}
+        {{ header_search }}
+        {{ header_cart }}
+        {{ header_account }}
+      </div>
+
+    </div>
+    
+    {%- comment -%}
+    <div class="site-header-lower container {{ class_hide_on_small }}">
+      <div class="container">
+        
+      </div>
+    </div>
+    {%- endcomment -%}
+
+  </header>
+</div>
+
+
+<script id="header-data" type="application/json">
+  [
+    {%- for block in section.blocks -%}
+      {{ block.settings | json }}
+      {%- unless forloop.last -%},
+      {%- endunless -%}
+    {%- endfor -%}
+  ]
+</script>
+
+<style>
+  {%- assign blocks_reverse = section.blocks | reverse -%}
+  {%- for block in blocks_reverse -%}
+    {%- if block.settings.color != blank -%}
+      .site-nav__feature:nth-last-of-type({{ forloop.index }}) > a {
+        color: {{ block.settings.color }};
+        background-color: {{ block.settings.bg_color }};
+      }
+      .site-nav__feature:nth-last-of-type({{ forloop.index }}) {
+        background-color: {{ block.settings.bg_color }};
+      }
+    {%- endif -%}
+  {%- endfor -%}
+</style>
+
+{% schema %}
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "link_list",
+        "id": "primary_linklist",
+        "label": "Main Menu",
+        "default": "main-menu"
+      },
+      {
+        "type": "link_list",
+        "id": "secondary_linklist",
+        "label": "Secondary menu"
+      },
+      {
+        "type": "link_list",
+        "id": "secondary_linklist_customer",
+        "label": "Secondary menu (when signed in)"
+      },
+      {
+        "type": "link_list",
+        "id": "account_linklist",
+        "label": "Account menu"
+      },
+      {
+        "type": "url",
+        "id": "contact_page",
+        "label": "Contact page"
+      },
+      {
+        "type": "text",
+        "id": "contact_link_title",
+        "label": "Contact link title",
+        "default": "Contact"
+      },
+      {
+        "type": "checkbox",
+        "id": "contact_link_icon",
+        "label": "Show icon with contact link",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Notice Bar"
+      },
+      {
+        "type": "text",
+        "id": "notice_bar_text",
+        "label": "Text",
+        "default": "Free Regular Shipping with all orders over $150"
+      },
+      {
+        "type": "color",
+        "id": "notice_bar_text_color",
+        "label": "Text color",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "notice_bar_bg_color",
+        "label": "Background color",
+        "default": "#343e50"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Image",
+        "type": "nav-item",
+        "limit": 2,
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "text",
+            "id": "link_text",
+            "label": "Link text"
+          },
+          {
+            "type": "url",
+            "id": "link_url",
+            "label": "Link URL"
+          },
+          {
+            "type": "color",
+            "id": "color",
+            "label": "Colour"
+          },
+          {
+            "type": "color",
+            "id": "bg_color",
+            "label": "Background colour"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Input Label Text"
+          }
+        ]
+      },
+      {
+        "name": "Location Selector",
+        "type": "location",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "textarea",
+            "id": "locations",
+            "label": "Locations",
+            "info": "Separate each location with comma-space, e.g.: ', '"
+          },
+          {
+            "type": "textarea",
+            "id": "locations_url",
+            "label": "Locations URL",
+            "info": "Separate each location url with comma-space, e.g.: ', '. Will correspond 1:1 with location list."
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

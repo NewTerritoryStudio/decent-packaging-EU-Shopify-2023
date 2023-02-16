@@ -1,0 +1,99 @@
+<div class="container page-width" data-section-id="{{ section.id }}" data-section-type="location-team">
+    <div class="container">
+        <div class="contact-section__team">
+            <div class="section-head">
+                <div class="row">
+                    <div class="col-xs-12 col-md-5">
+                        <div class="h1 section-head__ttl">{{ section.settings.team_title  | replace: '  ', '</br>'  }}</div>
+                    </div>
+                    <div class="col-xs-12 col-md-7">
+                        <div class="section-head__txt">{{ section.settings.team_text }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-body">
+                <div class="row bottom-xs">
+                    <div class="col-xs-12 col-lg-5 hidden-xs hidden-sm hidden-md">
+                        {% assign image = section.settings.team_image %}
+                        {% if image != null %}
+                            {%- include 'img' with image -%}
+                        {% endif %}
+                    </div>
+                    <div class="col-xs-12 col-lg-7">
+                        <div class="section-body__list row">
+                            {% for item in section.blocks %}
+                                {% if item.type == 'team_info' %}
+                                    <div class="list-item col-xs-12 col-md-6">
+                                        <div class="list-item__inner">
+                                            {% assign image = item.settings.person_image %}
+                                            {% if image != null %}
+                                                <div class="list-item__pic lazyload"
+                                                    data-bgset="{% include 'bgset' with bg_image %}"
+                                                    data-sizes="auto"></div>
+                                            {% endif %}
+                                            <div class="list-item__wrap">
+                                                <div class="list-item__name">{{item.settings.person_name}}</div>
+                                                <div class="list-item__description">{{item.settings.person_description}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+    {
+    "name": "Contact - The team",
+    "settings": [
+        {
+            "type": "text",
+            "id": "team_title",
+            "label": "Team Heading",
+            "default": "Say hello to the Innocent team"
+        },
+        {
+            "type": "textarea",
+            "id": "team_text",
+            "label": "Text",
+            "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quam si explicavisset, non tam haesitaret. Cum id quoque, ut cupiebat, audivisset, evelli iussit eam, qua erat transfixus, hastam. Ille enim occurrentia nescio quae comminiscebatur"
+        },
+        {
+            "type": "image_picker",
+            "id": "team_image",
+            "label": "Team image"
+        }
+    ],
+    "blocks":[
+        {
+        "type": "team_info",
+        "name": "Team info",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "person_name",
+                    "label": "Person name",
+                    "default": "Say hello to the Innocent team"
+                },
+                {
+                    "type": "textarea",
+                    "id": "person_description",
+                    "label": "Person description",
+                    "default": "et, evelli iussit eam, qua erat t"
+                },
+                {
+                    "type": "image_picker",
+                    "id": "person_image",
+                    "label": "Person image"
+                }
+            ]
+        }
+    ]
+    }
+{% endschema %}

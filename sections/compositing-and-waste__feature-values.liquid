@@ -1,0 +1,83 @@
+{%- if section.settings.anchor -%}
+  {%- include 'scroll-anchor' with section.settings.anchor -%}
+{%- endif -%}
+
+{%- include 'feature-values' -%}
+
+{% schema %}
+  {
+    "name": "Feature Values",
+    "max_blocks": 3,
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Desktop background image"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_mobile",
+        "label": "Mobile background image"
+      },
+      {
+        "type": "text",
+        "id": "anchor",
+        "label": "Anchor (ADVANCED)"
+      }
+     ],
+    "blocks": [
+      {
+        "type": "value",
+        "name": "Value",
+        "settings": [
+         {
+           "type": "textarea",
+           "id": "text",
+           "label": "Paragraph"
+         },
+         {
+           "type": "select",
+           "id": "icon",
+           "label": "Icon",
+           "options": [
+             {
+               "value": "none",
+               "label": "None"
+             },
+             {
+               "value": "million-metres",
+               "label": "Million Metres"
+             },
+             {
+               "value": "sbn",
+               "label": "SBN"
+             },
+             {
+               "value": "we-compost",
+               "label": "WeCompost"
+             }
+           ],
+           "default": "none"
+         },
+         {
+           "type": "image_picker",
+           "id": "image",
+           "label": "Image",
+           "info": "Will overwrite icon selected above"
+         }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Feature Values",
+        "category": "Values"
+      }
+    ]
+  }
+{% endschema %}

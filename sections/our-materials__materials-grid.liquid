@@ -1,0 +1,94 @@
+{%- if section.settings.anchor -%}
+  {%- include 'scroll-anchor' with section.settings.anchor -%}
+{%- endif -%}
+
+<div class="materials-grid" data-section-id="{{ section.id }}" data-section-type="materials-grid">
+
+  <div class="container narrow">
+
+    <div class="row">
+      {%- for block in section.blocks -%}
+        <div class="col-xs-12 col-sm-6 col-md-4">
+
+          {%- if block.settings.anchor -%}
+            {%- include 'scroll-anchor' with block.settings.anchor -%}
+          {%- endif -%}
+
+          <div class="materials-grid-item">
+
+            <a class="materials-grid-item__image" href="{{ block.settings.url }}">
+              {%- include 'img' with block.settings.image -%}
+            </a>
+
+            <p class="h5 materials-grid-item__title">
+              {{ block.settings.title }}
+            </p>
+
+            <p class="materials-grid-item__description">
+              {{ block.settings.description }}
+            </p>
+
+            <a class="materials-grid-item__link"  href="{{ block.settings.url }}">
+              {{ block.settings.link_text }}
+            </a>
+
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+  </div>
+
+</div>
+
+{% schema %}
+  {
+    "name": "Materials",
+    "settings": [
+      {
+        "type": "text",
+        "id": "anchor",
+        "label": "Anchor (ADVANCED)",
+        "default": "materials"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "material",
+        "name": "Material",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "textarea",
+            "id": "description",
+            "label": "Input Label Text"
+          },
+          {
+            "type": "url",
+            "id": "url",
+            "label": "Link"
+          },
+          {
+            "type": "text",
+            "id": "link_text",
+            "label": "Link text"
+          },
+          {
+            "type": "text",
+            "id": "anchor",
+            "label": "Anchor (ADVANCED)"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

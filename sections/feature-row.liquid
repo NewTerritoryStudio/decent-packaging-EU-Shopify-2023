@@ -1,0 +1,162 @@
+{%- capture image_layout -%}
+  <div class="feature-row__item">
+    {%- if section.settings.image != blank -%}
+      <div id="FeatureRowImageWrapper-{{ section.id }}" class="feature-row__image-wrapper feature-row__image-wrapper--flush js">
+        {%- capture img_id -%}FeatureRowImage-{{ section.id }}{%- endcapture -%}
+        {%- include 'img' with section.settings.image, id: img_id, img_class: 'feature-row__image' -%}
+      </div>
+    {%- else -%}
+      {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+  </div>
+{%- endcapture -%}
+
+<div class="feature-row feature-row--{{ section.settings.style }}{% if section.settings.page_width %} page-width{% endif %} feature-row--mobile-{{ section.settings.layout_mobile }}">
+  <div class="feature-row__inner container-width">
+    {%- if section.settings.layout == 'left' -%}
+      {{ image_layout }}
+    {%- endif -%}
+    <div class="feature-row__item feature-row__text feature-row__text--{{ section.settings.layout }}">
+      {%- if section.settings.title != blank -%}
+        <h2 class="feature-row__title h3 color-{{ section.settings.title_color }}">{{ section.settings.title | escape }}</h2>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <div class="rte feature-row__subtext">
+          {%- include 'text' with section.settings.text -%}
+        </div>
+      {%- endif -%}
+      {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+        <a href="{{ section.settings.button_link }}" class="btn btn-{{ section.settings.btn_style }}">
+          {{ section.settings.button_label | escape }}
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.layout == 'right' -%}
+      {{ image_layout }}
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Image with text",
+    "class": "index-section",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image",
+        "info": "Images should be a minimum of 1200px wide x 800px tall. Larger images will be sized to fit automatically."
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Text position on large screens",
+        "default": "left",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "layout_mobile",
+        "label": "Text position on small screens",
+        "default": "above",
+        "options": [
+          {
+            "value": "above",
+            "label": "Above"
+          },
+          {
+            "value": "below",
+            "label": "Below"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Image with text"
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text",
+        "default": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>"
+      },
+      {
+        "type": "text",
+        "id": "button_label",
+        "label": "Button label"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button link"
+      },
+      {
+       "type": "header",
+       "content": "Format"
+      },
+      {
+        "type": "select",
+        "id": "title_color",
+        "label": "Heading color",
+        "options": [
+          { "value": "default", "label": "Default" },
+          { "value": "primary", "label": "Brand Primary" },
+          { "value": "secondary", "label": "Brand Secondary" },
+          { "value": "tertiary", "label": "Brand Tertiary" }
+        ],
+        "default": "default"
+      },
+      {
+        "type": "select",
+        "id": "btn_style",
+        "label": "Button style",
+        "options": [
+          { "value": "primary", "label": "Brand Primary" },
+          { "value": "secondary", "label": "Brand Secondary" },
+          { "value": "tertiary", "label": "Brand Tertiary" },
+          { "value": "primary-o", "label": "Outlined Brand Primary" },
+          { "value": "secondary-o", "label": "Outlined Brand Secondary" },
+          { "value": "tertiary-o", "label": "Outlined Brand Tertiary" },
+          { "value": "white-o", "label": "Outlined White" },
+          { "value": "link", "label": "Plain" }
+        ],
+        "default": "primary"
+      },
+      {
+        "type": "select",
+        "id": "style",
+        "label": "Style",
+        "options": [
+          { "value": "light", "label": "Light" },
+          { "value": "dark", "label": "Dark" }
+        ],
+        "default": "light"
+      },
+      {
+        "type": "checkbox",
+        "id": "page_width",
+        "label": "Limit to content width",
+        "default": true
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image with text",
+        "category": "Image"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,41 @@
+{%- if is_parent_collection or sort -%}
+
+  <div class="collection-sub-nav">
+
+    {%- unless container == false -%}
+      <div class="container">
+    {%- endunless -%}
+
+      <div class=" {% unless container == false %}container{% endunless %} collection-sub-nav__container">
+
+        <div class="collection-sub-nav__child-collections" data-simple-accordion data-simple-accordion-max="lg">
+
+          {%- if is_parent_collection -%}
+            <span class="collection-sub-nav__child-collections-title">{{ 'collections.general.view_products' | t }}</span>
+
+            <ul class="collection-sub-nav__child-collections-links">
+              {%- for collection_handle in collection_handles -%}
+                {%- assign collection_in_loop = collections[collection_handle] -%}
+                <li><a href="#collection-{{ collection_in_loop.handle }}">{{ collection_in_loop.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+
+          {%- endif -%}
+        </div>
+
+        {%- unless is_parent_collection or sort == false -%}
+          <div class="collection-sub-nav__sort-by">
+            <span class="collection-sub-nav__sort-by-title">{{ 'collections.filters.filter_by' | t }}</span>
+            {%- include 'sort-by' -%}
+          </div>
+        {%- endunless -%}
+      </div>
+
+    {%- unless container == false -%}
+      </div>
+    {%- endunless -%}
+
+
+  </div>
+
+{%- endif -%}

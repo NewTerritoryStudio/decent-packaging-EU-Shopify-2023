@@ -1,0 +1,24 @@
+{% layout none %}
+{%- assign template-w = '{width}x' | escape -%}
+{% paginate collection.products by 16 %}
+[
+  {%- for product in collection.products -%}
+  {%- assign color = 'transparent' -%}
+  {%- for tag in product.tags -%}
+    {%- if tag contains 'color-' -%}
+      {%- assign color = tag | remove_first: 'color-' -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- unless forloop.first -%},{%- endunless -%}
+  {
+    "id": "{{ product.id }}",
+    "featured_image": "{{ product.featured_image | img_url: '123x' | replace: '123x', template-w }}",
+    "title": "{{ product.title }}",
+    "color": "{{ color }}",
+    "price": "{{ product.price | money }}",
+    "url": "{{ product.url }}"
+  }
+  {%- endfor -%}
+]
+{% endpaginate %}

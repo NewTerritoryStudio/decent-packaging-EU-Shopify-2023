@@ -1,0 +1,72 @@
+{%- assign article = article-grid-item -%}
+{%- assign layout = layout | default: 'default' -%}
+{%- assign show_tags = show_tags | default: false -%}
+{%- assign show_comments = show_comments | default: false -%}
+{%- assign show_byline = show_byline | default: true -%}
+{%- assign class = class | default: 'col-xs' -%}
+
+{%- if article != blank -%}
+  <div class="{{ class }} article-grid-item{% if article.image %} article-grid-item--has-image{% endif %} article-grid-item--{{ layout }}">
+    <div class="article-grid-item__inner">
+      {%- if article.image -%}
+        <div class="article-grid-item__image">
+          <a href="{{ article.url }}">
+            {% include 'img' with article.image, class: '' %}
+          </a>
+        </div>
+      {%- endif -%}
+
+      <div class="article-grid-item__content">
+
+        <div class="article-grid-item__title">
+          {{ article.title }}
+        </div>
+
+        {%- if show_byline -%}
+          {% capture date %}{{ article.published_at | time_tag: format: 'month_day_year' }}{% endcapture %}
+          <div class="article-grid-item__byline">
+            {{ 'blogs.article.author_on_date_html' | t: author: article.author, date: date }}
+          </div>
+        {%- endif -%}
+
+        <div class="article-grid-item__description">
+          {%- if article.excerpt != blank -%}
+            {{ article.excerpt | strip_html | truncate: 400 }}
+          {%- else -%}
+            {{ article.content | strip_html | truncate: 400 }}
+          {%- endif -%}
+        </div>
+
+        {%- if blog.comments_enabled? and show_comments -%}
+          <ul class="article-grid-item__comments">
+            <li>
+              <a href="{{ article.url }}#comments">
+                {{ 'blogs.comments.with_count' | t: count: article.comments_count }}
+              </a>
+            </li>
+          </ul>
+        {%- endif -%}
+
+        {%- if article.tags.size > 0 and show_tags -%}
+          <ul class="article-grid-item__tags">
+            {%- for tag in article.tags -%}
+              <li>
+                <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
+                {% unless forloop.last %}, {% endunless %}
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        <div class="article-grid-item__actions">
+          <a href="{{ article.url }}">
+            <span>{{ 'blogs.article.read_more' | t }}</span>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+{%- endif -%}
+

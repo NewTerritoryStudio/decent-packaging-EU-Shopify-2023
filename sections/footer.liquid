@@ -1,0 +1,473 @@
+{%- capture social_links_output %}
+  {% include 'social-links' %}
+{% endcapture -%}
+
+<footer>
+  <div class="site-footer site-footer--light">
+    <div class="site-footer__upper">
+      <div class="site-footer__upper-values">
+
+
+        {%- for block in section.blocks -%}
+          {%- if block.type != 'value' -%}
+            {%- continue -%}
+          {%- endif -%}
+
+          {%- assign icon = block.settings.icon -%}
+          {%- assign title = block.settings.title -%}
+
+           <!-- {{ icon }} -->
+
+          <div class="upper-value">
+            <div class="uppervalue__icon">
+              {%- if icon != blank -%}
+                {%- include 'icon' with icon -%}
+              {%- endif -%}
+            </div>
+            <p class="h6 uppervalue__title">
+              {%- if title != blank -%}
+                {{ title | escape }}
+              {%- endif -%}
+            </p>
+          </div>
+
+          {%- assign icon = blank -%}
+          {%- assign title = blank -%}
+        {%- endfor -%}
+
+      </div>
+    </div>
+
+    <div class="site-footer__main">
+      <div class="container page-width">
+        <div class="row site-footer__col-wrap">
+
+          {%- for block in section.blocks -%}
+            {%- capture block_container_prefix -%}
+              <div class="{%- if block.settings.style %}site-footer__{{ block.settings.style }} {% endif -%}
+                          {%- if block.settings.theme %}site-footer__{{ block.settings.theme }} {% endif -%}
+                          site-footer__col site-footer__{{ block.type }}"
+                   data-attribute-flex
+                   data-width-small="{{ block.settings.width_small | default: '0' }}"
+                   data-width-large="{{ block.settings.width_large | default: '0' }}"
+                   data-order-small="{{ block.settings.order_small | default: '0' }}"
+                   data-order-large="{{ block.settings.order_large | default: '0' }}">
+            {%- endcapture -%}
+
+            {%- capture block_container_suffix -%}
+              </div>
+            {%- endcapture -%}
+
+            {%- capture block_content -%}
+              {%- case block.type -%}
+                {%- when 'store-logo' -%}
+                  
+                  <a href="/" itemprop="url" class="site-logo" itemprop="logo">
+                    {% include 'logo' with 'hpp-mark' %}
+                  </a>
+
+                {%- when 'store-info' -%}
+
+
+                  {%- if block.settings.title != blank -%}
+                    <p class="h5">{{ block.settings.title }}</p>
+
+                  {%- endif -%}
+
+                  {%- if block.settings.text != blank -%}
+                    <div class="rte">
+
+                      {%- include 'text' with block.settings.text -%}
+                    </div>
+                  {%- endif -%}
+
+                  {%- if block.settings.show_social and social_links_output != blank -%}
+                    {{ social_links_output }}
+                  {%- endif -%}
+
+                {%- when 'separator' -%}
+
+                  <!-- Separator -->
+
+                {%- when 'newsletter' -%}
+                  
+                  {%- include 'newsletter' with style: 'horizontal', button: 'black' -%}
+
+                {%- when 'social-links' -%}
+                    
+                  {%- if social_links_output != blank -%}
+                    {{ social_links_output }}
+                  {%- endif -%}
+
+                {%- when 'navigation' -%}
+
+                  {%- if block.settings.navlist != blank -%}
+                    {%- assign navigation_id = block.settings.navlist | prepend: 'site-footer__navigation--' -%}
+                    {%- assign replacement_prefix_class = 'site-footer__col ' | append: navigation_id | append: ' ' -%}
+                    {%- assign block_container_prefix = block_container_prefix | replace: 'site-footer__col ', replacement_prefix_class -%}
+                      
+                    {%- include 'site-nav' with block.settings.navlist, id: navigation_id, dropdown: false, inline: false, accordion_max: 'md' -%}
+                  
+  
+                  {%- endif -%}
+              {%- endcase -%}
+            {%- endcapture -%}
+
+            {%- if block_content != blank -%}
+              {{ block_container_prefix }}
+              {{ block_content }}
+              {{ block_container_suffix }}
+            {%- endif -%}
+          {%- endfor -%}
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="site-footer__lower">
+      <div class="container page-width">
+
+
+        {%- if section.settings.lower_footer_link_list != blank -%}
+          <div class="site-footer__lower-nav" data-simple-accordion data-simple-accordion-max="md">
+
+            <p class="h6">{{ section.settings.lower_footer_title }}<span class="hidden-xs hidden-sm">:</span></p>
+
+            <ul class="site-footer__lower-nav-links">
+              {%- for link in linklists[section.settings.lower_footer_link_list ].links -%}
+                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.show_payment_icons and shop.enabled_payment_types != blank %}
+          <div class="site-footer__payment-methods">
+            {% include 'globals' with output: 'payment_icons', color: true %}
+          </div>
+        {% endif -%}
+
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+{% schema %}
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_payment_icons",
+        "label": "Show payment icons",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Lower footer links"
+      },
+      {
+        "type": "text",
+        "id": "lower_footer_title",
+        "label": "Title",
+        "default": "Top Categories"
+      },
+      {
+        "type": "link_list",
+        "id": "lower_footer_link_list",
+        "label": "Nav list"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "value",
+        "name": "Value icon",
+        "settings": [
+          {
+            "type": "select",
+            "id": "icon",
+            "label": "Icon",
+            "options": [
+              {
+                "value": "world",
+                "label": "World"
+              },
+              {
+                "value": "calendar",
+                "label": "Calendar"
+              },
+              {
+                "value": "blocks",
+                "label": "Blocks"
+              }
+            ],
+            "default": "world"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          }
+        ]
+      },
+      {
+        "type": "store-logo",
+        "name": "Store Logo",
+        "settings": [
+          {
+            "type": "range",
+            "id": "width_small",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "%",
+            "label": "Width on small screens",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "width_large",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "%",
+            "label": "Width on large screens",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "order_small",
+            "min": -10,
+            "max": 10,
+            "step": 1,
+            "label": "Order on small screens",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "order_large",
+            "min": -10,
+            "max": 10,
+            "step": 1,
+            "label": "Order on large screens",
+            "default": 0
+          }
+        ]
+      },
+      {
+        "type": "store-info",
+        "name": "Store Info",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text"
+          },
+          {
+            "type": "checkbox",
+            "id": "show_social",
+            "default": true,
+            "label": "Show social buttons"
+          },
+          {
+            "type": "range",
+            "id": "width_small",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "%",
+            "label": "Width on small screens",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "width_large",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "%",
+            "label": "Width on large screens",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "order_small",
+            "min": -10,
+            "max": 10,
+            "step": 1,
+            "label": "Order on small screens",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "order_large",
+            "min": -10,
+            "max": 10,
+            "step": 1,
+            "label": "Order on large screens",
+            "default": 0
+          }
+        ]
+      },
+      {
+        "type": "newsletter",
+        "name": "Newsletter",
+        "settings": [
+          {
+            "type": "paragraph",
+            "content": "Wording can be adjusted via theme language settings."
+          },
+          {
+            "type": "range",
+            "id": "width_small",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "%",
+            "label": "Width on small screens",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "width_large",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "%",
+            "label": "Width on large screens",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "order_small",
+            "min": -10,
+            "max": 10,
+            "step": 1,
+            "label": "Order on small screens",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "order_large",
+            "min": -10,
+            "max": 10,
+            "step": 1,
+            "label": "Order on large screens",
+            "default": 0
+          }
+        ]
+      },
+      {
+        "type": "separator",
+        "name": "Separator",
+        "settings": [
+          {
+            "type": "select",
+            "id": "style",
+            "options": [
+              { "value": "vertical-line-primary", "label": "Line, primary brand colour"},
+              { "value": "vertical-line-secondary", "label": "Line, secondary brand colour"},
+              { "value": "seperator-none", "label": "None"}
+            ],
+            "label": "Separator style"
+          },
+          {
+            "type": "range",
+            "id": "width_small",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "%",
+            "label": "Width on small screens",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "width_large",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "%",
+            "label": "Width on large screens",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "order_small",
+            "min": -10,
+            "max": 10,
+            "step": 1,
+            "label": "Order on small screens",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "order_large",
+            "min": -10,
+            "max": 10,
+            "step": 1,
+            "label": "Order on large screens",
+            "default": 0
+          }
+        ]
+      },
+      {
+        "type": "navigation",
+        "name": "Navigation",
+        "settings": [
+          {
+            "type": "link_list",
+            "id": "navlist",
+            "label": "Navigation list"
+          },
+          {
+            "type": "range",
+            "id": "width_small",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "%",
+            "label": "Width on small screens",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "width_large",
+            "min": 0,
+            "max": 100,
+            "step": 5,
+            "unit": "%",
+            "label": "Width on large screens",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "order_small",
+            "min": -10,
+            "max": 10,
+            "step": 1,
+            "label": "Order on small screens",
+            "default": 0
+          },
+          {
+            "type": "range",
+            "id": "order_large",
+            "min": -10,
+            "max": 10,
+            "step": 1,
+            "label": "Order on large screens",
+            "default": 0
+          }
+        ]
+      }
+    ]
+  }
+
+{% endschema %}

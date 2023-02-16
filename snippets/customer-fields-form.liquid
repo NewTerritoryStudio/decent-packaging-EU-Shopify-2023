@@ -1,0 +1,46 @@
+{%- assign fields = fields | default: blank -%}
+{%- assign server_fields = server_fields | default: false -%}
+{%- assign form_class = form_class | default: '' -%}
+
+<div id="customer-fields" {% unless customer %}data-registration="true"{% endunless %} class="{{ form_class }}">
+  {% form 'create_customer' %}
+    <input type="hidden" name="shop" value="{{ shop.permanent_domain }}">
+
+    {%- if server_fields != false -%}
+      <div class="fields"><!-- Fields loaded from server --></div>
+    {%- endif -%}
+
+    {%- if fields != blank -%}
+      <div class="custom-fields">
+        {{ fields }}
+      </div>
+    {%- endif -%}
+
+    <div class="form-footer"></div>
+    
+    <script>
+      var Customr = {
+        baseUrl: "https://customr.heliumdev.com",
+        {% if customer %}
+          shopifyCustomer: {
+            id: {{ customer.id }},
+            token: {{ customer.metafields.customr_auth.token | json }}
+          },
+        {% endif %}
+
+        ready: function() {
+          var css = document.querySelector('link[href="https://customr.heliumdev.com/assets/v2/embed.css"]');
+          css.parentElement.removeChild(css);
+        },
+
+        beforeValidate: function() {
+          $('#customer-fields [type="submit"]').addClass('loading');
+        },
+        afterSaveError: function(errors) {
+          $('#customer-fields [type="submit"]').removeClass('loading');
+        }
+      };
+    </script>
+    <script src="https://cdn-customr.heliumdev.com/assets/v2/embed.js"></script>
+  {% endform %}
+</div>

@@ -1,0 +1,87 @@
+<div class="product-user-content" data-section-id="{{ section.id }}" data-section-type="section-product-user-content">
+
+  <div class="container narrow">
+      <div class="product-user-content__wrapper">
+
+        <div class="product-user-content__images">
+
+          {%- for block in section.blocks -%}
+
+            {%- if forloop.first -%}
+              <div class="product-user-content__primary-image-wrapper">
+                <div class="product-user-content__image-wrapper">
+                  {%- include 'img' with block.settings.image -%}
+                </div>
+              </div>
+            {% else %}
+              {%- if forloop.index == 2 -%}
+                <div class="product-user-content__secondary-images-wrapper">
+              {%- endif -%}
+                <div class="product-user-content__image-wrapper">
+                  {%- include 'img' with block.settings.image -%}
+                </div>
+              {%- if forloop.last -%}
+                </div>
+              {%- endif -%}
+            {%- endif -%}
+
+          {%- endfor -%}
+        </div>
+
+        <div class="product-user-content__text">
+          <div class="row end-md">
+            <div class="col-xs-12 col-md-4">
+              <p class="h3 product-user-content__title">
+                {{ section.settings.title }}
+              </p>
+            </div>
+          </div>
+          <div class="row end-md">
+            <div class="col-xs-12 col-md-3">
+              <div class="rte product-user-content__description">
+                {{ section.settings.text }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+  </div>
+
+</div>
+
+{% schema %}
+  {
+    "name": "User Content",
+    "class": "user-content-section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Show us your packaging"
+      },
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "User Image",
+        "type": "user-image",
+        "limit": 3,
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+

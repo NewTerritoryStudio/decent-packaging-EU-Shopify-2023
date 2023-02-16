@@ -1,0 +1,159 @@
+{%- assign background_image = '' -%}
+{%- if section.settings.background_image != blank -%}
+  {%- capture background_image -%}
+    data-bgset="{% include 'bgset' with section.settings.background_image %}" data-sizes="auto"
+  {%- endcapture -%}
+{%- endif -%}
+<div data-section-id="{{ section.id }}" data-section-type="brand-values">
+  {%- if section.blocks.size > 0 %}
+  <div class="brand-values-section brand-values-section--theme-{{ section.settings.theme }} brand-values-section--text-{{ section.settings.text_size }} section section--vertical-padding-{{ section.settings.container_padding_vertical }} lazyload lazypreload"{% if section.settings.background_container == 'screen' %} {{ background_image }}{% endif %}>
+
+    <div class="brand-values-wrap">
+      <div class="brand-values container page-width"
+           id="brand-values-{{ section.id }}"
+           data-autoplay="{% if section.settings.autoplay == 'mobile' %}false{% else %}true{% endif %}"
+           data-autoplay-mobile="{% if section.settings.autoplay == 'desktop' %}false{% else %}true{% endif %}"
+           data-slides-show-desktop="{{ section.settings.slides_show_desktop }}"
+           data-speed="{{ section.settings.autoplay_speed }}"
+           data-count="{{ section.blocks.size }}">
+
+        {%- for block in section.blocks %}
+          <div class="brand-values__slide brand-values__slide--{{ block.id }}" {{ block.shopify_attributes }}>
+            <div class="brand-values__slide-content">
+              {%- if block.settings.link != blank %}
+                <a href="{{ block.settings.link }}" class="brand-values__link">
+              {% endif -%}
+
+              {%- if block.settings.icon != "false" %}
+                <div class="brand-values__image">
+                  {% assign icon = 'icon-' | append: block.settings.icon %}
+                  {% include icon %}
+                </div>
+              {% elsif block.settings.image != blank %}
+                <div class="brand-values__image">
+                  <img src="{{ block.settings.image | img_url: 'x40', scale: 2 }}">
+                </div>
+              {% endif -%}
+
+              <div class="brand-values__text">
+                <div class="brand-values__title">
+                  {%- unless block.settings.text == blank %}
+                    <p>{{ block.settings.text | escape }}</p>
+                  {% endunless -%}
+                </div>
+
+                <div class="brand-values__subtitle">
+                  {%- unless block.settings.subtitle == blank %}
+                    <p>{{ block.settings.subtitle | escape }}</p>
+                  {% endunless -%}
+                </div>
+              </div>
+
+              {%- if block.settings.link != blank %}
+                </a>
+              {% endif -%}
+            </div>
+          </div>
+        {% endfor -%}
+
+      </div>
+    </div>
+  {% endif -%}
+</div>
+</div>
+
+{% schema %}
+  {
+    "name": "Brand Values",
+    "class": "index-section index-section--flush brand-values-section",
+    "max_blocks": 4,
+    "settings": [
+      {
+        "type": "range",
+        "id": "slides_show_desktop",
+        "min": 1,
+        "max": 4,
+        "step": 1,
+        "label": "Slides to show on large screens",
+        "default": 3
+      },
+      {
+        "type": "select",
+        "id": "autoplay",
+        "options": [
+          { "value": "mobile", "label": "On small screens only"},
+          { "value": "desktop", "label": "On large screens only"},
+          { "value": "all", "label": "On all screen sizes"}
+        ],
+        "label": "Auto-rotate slides",
+        "default": "mobile"
+      },
+      {
+        "type": "select",
+        "id": "autoplay_speed",
+        "label": "Change slides every",
+        "options": [
+          { "value": "5000", "label": "5 seconds" },
+          { "value": "6000", "label": "6 seconds" },
+          { "value": "7000", "label": "7 seconds" },
+          { "value": "8000", "label": "8 seconds" },
+          { "value": "9000", "label": "9 seconds" },
+          { "value": "10000", "label": "10 seconds" }
+        ],
+        "default": "7000"
+      },
+      {
+      "type": "select",
+      "id": "theme",
+      "options": [
+      { "value": "default", "label": "Default"},
+      { "value": "light", "label": "Light"},
+      { "value": "dark", "label": "Dark"}
+      ],
+      "label": "Colour scheme",
+      "default": "default"
+     }
+    ],
+    "blocks": [
+      {
+        "type": "feature",
+        "name": "Service Feature",
+        "settings": [
+          {
+            "type": "text",
+            "id": "text",
+            "label": "Heading"
+          },
+          {
+            "type": "text",
+            "id": "subtitle",
+            "label": "Subtitle"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "select",
+            "id": "icon",
+            "label": "Icon",
+            "info": "Overrides image",
+            "options": [
+              { "value": "false", "label": "None" },
+              { "value": "truck", "label": "Delivery Truck" },
+              { "value": "tag", "label": "Price Tag" },
+              { "value": "trolley", "label": "Trolley" }
+            ],
+            "default": "false"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Feature link"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

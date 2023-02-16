@@ -1,0 +1,30 @@
+{% layout none %}
+{%- assign template-w = '{width}x' | escape -%}
+
+{
+  "id": {{ product.id | json }},
+  "featured_image": {{ product.featured_image | img_url: '123x' | replace: '123x', template-w | json }},
+  "title": {{ product.title | json }},
+  "price": {{ product.price | json }},
+  "url": {{ product.url | json }},
+  "type": {{ product.type | json }},
+  "tags": {{ product.tags | json }},
+  "variants": [
+
+  {%- for variant in product.variants -%}
+    {%- unless forloop.first -%},{%- endunless -%}
+    {
+      "id": {{ variant.id | json }},
+      "title": {{ variant.title | json }},
+      "available": {{ variant.available | json }},
+      "price": {{ variant.price | json }},
+      "inventory_quantity": {{ variant.inventory_quantity | json }}
+    }
+  {%- endfor -%}
+
+  ],
+  "metafields": {
+      "related": {{ product.metafields.related | json }},
+      "details": {{ product.metafields.details | json }}
+    }
+}

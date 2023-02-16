@@ -1,0 +1,98 @@
+<div class="custom-branding-product-range" data-section-id="{{ section.id }}" data-section-type="custom-branding-product-range">
+
+  <div class="container narrow">
+
+    <div class="row">
+      <div class="col-xs-12">
+        <p class="h3">{{ section.settings.title }}</p>
+      </div>
+    </div>
+
+    <div class="row">
+
+      {%- for block in section.blocks -%}
+        {%- if block.type != 'product-range' -%}
+          {%- continue -%}
+        {%- endif -%}
+
+        <div class="col-xs-6 col-md-4 col-lg">
+          <a class="product-range-grid-item" href="{{ block.settings.url }}">
+            <span class="product-range-grid-item__image">
+
+              {%- include 'img' with block.settings.image, class: 'product-range-grid-item__thumb-image' -%}
+
+              {%- if block.settings.hover_image -%}
+                {%- include 'img' with block.settings.hover_image, class: 'product-range-grid-item__hover-image' -%}
+              {%- endif -%}
+
+            </span>
+            <p class="h5 product-range-grid-item__title">
+              {{ block.settings.title }}
+            </p>
+            <p class="product-range-grid-item__subtitle">
+              {{ block.settings.subtitle }}
+            </p>
+
+          </a>
+        </div>
+
+
+      {%- endfor -%}
+
+    </div>
+
+  </div>
+
+</div>
+
+{% schema %}
+  {
+    "name": "Custom Product Range",
+    "class": "custom-product-range-section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Customisable product range"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "product-range",
+        "type": "product-range",
+        "settings": [
+          {
+            "type": "url",
+            "id": "url",
+            "label": "URL",
+            "default": "/"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Hot Cups"
+          },
+          {
+            "type": "text",
+            "id": "subtitle",
+            "label": "Subtitle",
+            "default": "5 sizes + available"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "image_picker",
+            "id": "hover_image",
+            "label": "Hover image"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+  

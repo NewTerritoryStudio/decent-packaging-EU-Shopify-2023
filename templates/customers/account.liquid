@@ -1,0 +1,19 @@
+<!-- Sales Rep -->
+<link rel="stylesheet" href="https://sdks.shopifycdn.com/polaris/latest/polaris.css" />
+
+{% if customer.tags contains "sales_rep" or customer.tags contains "pro_rep" %}
+
+<div class="sr_account" style="padding-top: 0;margin: inherit;">
+{%include'SR_Dashboard'%}
+{%include'SR_PagesScriptCode'%}
+</div>
+{% else %}
+<!-- End of Sales Rep -->{%- capture main %}
+  {%- include 'account-dashboard' -%}
+{% endcapture -%}
+
+{%- capture aside -%}
+  {%- section 'account-constant-cart' -%}
+{%- endcapture -%}
+
+{%- include 'account-view' with main: main, aside: aside -%}<!-- Sales Rep Closing -->{% endif %}<!-- End Sales Rep Closing -->

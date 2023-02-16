@@ -1,0 +1,250 @@
+{%- assign page_has_header_image = false -%}
+{%- assign hide_main_content_title = false -%}
+{%- assign current_view_type = template.name -%}
+{%- case current_view_type -%}
+  {%- when 'product' -%}
+    {%- assign current_handle = product.handle -%}
+    {%- assign current_view_url = product.url -%}
+  {%- when 'page' -%}
+    {%- assign current_handle = page.handle -%}
+    {%- assign current_view_url = page.url -%}
+  {%- when 'collection' -%}
+    {%- assign current_handle = collection.handle -%}
+    {%- assign current_view_url = collection.url -%}
+  {%- when 'blog' -%}
+    {%- assign current_handle = blog.handle -%}
+    {%- assign current_view_url = blog.url -%}
+  {%- else -%}
+    {%- assign current_handle = false -%}
+    {%- assign current_view_url = false -%}
+{%- endcase -%}
+{%- if current_handle != blank -%}
+  {%- for block in section.blocks -%}
+    {%- if block.settings.page != blank -%}
+      {%- assign block_handle = block.settings.page | split: '/' | last | url_decode | handle -%}
+      {%- if block_handle == current_handle or collection and block_handle == 'collections' -%}
+        {%- if block.settings.image != blank -%}
+          {%- assign page_has_header_image = true -%}
+          {%- assign header_image = block.settings.image -%}
+          {%- assign header_image_small = block.settings.image_small -%}
+          {%- assign header_image_title = '' -%}
+          {%- assign header_image_has_overlay = block.settings.show_image_overlay -%}
+          {%- assign header_image_subtitle = '' -%}
+          {%- if block.settings.show_title == true and block.settings.title != blank -%}
+            {%- assign header_image_title = block.settings.title -%}
+            {%- assign header_image_subtitle = block.settings.subtitle -%}
+          {%- endif -%}
+          {%- if block.settings.hide_content_title == true -%}
+            {%- assign hide_main_content_title = true -%}
+          {%- endif -%}
+          {%- assign header_text_alignment = block.settings.text_alignment -%}
+          {%- assign header_image_alignment = block.settings.alignment -%}
+          {%- assign header_image_size = block.settings.size -%}
+          {%- assign header_image_id = block.id | prepend: 'page-header-' -%}
+          {%- assign header_image_navlist = block.settings.navigation | default: false -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{%- if page_has_header_image -%}
+  <div id="{{ header_image_id }}" class="page__header-image{% if header_image_title != blank %} page__header-image--has-title{% endif %}{% if header_image_has_overlay %} page__header-image--has-overlay{% endif %} page__header-image--{{ header_image_size }} page__header-image--{{ header_image_alignment }}{% if section.settings.limit_to_content_width %} container-width{% endif %}">
+    
+    {%- if header_image_small != blank -%}
+      {%- assign header_image_class = 'hidden-xs' -%}
+      {%- include 'img' with header_image_small, class: 'visible-xs', blur: true -%}
+    {%- endif -%}
+    {%- include 'img' with header_image, class: header_image_class, blur: true -%}
+
+    {%- if header_image_title != blank -%}
+      <div class="page__header-image-text page__header-image-text--subtitle-{{ section.settings.subtitle_position }} container-width text-{{ header_text_alignment }}">
+        <div class="page__header-image-title">
+          {{ header_image_title }}
+        </div>
+        <div class="page__header-image-subtitle">
+          {{ header_image_subtitle | newline_to_br }}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if header_image_navlist -%}
+      {%- assign nav_list = linklists[header_image_navlist] -%}
+      {%- if nav_list.links != blank -%}
+        <div class="page__header-image-navigation">
+          <ul>
+            {%- for link in nav_list.links -%}
+              <li>
+                <a href="{{ link.url }}"{% if current_view_url and current_view_url == link.url %} class="active"{% endif %}>
+                  {{ link.title }}
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+
+  </div>
+
+  {%- if hide_main_content_title -%}
+    <style type="text/css">
+      .template__main-title {
+        display: none !important;
+      }
+    </style>
+  {%- endif -%}
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Masthead Images",
+    "class": "masthead-image-section",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Masthead Images"
+      },
+      {
+        "type": "paragraph",
+        "content": "You can add feature images and assign them to pages to have them appear on the site. Titles should always be given, even if not visible on the site, to aid when managing them on this page."
+      },
+      {
+        "type": "checkbox",
+        "id": "limit_to_content_width",
+        "default": false,
+        "label": "Limit mastheads to content width"
+      },
+      {
+        "type": "select",
+        "id": "subtitle_position",
+        "label": "Subtitle position",
+        "default": "after",
+        "options": [
+          {
+            "value": "before",
+            "label": "Before"
+          },
+          {
+            "value": "after",
+            "label": "After"
+          }
+        ]
+      }
+    ],
+    "blocks": [
+      {
+        "type": "image",
+        "name": "Header Image",
+        "settings": [
+          {
+            "type": "url",
+            "id": "page",
+            "label": "Attach to",
+            "info": "Page that the header image will appear on."
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "textarea",
+            "id": "subtitle",
+            "label": "Subtitle"
+          },
+          {
+            "type": "select",
+            "id": "text_alignment",
+            "label": "Text alignment",
+            "default": "center",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              },
+              {
+                "value": "center",
+                "label": "Middle"
+              },
+              {
+                "value": "right",
+                "label": "Right"
+              }
+            ]
+          },
+          {
+            "type": "checkbox",
+            "id": "show_title",
+            "default": true,
+            "label": "Show title over image"
+          },
+          {
+            "type": "checkbox",
+            "id": "show_image_overlay",
+            "default": true,
+            "label": "Darken image for text legibility"
+          },
+          {
+            "type": "checkbox",
+            "id": "hide_content_title",
+            "default": false,
+            "label": "Hide main content title"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Header Image"
+          },
+          {
+            "type": "image_picker",
+            "id": "image_small",
+            "label": "Header Image (Small Screens)",
+            "info": "If set, this image will be shown on small screens."
+          },
+          {
+            "type": "select",
+            "id": "alignment",
+            "label": "Header image alignment",
+            "default": "top",
+            "options": [
+              {
+                "value": "top",
+                "label": "Top"
+              },
+              {
+                "value": "center",
+                "label": "Middle"
+              },
+              {
+                "value": "bottom",
+                "label": "Bottom"
+              }
+            ]
+          },
+          {
+            "type": "select",
+            "id": "size",
+            "label": "Header image size",
+            "default": "large",
+            "options": [
+              {
+                "value": "medium",
+                "label": "Normal"
+              },
+              {
+                "value": "large",
+                "label": "Large"
+              }
+            ]
+          },
+          {
+            "type": "link_list",
+            "id": "navigation",
+            "label": "Navigation"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

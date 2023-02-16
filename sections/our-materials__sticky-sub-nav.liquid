@@ -1,0 +1,37 @@
+{%- include 'sticky-sub-nav' -%}
+
+{% schema %}
+  {
+    "name": "Sticky sub nav",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "THIS IS AN ADVANCED SECTION. PROCEED WITH CAUTION"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "JUMP TO SECTION:"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Nav Item",
+        "type": "nav-item",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "text",
+            "id": "anchor",
+            "label": "Anchor"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

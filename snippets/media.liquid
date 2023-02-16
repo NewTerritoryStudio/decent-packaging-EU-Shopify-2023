@@ -1,0 +1,23 @@
+{%- if media != blank -%}
+    <div class="aspectholder">
+        <img srcset="{% if media.width >= 350 %}{{ media | img_url: '350x' }} 350w,{% endif %}
+        {% if media.width >= 700 %}{{ media | img_url: '700x' }} 700w,{% endif %}
+        {% if media.width >= 749 %}{{ media | img_url: '749x' }} 749w,{% endif %}
+        {% if media.width >= 1498 %}{{ media | img_url: '1498x' }} 1498w,{% endif %}
+        {% if media.width >= 1100 %}{{ media | img_url: '1100x' }} 1100w,{% endif %}
+        {% if media.width >= 2200 %}{{ media | img_url: '2200x' }} 2200w,{% endif %}"
+        data-srcset="{% if media.width >= 350 %}{{ media | img_url: '350x' }} 350w,{% endif %}
+        {% if media.width >= 700 %}{{ media | img_url: '700x' }} 700w,{% endif %}
+        {% if media.width >= 749 %}{{ media | img_url: '749x' }} 749w,{% endif %}
+        {% if media.width >= 1498 %}{{ media | img_url: '1498x' }} 1498w,{% endif %}
+        {% if media.width >= 1100 %}{{ media | img_url: '1100x' }} 1100w,{% endif %}
+        {% if media.width >= 2200 %}{{ media | img_url: '2200x' }} 2200w,{% endif %}"
+        src="{{ media | img_url: 'master' }}"
+        data-src="{{ media | img_url: 'master' }}"
+        loading="lazy"
+        width="{{ media.width }}"
+        height="{{ media.height }}"
+        alt="{{ media.alt | escape | default: 'Display Image' }}" 
+        class="lazy">
+    </div>
+{%- endif -%}

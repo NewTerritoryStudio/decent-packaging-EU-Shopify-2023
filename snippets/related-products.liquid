@@ -1,0 +1,110 @@
+{%- assign products_to_return = 8 -%}
+
+{%- if product.metafields.related['collection'] -%}
+  {%- assign collection = collections[product.metafields.related['collection']] -%}
+{%- endif -%}
+
+{%- assign found_a_collection = false -%}
+{%- if collection.handle -%}
+  {%- if collection.all_products_count > 2 -%}
+    {%- unless exclusions contains collection.handle -%}
+      {%- assign found_a_collection = true -%}
+    {%- endunless -%}
+  {%- endif -%}
+{%- endif -%}
+{%- unless found_a_collection -%}
+  {%- for c in product.collections -%}
+    {%- unless exclusions contains c.handle or c.all_products_count < 2 -%}
+      {%- assign found_a_collection = true -%}
+      {%- assign collection = c -%}
+      {%- break -%}
+    {%- endunless -%}
+  {%- endfor -%}
+{%- endunless -%}
+
+{%- if found_a_collection -%}
+
+  {%- assign break_at = products_to_return-%}
+  {%- assign current_product = product -%}
+
+  {%- capture related_products -%}
+    {%- for product in collection.products -%}
+      {%- if product.available -%}
+        {%- unless product.handle == current_product.handle -%}
+          {%- unless same_vendor and current_product.vendor != product.vendor -%}
+            {%- unless same_type and current_product.type != product.type -%}
+
+              {%- include 'user-can-view-product' -%}
+              {%- include 'if-customer-and-geotagged' -%}
+
+              {% capture prod_grid_item %}
+                <div class="product-related-products__slide">
+                  {%- include 'product-grid-item' -%}
+                </div>
+                {%- assign counter = counter | plus: 1 -%}
+                {%- if counter == break_at -%}
+                  {%- break -%}
+                {%- endif -%}
+              {% endcapture %}
+              
+              {%- if user_can_view_product -%}
+                {%- if is_geotagged_customer_login == false -%}
+                  {{ prod_grid_item }}
+                {%- elsif is_geotagged_location_north -%}
+                  {{ prod_grid_item }}
+                {%- elsif is_geotagged_location_south -%}
+                 {{ prod_grid_item }}
+                {%- endif -%}
+
+              {%- endif -%}
+
+            {%- endunless -%}
+          {%- endunless -%}
+        {%- endunless -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+
+
+  <div class="product-related-products" data-section-id="{{ section.id }}" data-section-type="product-related-products">
+
+    <div class="container narrow">
+
+      <div class="row">
+        <div class="col-xs-12 col-md-6">
+         <div class="product-related-products__title">
+            <p class="h3">{{ section.settings.title }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row product-related-products__slider-wrapper">
+        <div class="col-xs-12">
+          <div class="product-related-products__slider"
+            id="Slider-{{ section.id }}"
+            data-slideshow 
+            data-arrows="true" 
+            data-dots="false" 
+            data-slides-show-desktop="4"
+            data-slides-show-tablet="2"
+            data-slides-show-mobile="1"
+            data-slides-scroll-desktop="4"
+            data-slides-scroll-tablet="2"
+            data-slides-scroll-mobile="1"
+            data-infinite="true"
+            data-fade="false"
+            >
+            {{ related_products }}
+          </div>
+          <button type="button" class="slideshow__prev">{% include 'icon-chevron-left' %}</button>
+          <button type="button" class="slideshow__next">{% include 'icon-chevron-right' %}</button>
+        </div>
+      </div>
+
+
+
+    </div>
+
+  </div>
+
+{%- endif -%}

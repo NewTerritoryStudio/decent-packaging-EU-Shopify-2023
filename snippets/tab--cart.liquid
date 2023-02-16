@@ -1,0 +1,82 @@
+{{ 'custom-cross-sell.css' | asset_url | stylesheet_tag }}
+
+<div rv-show="cart.item_count | lt 1" class="text-center">
+  <span>You don't have any items in your cart.</span>
+</div>
+
+<div rv-each-item="cart.items" rv-data-product="item.product_id" class="cart-drawer-item" rv-id="'cart-drawer-item-' | append item.id">
+  
+  <div class="cart-drawer-item__image">
+    <a rv-href="item.url">
+      <img rv-src="item.image | productImageSize '180x'" rv-alt="item.product_title">
+    </a>
+  </div>
+
+  <div class="cart-drawer-item__details">
+    
+    <span class="cart-drawer-item__title" rv-text="item.product_title"></span>
+
+
+    <ul class="cart-drawer-item__properties">
+      <li rv-if="item.variant_title" rv-html="item.variant_title | prepend '<span>' | replace ' / ' '</span><span>' | append '</span>'"></li>
+    </ul>
+    <div class="cart-drawer-item__adjustments">
+      <div class="cart-drawer-item__adjustment">
+        <div class="cart-drawer-item__adjustment-title h6">
+          No. of cartons:
+        </div>
+        <div class="cart-drawer-item__adjustment-content">
+          <a href="#" rv-data-cart-update="$index | plus 1" rv-data-cart-quantity="item.quantity | minus 1" rv-data-progress-element="'.cart-drawer__total-price, #cart-drawer-item-' | append item.id'">
+            {% include 'icon-minus' %}
+            <span class="icon-fallback-text">{{ 'cart.general.minus' | t }}</span>
+          </a>
+          
+          <span class="cart-drawer-item__quantity" rv-text="item.quantity" data-loads></span>
+          
+          <a href="#" rv-data-cart-update="$index | plus 1" rv-data-cart-quantity="item.quantity | plus 1" rv-data-progress-element="'.cart-drawer__total-price, #cart-drawer-item-' | append item.id'">
+            {% include 'icon-plus' %}
+            <span class="icon-fallback-text">{{ 'cart.general.plus' | t }}</span>
+          </a>
+          
+          {% comment %}<div rv-html="item.price | money shop.currency"></div>{% endcomment %}
+          
+          
+        </div>
+      </div>
+      <div class="cart-drawer-item__adjustment">
+        <div class="cart-drawer-item__adjustment-title h6">
+          Price:
+        </div>
+        <div class="cart-drawer-item__adjustments-content">
+          <span rv-if="item.total_discount | > 0" class="og-price cart-drawer-item__og__price" rv-html="item.original_line_price | money shop.currency"></span>
+          <div rv-if="item.total_discount | > 0" class="discount-price cart-drawer-item__price" rv-html="item.line_price | money shop.currency"></div>
+          <span rv-if="item.total_discount | > 0" class="discount-save" rv-html="item.original_line_price | minus item.line_price | divided_by item.original_line_price | times 100 | round | prepend 'Save ' | append '%'"></span>
+          <span rv-if="item.total_discount | eq 0" class="cart-drawer-item__og__price" rv-html="item.original_line_price | money shop.currency"></span>
+        </div>
+      </div>
+    </div>
+    
+    <a href="#" class="cart-drawer-item__remove" rv-data-cart-remove="$index | plus 1" rv-data-progress-element="'.cart-drawer__total-price, #cart-drawer-item-' | append item.id'" data-tippy-content="Remove">
+      {% include 'icon-plus' %}
+      <span class="icon-fallback-text">{{ 'cart.general.remove' | t }}</span>
+    </a>
+  </div>
+  <!-- cross sell product shown in cart -->
+  <div rv-show="item.properties._cross_sell_id" rv-data-productid="item.properties._cross_sell_product_id" class="cart-drawer-item__cross_sell">
+    <span class="cart-drawer-item__add-to-order">Add to your order</span>
+    <div class="cart-drawer-item__cross_sell_product">
+      <img rv-src="item.properties._cross_sell_image">
+      <div class="cart-drawer-item__cross_sell_product_details">
+        <span rv-html="item.properties._cross_sell_handle" class="cross_sell_handle"></span>
+        <div class="cart-drawer-item__cross_sell_product_details_info">
+          <span rv-html="item.properties._cross_sell_options"></span>
+          <span rv-html="item.properties._cross_sell_price | money shop.currency" class="cross_sell_price"></span>
+          <button rv-data-variantid="item.properties._cross_sell_id" type="button" onclick="addCrossSell(this)"
+          class="btn">+ Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
+  

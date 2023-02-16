@@ -1,0 +1,38 @@
+{% assign style = style | default: 'default' %}
+{% assign header = header | default: true %}
+{% assign button = button | default: 'primary' %}
+<div class="newsletter-section newsletter-section--{{ style }}">
+  {% if header %}
+    <div class="section-header">
+      {% if settings.newsletter_title != blank %}
+        <label for="Email" class="section-header__title">
+          <span>{{ settings.newsletter_title | escape }}</span>
+        </label>
+      {% endif %}
+      {% if settings.newsletter_subheading != blank %}
+        <p>{{ settings.newsletter_subheading | escape }}</p>
+      {% endif %}
+    </div>
+  {% endif %}
+  {% form 'customer' %}
+    {{ form.errors | default_errors }}
+    {% if form.posted_successfully? %}
+      <p class="form--success">{{ 'general.newsletter.confirmation' | t }}</p>
+    {% else %}
+      <div class="input-group input-group--{{ style }} password__input-group">
+        <input type="hidden" name="contact[tags]" value="newsletter" class="input-group__field">
+        <input type="email"
+          name="contact[email]"
+          id="Email"
+          class="input-group__field newsletter__input"
+          value="{% if customer %}{{ customer.email }}{% endif %}"
+          placeholder="{{ 'general.newsletter.email_placeholder' | t }}"
+          autocorrect="off"
+          autocapitalize="off">
+        <button type="submit" class="btn btn-{{ button }} input-group__btn newsletter__submit" name="commit" id="Subscribe">
+          <span class="newsletter__submit-text">{{ 'general.newsletter.submit' | t }}</span>
+        </button>
+      </div>
+    {% endif %}
+  {% endform %}
+</div>

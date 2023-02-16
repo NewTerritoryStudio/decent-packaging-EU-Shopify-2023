@@ -1,0 +1,24 @@
+<div class="store-contact {% if in_sidebar %}store-contact--sidebar{% endif %}">
+  {%- if paragraph != false -%}
+    <p class="store-contact__title h5">{{ 'general.contact.contact_panel_title' | t }}</p>
+    <p class="store-contact__text">{{ 'general.contact.contact_panel_paragraph' | t }}</p>
+  {%- endif -%}
+
+  <ul class="store-contact__links">
+    <li>{%- include 'globals' with output: 'phone' with icon: true -%}</li>
+    <li>{%- include 'globals' with output: 'email' with icon: true -%}</li>
+    <li class="need-assistance--link">
+      <p class="contact-us--line">Need a response quickly?</p>
+
+      <p class="text-us--parargaph">
+        <a class="blue-link" href="sms:(+44){{ shop.metafields.globals.assistance_sms_number }}&body=DECENT">
+          Text the word DECENT to 44{{shop.metafields.globals.assistance_sms_number }}
+        </a>
+        <span>and we’ll get back to you via SMS!</span>
+      </p>
+    </li>
+    {% comment %}<li>{%- include 'globals' with 'live_chat' with icon: true -%}</li>{% endcomment %}
+  </ul>
+
+</div>
+

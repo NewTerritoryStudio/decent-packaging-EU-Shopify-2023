@@ -1,0 +1,16 @@
+{%- if section.settings.image -%}
+  {%- include 'image' -%}
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Image",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      }
+    ]
+  }
+{% endschema %}

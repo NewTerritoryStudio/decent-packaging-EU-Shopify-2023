@@ -1,0 +1,58 @@
+{%- assign export = '' -%}
+{%- assign block_type = block_type -%}
+{%- assign whitelist_attribute = whitelist_attribute -%}
+{%- assign whitelist_data = whitelist_data -%}
+{%- assign category = category | default: 'category' -%}
+
+{%- for block in section.blocks -%}
+  {%- unless block.type == block_type -%}
+    {%- continue -%}
+  {%- endunless -%}
+
+  {%- if whitelist_attribute != blank and whitelist_data != blank -%}
+    {%- assign whitelist_block_data = block.settings[whitelist_attribute] | handle -%}
+    {%- unless whitelist_block_data == whitelist_data -%}
+        {%- continue -%}
+    {%- endunless -%}
+  {%- endif -%}
+
+  {%- assign block_index = forloop.index0 | append: '==' -%}
+
+  {%- assign block_category = block.settings[category] | handle | prepend: '**' | append: '**' -%}
+
+  {%- if export contains block_category -%}
+    {%- assign export_split = export | split: '#--#' -%}
+    {%- assign export_reconstructed = '' -%}
+
+    {%- for split in export_split -%}
+      {%- assign split_constructed = '' -%}
+
+      {%- if split contains block_category -%}
+        {%- assign split_constructed = split | append: block_index -%}
+      {%- endif -%}
+
+      {%- if export_reconstructed != blank -%}
+        {%- assign export_reconstructed = export_reconstructed | append: '#--#' -%}
+      {%- endif -%}
+
+      {%- if split_constructed != blank -%}
+         {%- assign export_reconstructed = export_reconstructed | append: split_constructed -%}
+      {%- else -%}
+        {%- assign export_reconstructed = export_reconstructed | append: split -%}
+      {%- endif -%}
+
+    {%- endfor -%}
+    {%- assign export = export_reconstructed -%}
+
+  {%- else -%}
+
+    {%- if export != blank -%}
+      {%- assign export = export | append: '#--#' -%}
+    {%- endif -%}
+
+    {%- assign export = export | append: block_category | append: '#-#' | append: block_index -%}
+  {%- endif -%}
+
+{%- endfor -%}
+
+{%- assign block_categoriser = export  | replace: '**', '' | split: '#--#' -%}

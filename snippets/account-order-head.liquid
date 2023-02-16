@@ -1,0 +1,114 @@
+{%- assign payment_method = 'unknown' -%}
+{%- if order.payment_details.credit_card_company != blank -%}
+  {%- assign payment_method = 'Credit Card' -%}
+{%- endif -%}
+
+{%- assign delivery_address = '' -%}
+{%- if order.shipping_address.address1 != blank -%}
+  {%- assign delivery_address = delivery_address | append: order.shipping_address.address1 -%}
+{%- endif -%}
+{%- if order.shipping_address.address2 != blank -%}
+  {%- assign delivery_address = delivery_address | append: ', ' | append: order.shipping_address.address2 -%}
+{%- endif -%}
+{%- if order.shipping_address.city != blank -%}
+  {%- assign delivery_address = delivery_address | append: ', ' | append: order.shipping_address.city -%}
+{%- endif -%}
+{%- if order.shipping_address.province != blank -%}
+  {%- assign delivery_address = delivery_address | append: ', ' | append: order.shipping_address.province -%}
+{%- endif -%}
+{%- if order.shipping_address.zip != blank -%}
+  {%- assign delivery_address = delivery_address | append: ', ' | append: order.shipping_address.zip -%}
+{%- endif -%}
+
+{% comment %}      {% if order.cancelled %}
+        <div class="order--cancelled">
+          {%- assign cancelled_at = order.cancelled_at | date: "%B %d, %Y %I:%M%p" -%}
+          <p>{{ 'customer.order.cancelled' | t: date: cancelled_at }}</p>
+          <p>{{ 'customer.order.cancelled_reason' | t: reason: order.cancel_reason_label }}</p>
+        </div>
+      {% endif %}{% endcomment %}
+
+      {%-liquid
+      
+        assign tracking_number = order.fulfillments[0].tracking_number
+        assign tracking_link = tracking_number | prepend: 'https://www.ordertracker.com/track/'
+
+      -%}
+
+
+<div class="order">
+
+  <div class="row">
+    <div class="col-xs-12">
+
+      <div class="order__details">
+
+        <div class="order-detail-item">
+          <div class="order-detail-item__title">
+            <p class="h6">{{ 'customer.order.order_date' | t }}</p>
+          </div>
+          <div class="order-detail-item__value">{{ order.created_at | date: "%d %b %y" }}</div>
+        </div>
+
+        <div class="order-detail-item">
+          <div class="order-detail-item__title">
+            <p class="h6">{{ 'customer.order.fulfillment_status' | t }}</p>
+          </div>
+          <div class="order-detail-item__value"><span class="order-fulfillment-status" data-status="{{ order.fulfillment_status_label }}">{{ order.fulfillment_status_label }}</span></div>
+        </div>
+
+        {%- if tracking_number != blank -%}
+            
+          <div class="order-detail-item">
+            <div class="order-detail-item__title">
+              <p class="h6">Tracking</p>
+            </div>
+            <div class="order-detail-item__value">
+              <a href="{{ tracking_link }}" class="order--tracking-number">
+                  {{ tracking_number }}
+              </a>
+            </div>
+          </div>
+          
+        {%- endif -%}
+
+        {%- if payment_method != 'unknown' -%}
+        <div class="order-detail-item">
+          <div class="order-detail-item__title">
+            <p class="h6">{{ 'customer.order.payment_method' | t }}</p>
+          </div>
+          <div class="order-detail-item__value">{{ payment_method }}</div>
+        </div>
+        {%- endif -%}
+
+        {%- if delivery_address != 'unknown' -%}
+        <div class="order-detail-item order-detail-item--full-width">
+          <div class="order-detail-item__title">
+            <p class="h6">{{ 'customer.order.shipping_address' | t }}</p>
+          </div>
+          <div class="order-detail-item__value">{{ delivery_address }}</div>
+        </div>
+        {%- endif -%}
+
+        <div class="order-detail-item order-detail-item--full-width">
+          <div class="order-detail-item__title">
+            <p class="h6">{{ 'customer.order.order_invoice' | t }}</p>
+          </div>
+
+          {%- if shop.permanent_domain contains 'innocentp-uk' -%}
+            {%- assign download_key = '9581f2cd1f2c26ebc395' -%}
+            {%- assign download_secret = '3916' -%}
+          {% else %}
+            {%- assign download_key = '33822183762c41dbe65e' -%}
+            {%- assign download_secret = '5864' -%}
+          {%- endif -%}
+
+          <div class="order-detail-item__value"><a class="btn btn-grey-o" target='_blank' href='/apps/download-pdf/{{ download_key }}/{{ order.id | times: download_secret }}/{{ order.order_number }}.pdf'>{{ 'customer.order.download_invoice' | t }}</a></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+</div>

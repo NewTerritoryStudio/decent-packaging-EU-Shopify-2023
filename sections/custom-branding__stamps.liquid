@@ -1,0 +1,121 @@
+{{ 'section-stamp.css' | asset_url | stylesheet_tag }}
+
+
+
+<div class="related-brands" data-section-id="{{ section.id }}" data-section-type="related-brands">
+
+    <div class="container narrow">
+        <div class="stamps-row row">
+        </div>
+
+        <div class="row">
+
+          <div class="col-xs-12 col-md-4 stamps-brand-title">
+            <p class="h1 related-brands__title">{{ section.settings.title | replace: '  ', '</br>' }}</p>
+          </div>
+
+                <div class="col-xs-12 col-md-8 stamps-brand-paragraph">
+                    <div class="related-brands__additional stamp_icon-text">
+
+                        {%- if section.settings.icon_bg_color -%}
+                            <style>
+                              #stamp_icon .custom-branding-stand-out-grid-item__icon::after { background-color: {{ section.settings.icon_bg_color }}; }
+                            </style>
+                          {%- endif -%}
+
+                          {%- assign logo = 'about-' | append: section.settings.icon -%}
+                          <div id="stamp_icon" class="custom-branding-stand-out-grid-item">
+                              <div class="custom-branding-stand-out-grid-item__icon">
+                              {%- include 'icon' with logo -%}
+                              </div>
+                          </div>
+
+                        <p class="related-brands__description-container">
+                                {{ section.settings.description }}
+                        </p>
+                    </div>
+
+                    <div id="cta-btn--stamps-box" class="col-xs-12">
+                        <a href="{{ section.settings.get_in_touch_url }}" class="btn btn-black-o">{{ section.settings.get_in_touch_label }}</a>
+                        <div class="call-to-action__buttons">
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+        </div>
+    </div>  
+
+
+   
+
+</div>
+
+
+
+
+
+
+{% schema %}
+  {
+    "name": "Custom Stamps",
+    "class": "related-brands-section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Custom Stamps"
+      },
+      {
+        "type": "textarea",
+        "id": "description",
+        "label": "Description",
+        "default": "Have commitment issues? We've got you! We understand you may not want to commit to our minimum order quanity for custom branding so, we can also create customstamps as an alternative."
+      },
+      {
+          "type": "text",
+          "id": "get_in_touch_label",
+          "label": "Get in touch Label",
+          "default": "Get in touch"
+      },
+      {
+          "type": "url",
+          "id": "get_in_touch_url",
+          "label": "Get in Touch Link"
+      },
+      {
+          "type": "color",
+          "id": "icon_bg_color",
+          "label": "Icon Background Color",
+          "default": "#E3C1BA"
+      },{
+        "type": "select",
+        "id": "icon",
+        "label": "Brand",
+        "options": [
+          {
+            "value": "bringtolife",
+            "label": "Bring to life"
+          },
+          {
+            "value": "customiseprocess",
+            "label": "Customise process"
+          },
+          {
+            "value": "customise",
+            "label": "Customise"
+          },
+          {
+            "value": "logistics",
+            "label": "Logistics"
+          }
+        ],
+        "default": "logistics"
+      }
+    ]
+  }
+{% endschema %}

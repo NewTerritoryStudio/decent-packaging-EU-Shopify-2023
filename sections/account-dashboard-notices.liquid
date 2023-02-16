@@ -1,0 +1,92 @@
+{%- include 'globals' -%}
+
+{% comment %} DEFAULT STATE {% endcomment %}
+{%- assign notices = '' -%}
+{%- assign direct_debit_approved = false -%}
+{%- assign direct_debit_pending = false -%}
+
+{%- for tag in customer.tags -%}
+
+  {%- if tag contains '::' -%}
+    {%- assign tag_split = tag | split: '::' -%}
+    {%- assign tag_type = tag_split | first | strip -%}
+
+    {%- if tag_type == 'payment' -%}
+      {%- assign payment_split = tag_split | last | split: '=>' -%}
+      {%- assign payment_type = payment_split | first | strip -%}
+      {%- assign payment_status = payment_split | last | strip -%}
+
+      {%- if payment_type == 'direct-debit' -%}
+        {%- if payment_status == 'approved' -%}
+          {%- assign direct_debit_approved = true -%}
+        {%- endif -%}
+        {%- if payment_status == 'pending' -%}
+          {%- assign direct_debit_pending = true -%}
+        {%- endif -%}
+      {%- endif -%}
+
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{% comment %} New Zealand SPECIFIC NOTICES {% endcomment %}
+{%- if active_country_code == 'NZ' -%}
+
+  {% comment %} 'Charge to Account' notices {% endcomment %}
+    {% comment %}
+
+    THIS HAS BEEN DISABLED UNTIL POST-LAUNCH
+
+    {%- unless direct_debit_approved -%}
+    {%- if direct_debit_pending -%}
+      {%- assign notice_title = "We're reviewing your request" -%}
+      {%- assign notice_paragraph = "We're currently reviewing your request for 'Charge to Account'. We'll be in touch when the process is complete." -%}
+      {%- assign notices = notices | append: '||' | append: notice_title | append: '##' | append: notice_paragraph -%}
+    {% else %}
+      {%- assign notice_title = "Request a 'Charge to Account'" -%}
+      {%- assign notice_paragraph = 'Request a payment account to charge orders to your [store_name] account.' | replace: '[store_name]', shop.name -%}
+      {%- assign notice_link_url = '?view=direct-debit' -%}
+      {%- assign notice_link_text = 'Set up now' -%}
+      {%- assign notices = notices | append: '||' | append: notice_title | append: '##' | append: notice_paragraph | append: '##' | append: notice_link_url | append: '##' | append: notice_link_text -%}
+    {%- endif -%}
+  {%- endunless -%}{% endcomment %}
+  
+
+{%- endif -%}
+
+
+
+{%- assign notices = notices | split: '||'  -%}
+<div class="row account-cards" data-notice-count="{{ notices.size }}">
+  {%- for notice in notices -%}
+
+    {%- assign notice_split = notice | split: '##' -%}
+    {%- if notice_split.size > 1 -%}
+      {%- assign notice_title = notice_split[0] -%}
+      {%- assign notice_paragraph = notice_split[1] -%}
+      {%- assign notice_link_url = notice_split[2] -%}
+      {%- assign notice_link_text = notice_split[3] -%}
+
+      <div class="col-xs-12 col-md-6">
+        <div class="account-card">
+          {%- if notice_title != blank -%}
+            <div class="account-card__title">
+              <h5>{{ notice_title }}</h5>
+            </div>
+          {%- endif -%}
+          {%- if notice_paragraph != blank -%}
+            <div class="account-card__content">
+              <p>{{ notice_paragraph }}</p>
+            </div>
+          {%- endif -%}
+          {%- if notice_link_url != blank and notice_link_text != blank -%}
+            <div class="account-card__footer">
+              <a href="{{ notice_link_url }}" class="btn btn--wide btn-black">{{ notice_link_text }}</a>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+    {%- endif -%}
+  {%- endfor -%}
+</div>

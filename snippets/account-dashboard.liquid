@@ -1,0 +1,71 @@
+{%- section 'account-dashboard-dynamic-welcome' -%}
+
+{%- assign show_reports_when_no_orders = false -%}
+{%- capture dashboard_reports %}
+  {%- if customer.orders.size > 0 or show_reports_when_no_orders -%}
+    {%- section 'account-dashboard-reports' -%}
+
+    {% comment %} Include welcome banner so that it is editable in backend {% endcomment %}
+    <div class="hidden">
+      {%- section 'account-dashboard-welcome-banner' -%}
+    </div>
+
+  {% elsif customer.orders.size == 0 %}
+
+    <div class="hidden">
+      {%- section 'account-dashboard-reports' -%}
+    </div>
+
+    {%- section 'account-dashboard-welcome-banner' -%}
+  {%- endif -%}
+{% endcapture -%}
+
+{%- if dashboard_reports != blank -%}
+  <div class="account-section">
+    {% comment %}
+    <div class="account-section__title">
+      <h2 class="h5">{{ 'customer.account.reports' | t }}</h2>
+    </div>
+    {% endcomment %}
+    <div class="account-section__body">
+      {{ dashboard_reports }}
+    </div>
+  </div>
+{%- endif -%}
+
+{%- capture dashboard_notices %}
+  {%- section 'account-dashboard-notices' -%}
+{% endcapture -%}
+
+{%- unless dashboard_notices contains 'data-notice-count="0"' -%}
+  <div class="account-section">
+    <div class="account-section__title">
+      <h2 class="h5">{{ 'customer.account.notices' | t }}</h2>
+    </div>
+    <div class="account-section__body">
+      {{ dashboard_notices }}
+    </div>
+  </div>
+{%- endunless -%}
+
+{% comment %} ORDER HISTORY {% endcomment %}
+<div class="account-section">
+  <div class="account-section__title">
+    <h2 class="h5">{{ 'customer.orders.title' | t }}</h2>
+    <a href="/account?view=order-history">{{ 'customer.account.view_all' | t }}</a>
+  </div>
+  <div class="account-section__body">
+    {%- include 'account-order-history-table' with simple: true, limit: 3 -%}
+  </div>
+</div>
+
+{% comment %} NEWS BLOG {% endcomment %}
+<div class="account-section">
+  <div class="account-section__title">
+    <h2 class="h5">{{ 'customer.news.title' | t }}</h2>
+    <a href="/account?view=news">{{ 'customer.account.view_all' | t }}</a>
+  </div>
+  <div class="account-section__body">
+    {%- section 'account-news-grid' -%}
+  </div>
+</div>

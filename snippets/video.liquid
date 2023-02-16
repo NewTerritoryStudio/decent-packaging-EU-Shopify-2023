@@ -1,0 +1,71 @@
+{%- assign video = video -%}
+
+{%- if video.id != blank -%}
+  {%- assign video_id = video.id -%}
+  {%- assign video_type = video.type -%}
+{%- else -%}
+  {%- assign video_id = video -%}
+  {%- assign video_type = type -%}
+{%- endif -%}
+
+{%- if video_id != blank -%}
+
+  {%- assign placeholder_image = placeholder -%}
+
+  {%- if placeholder_image != blank -%}
+    {%- assign video_show_on_load = false -%}
+  {%- else -%}
+    {%- assign video_show_on_load = true -%}
+  {%- endif -%}
+
+  {%- assign auto_play_default = settings.auto_play | default: false -%}
+  {%- assign auto_play_muted_default = settings.auto_play_muted | default: false -%}
+  {%- assign auto_play_loop_default = settings.auto_play_loop | default: true -%}
+
+  {%- if video_show_on_load == true -%}
+    {%- assign auto_play = auto_play | default: auto_play_default -%}
+    {%- assign auto_play_muted = muted | default: auto_play_muted_default -%}
+    {%- assign auto_play_loop = loop | default: auto_play_loop_default -%}
+  {%- else -%}
+    {%- assign auto_play = false -%}
+  {%- endif -%}
+
+  {%- if auto_play_muted -%}
+    {%- assign muted_param = '&muted=1' -%}
+  {%- endif -%}
+
+  {%- if auto_play_loop -%}
+    {%- assign loop_param = '&loop=1' -%}
+  {%- endif -%}
+
+  <div class="video"
+    data-video-type="{{ video_type }}"
+    data-video-id="{{ video_id }}"
+    data-video-visible="{{ video_show_on_load }}"
+    data-video-autoplay="{{ auto_play }}"
+    {% if placeholder_image != blank -%}
+    style="padding-bottom: {{ 1 | divided_by: placeholder_image.aspect_ratio | times: 100 }}%;"
+    {%- endif -%}
+    >
+
+    {%- if placeholder_image != blank -%}
+      {%- include 'img' with placeholder_image, placeholder: false, img_class: 'video__placeholder' -%}
+
+      <span class="video__play">
+        {%- include 'icon-play' -%}
+      </span>
+    {%- endif -%}
+
+    {%- if video_type == 'vimeo' -%}
+
+      <iframe id="video-{{ video_id }}" class="video__video-container" src="https://player.vimeo.com/video/{{ video_id }}?color={{ settings.color_primary | color_to_hex | replace: '#', '' }}&title=0&byline=0&portrait=0&badge=0{{ muted_param }}{{ loop_param }}" webkitallowfullscreen mozallowfullscreen allowfullscreen allow="autoplay; encrypted-media"></iframe>
+
+    {%- elsif video_type == 'youtube' -%}
+
+      <iframe id="video-{{ video_id }}" class="video__video-container" type="text/html" src="http://www.youtube.com/embed/{{ video_id }}?enablejsapi=1{{ muted_param }}{{ loop_param }}"></iframe>
+
+    {%- endif -%}
+
+  </div>
+
+{%- endif -%}

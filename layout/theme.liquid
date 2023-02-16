@@ -1,0 +1,205 @@
+<!doctype html>
+<!--[if IE 9]> <html class="ie9 no-js supports-no-cookies" lang="{{ shop.locale }}"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js supports-no-cookies" lang="{{ shop.locale }}"> <!--<![endif]-->
+<head>
+
+  {%- assign current_view_type = template.name -%}
+  {%- case current_view_type -%}
+    {%- when 'product' -%}
+      {%- assign current_view_id = product.id -%}
+      {%- assign current_view_object = product -%}
+      {%- assign current_view_handle = product.handle -%}
+    {%- when 'page' -%}
+      {%- assign current_view_id = page.id -%}
+      {%- assign current_view_object = page -%}
+      {%- assign current_view_handle = page.handle -%}
+    {%- when 'collection' -%}
+      {%- assign current_view_id = collection.id -%}
+      {%- assign current_view_object = collection -%}
+      {%- assign current_view_handle = collection.handle -%}
+    {%- when 'article' -%}
+      {%- assign current_view_id = article.id -%}
+      {%- assign current_view_object = article -%}
+      {%- assign current_view_handle = article.handle -%}
+    {%- when 'blog' -%}
+      {%- assign current_view_id = blog.id -%}
+      {%- assign current_view_object = blog -%}
+      {%- assign current_view_handle = blog.handle -%}
+    {%- else -%}
+      {%- assign current_view_type = 'unassigned' -%}
+      {%- assign current_view_id = 'unassigned' -%}
+      {%- assign current_view_object = 'unassigned' -%}
+  {%- endcase -%}
+  {%- if shop.permanent_domain contains 'innocentp-uk' -%}
+  {%- else -%}
+    <meta name="google-site-verification" content="QPxPs7CL32oQXglP38f7sRf3rPIbaKWySUb9JcWfEYE" />
+  {%- endif -%}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="theme-color" content="{{ settings.color_primary }}">
+  <meta name="msapplication-navbutton-color" content="{{ settings.color_primary }}">
+  <link rel="preconnect" href="//cdn.shopify.com">
+
+  {%- if current_view_object.metafields.seo.hidden == 1 -%}
+  <meta name="robots" content="noindex">
+  {%- endif -%}
+
+  {%- assign url_tag_string = '' -%}
+  {%- if current_tags -%}
+    {%- assign url_tag_string = current_tags | join: '+' | prepend: '/' -%}
+  {%- endif -%}
+  <link rel="canonical" href="{{ canonical_url | remove: url_tag_string }}">
+
+  {%- include 'meta-favicon' -%}
+
+
+  {%- capture seo_title -%}
+    {{ page_title }}
+    {%- if current_tags -%}
+      {%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}
+    {%- endif -%}
+    {%- if current_page != 1 %}
+      &ndash; {{ 'general.meta.page' | t: page: current_page }}
+    {%- endif -%}
+    {%- unless page_title contains shop.name %}
+      &ndash; {{ shop.name }}
+    {%- endunless -%}
+  {%- endcapture -%}
+  <title>{{ seo_title }}</title>
+
+  {% include 'meta-tags' %}
+
+  <script type="text/javascript" id="theme-js">
+
+    document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+
+    window.theme = {
+      strings: {
+        addToCart: {{ 'products.product.add_to_cart' | t | json }},
+        soldOut: {{ 'products.product.sold_out' | t | json }},
+        unavailable: {{ 'products.product.unavailable' | t | json }},
+        quantityUnavailable: {{ 'products.product.quantity_unavailable' | t | json }},
+      },
+      current: {
+        type: "{{ current_view_type }}",
+        id: "{{ current_view_id }}",
+        vendor: "{{ product.vendor | default: 'none' }}",
+      },
+      breakpoints: {
+        sm: '38em',
+        md: '62em',
+        lg: '75em',
+        xl: '92.5em'
+      }
+    };
+
+    window.shop = {
+      permanantDomain: {{ shop.permanent_domain | json }},
+      moneyFormat: {{ shop.money_format | json }},
+      moneyWithCurrencyFormat: {{ shop.money_with_currency_format | json }},
+      currencyFormat: {{ settings.currency_format | default: 'money_with_currency_format' | json }},
+      defaultCurrency: {{ settings.default_currency | default: shop.currency | json }},
+      currency: {{ shop.currency | json }},
+      cart: {{ cart | json }},
+      customer: {
+        addresses_count: "{{ customer.addresses_count | escape }}",
+        tags: {{ customer.tags | json }}
+      }
+    };
+
+    {%- unless current_view_type == 'unassigned' -%}
+      sessionStorage.setItem('lastViewed{{ current_view_type | camelcase }}', '{{ current_view_handle }}');
+    {%- endunless -%}
+
+    var __isp_options = { DISABLE_DEBUG_MSG: true };
+  </script>
+
+  {%- include 'css-variables' -%}
+
+  {{ 'vendor.scss.css' | asset_url | stylesheet_tag }}
+  {{ 'theme.scss.css' | asset_url | stylesheet_tag }}
+  {{ 'custom.css' | asset_url | stylesheet_tag }}
+  {{ 'discount.css' | asset_url | stylesheet_tag }}
+  <!--[if lte IE 9]> {{ 'bootstrap-grid.css' | asset_url | stylesheet_tag }} <![endif]-->
+
+  {%- if template.directory == 'customers' -%}
+    <!--[if (gt IE 9)|!(IE)]><!--> <script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script> <!--<![endif]-->
+    <!--[if lte IE 9]> <script src="{{ 'shopify_common.js' | shopify_asset_url }}"></script> <![endif]-->
+  {%- endif -%}
+
+  <!--[if (gt IE 9)|!(IE)]><!--> <script src="/services/javascripts/currencies.js" defer="defer"></script> <!--<![endif]-->
+  <!--[if lte IE 9]> <script src="/services/javascripts/currencies.js"></script> <![endif]-->
+
+  <!--[if (gt IE 9)|!(IE)]><!--> <script src="{{ 'option_selection.js' | shopify_asset_url }}" defer="defer"></script> <!--<![endif]-->
+  <!--[if lte IE 9]> <script src="{{ 'option_selection.js' | shopify_asset_url }}"></script> <![endif]-->
+
+  <!--[if (gt IE 9)|!(IE)]><!--> <script src="{{ 'vendor.js' | asset_url }}" defer="defer"></script> <!--<![endif]-->
+  <!--[if lte IE 9]> <script src="{{ 'vendor.js' | asset_url }}"></script> <![endif]-->
+
+  <!--[if (gt IE 9)|!(IE)]><!--> <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script> <!--<![endif]-->
+  <!--[if lte IE 9]> <script src="{{ 'theme.js' | asset_url }}"></script> <![endif]-->
+
+  {%- include 'tracking-scripts' with 'head' -%}
+
+  {{ content_for_header }}
+
+
+  <meta name="google-site-verification" content="qMsMeiYObt6WpIWM1bnuJ0McGJnINxmnG6o8FjWmiD8" /> 
+</head>
+
+<body id="{{ page_title | handle }}" class="template-{{ template.name | handle }}{% if template.suffix != blank %} template-{{ template.name | handle }}-{{ template.suffix | handle }}{% endif %}">
+
+  {%- include 'tracking-scripts' with 'body' -%}
+
+  <a class="in-page-link visually-hidden skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
+  
+  <div id="PageContainer">
+
+    <div id="PageContent">
+      
+      {%- comment %}{% section 'brand-values' %}{% endcomment -%}
+
+      {% section 'header' %}
+
+      <main role="main" id="MainContent">
+
+        {%- if false -%}
+          {% comment %} We must have {{ content_for_layout }} in theme.liquid {% endcomment %}
+          {{ content_for_layout }}
+        {%- endif -%}
+
+        {%- include 'account-routing' -%}
+
+      </main>
+
+      {% section 'request-samples-page' %}
+      {% section 'footer' %}
+
+    </div>
+  
+    {% include 'cart-drawer' %}
+    
+    {% include 'js-templates' %}
+
+  </div>
+
+  {% include 'back-to-top' %}
+
+  <script>
+
+
+    var ms_ie = !!window.navigator.userAgent.match(/MSIE|Trident/);
+    if (!ms_ie) {
+      var script = document.createElement("script");
+      script.src = "{{ 'watch.js' | asset_url }}";
+      document.head.appendChild(script);
+    }
+  </script>
+  {{ 'progress-banner.js' | asset_url | script_tag }}  
+  {{ 'jquery.min.js' | asset_url | script_tag }}
+  {{ 'pop-assets.js' | asset_url | script_tag }}
+  {{ 'cross-sell-scripts.js'  | asset_url | script_tag }}
+
+</body>
+</html>

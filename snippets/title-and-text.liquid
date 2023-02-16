@@ -1,0 +1,17 @@
+<div class="title-and-text" data-section-id="{{ section.id }}" data-section-type="title-and-text">
+
+  <div class="container narrow">
+      <div class="row">
+        <div class="col-xs-12 col-md-4">
+          <p class="h1 title-and-text__title">{{ section.settings.title | replace: '  ', '</br>' }}</p>
+        </div>
+        <div class="col-xs-12 col-md-8">
+          <p class="title-and-text__text">
+            {{ section.settings.text }}
+          </p>
+        </div>
+      </div>
+
+  </div>
+
+</div>

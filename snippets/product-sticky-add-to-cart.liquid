@@ -1,0 +1,43 @@
+<div rv-if="products.primary.title" class="product-sticky">
+  <div class="product-sticky__col product-sticky__col--details">
+    <p class="product-sticky__title h5" rv-text="products.primary.title"></p>
+    <p class="product-sticky__subtitle"><span class="product-sticky__subtitle-price">from <span class="price" rv-text="products.primary.price | money"></span> {{ 'products.product.per_carton' | t }}</p>
+    {% comment %}<p class="product-sticky__reviews">⭐⭐⭐⭐⭐</p>{% endcomment %}
+  </div>
+  <div class="product-sticky__col product-sticky__col--form">
+    <div class="sticky-form">
+      <div class="sticky-form__items">
+
+        <div class="form-vertical">
+          {%- include 'dynamic-product-form' with 'primary', sticky_form: true -%}
+        </div>
+
+      </div>
+      <div class="sticky-form__actions">
+        <div class="input-group input-group--responsive">
+          <div class="sticky-form__order-total order-total input-group__field">
+            <p>
+              <span class="order-total__price" rv-text="order.totalPrice | money"></span>
+              <span rv-if="order.totalUnits | gt 0">
+                <span rv-if="products.secondary.variants | not">
+                 - <span rv-text="order.totalUnits"></span> {{ 'products.product.units' | t }}
+                </span>
+              </span>
+              </span>
+            </p>
+          </div>
+          <span
+          rv-on-click="methods.submit"
+          rv-class-disabled="order.totalUnits | gt 0 | not"
+          rv-disabled="order.totalUnits | gt 0 | not"
+          data-add-to-cart
+          data-loads
+          data-progress-element="#product_form_{{ product.id }}, .sticky-form"
+          data-opens-cart-drawer
+          class="btn btn-black input-group__btn">{{ 'products.product.add_to_cart' | t }}</span>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>

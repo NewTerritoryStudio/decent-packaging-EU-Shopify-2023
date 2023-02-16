@@ -1,0 +1,119 @@
+<div class="custom-branding-stand-out" data-section-id="{{ section.id }}" data-section-type="custom-branding-stand-out">
+
+  <div class="container narrow">
+      <div class="row">
+        <div class="col-xs-12 col-md-4">
+          <p class="h1 custom-branding-stand-out__title">{{ section.settings.title | replace: '  ', '</br>' }}</p>
+        </div>
+        <div class="col-xs-12 col-md-8">
+          <div class="custom-branding-stand-out__additional">
+            <p class="custom-branding-stand-out__description-container">
+              {{ section.settings.description }}
+            </p>
+            <div class="custom-branding-stand-out__grid">
+              
+
+
+
+
+              {%- for block in section.blocks -%}
+                {%- if block.type != 'benefit' -%}
+                  {%- continue -%}
+                {%- endif -%}
+
+                {%- if block.settings.color -%}
+                  <style>
+                    #custom-branding-stand-out-grid-item--{{ forloop.index }} .custom-branding-stand-out-grid-item__icon::after { background-color: {{ block.settings.color }}; }
+                  </style>
+                {%- endif -%}
+
+                <div id="custom-branding-stand-out-grid-item--{{ forloop.index }}" class="custom-branding-stand-out-grid-item">
+                  {%- assign logo = 'about-' | append: block.settings.icon -%}
+                  <div class="custom-branding-stand-out-grid-item__icon">
+                    {%- include 'icon' with logo -%}
+                  </div>
+                  <p class="h5 custom-branding-stand-out-grid-item__title">{{ block.settings.title }}</p>
+                  <p class="custom-branding-stand-out-grid-item__description">{{ block.settings.description }}</p>
+                </div>
+              {%- endfor -%}
+
+
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </div>
+
+</div>
+
+{% schema %}
+  {
+    "name": "Stand out",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "We want you to stand out"
+      },
+      {
+        "type": "textarea",
+        "id": "description",
+        "label": "Description",
+        "default": "At Innocent we want your brand to stand out. We pride ourselves on good design and a high quality product. We'll make sure your food and drinks are walking out the door looking hot, staying hot... or cold, depending on what they are and what they're in... you get the point."
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Benefit",
+        "type": "benefit",
+        "settings": [
+          {
+            "type": "select",
+            "id": "icon",
+            "label": "Brand",
+            "options": [
+              {
+                "value": "bringtolife",
+                "label": "Bring to life"
+              },
+              {
+                "value": "customiseprocess",
+                "label": "Customise process"
+              },
+              {
+                "value": "customise",
+                "label": "Customise"
+              },
+              {
+                "value": "logistics",
+                "label": "Logistics"
+              }
+            ],
+            "default": "bringtolife"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Title"
+          },
+          {
+            "type": "textarea",
+            "id": "description",
+            "label": "Description"
+          },
+          {
+            "type": "color",
+            "id": "color",
+            "label": "Colour"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

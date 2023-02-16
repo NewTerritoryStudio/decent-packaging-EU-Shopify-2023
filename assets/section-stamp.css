@@ -1,0 +1,60 @@
+[data-section-id="custom-branding__stamps"], .stamp_icon-text {
+    position: relative;
+    margin-top: 0;
+}
+
+
+.stamps-row {
+    background-color: var(--color-border);
+    margin-top: 20px;
+    margin-bottom: 60px;
+    width: 100%;
+    margin-left: auto;
+    height: 1px;
+    margin-right: 0;
+}
+
+@media (max-width: 768px) {
+    .stamps-row {
+        margin-top: 0;
+        margin-bottom: 30px;
+    }
+}
+
+@media (min-width: 768px) {
+
+.stamp_icon-text {
+    display: flex;
+}
+
+#stamp_icon {
+    position: absolute;
+    left: -60px;
+}
+
+}
+
+#stamp_icon {
+    padding-left: 0;
+    margin: 0;
+    flex: 0 0 0;
+    width: fit-content;
+    display: block;
+}
+
+#cta-btn--stamps-box a {
+    margin: 35px 0;
+}   
+
+#cta-btn--stamps-box  {
+    display: flex;
+    justify-content: flex-start;
+    padding: 0;
+}
+
+
+@media (max-width: 768px) {
+    #cta-btn--stamps-box  {
+        justify-content: center;
+    }
+}

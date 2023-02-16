@@ -1,0 +1,100 @@
+{%- assign items_per_page = 9 -%}
+{%- if template contains 'all' -%}
+  {%- assign items_per_page = 999 -%}
+{%- endif -%}
+
+{%- paginate search.results by items_per_page -%}
+<div class="container site-search">
+
+  <div class="row center-xs">
+    <div class="col-xs-12 col-md-9">
+
+      <h1 class="site-search__title">
+        {%- if search.performed -%}
+          {%- if search.results_count == 0 -%}
+            {{ 'general.search.no_results_html' | t: terms: search.terms }}
+          {%- else -%}
+            {{ 'general.search.results_for_html' | t: terms: search.terms }}
+          {%- endif -%}
+        {%- else -%}
+          {{ 'general.search.title' | t }}
+        {%- endif -%}
+      </h1>
+
+      <form action="/search" method="get" role="search" class="site-search__form">
+        <label for="Search" class="label-hidden">
+          {{ 'general.search.placeholder' | t }}
+        </label>
+        <input type="search"
+               name="q"
+               id="Search"
+               class="site-search__form-input"
+               value="{{ search.terms | escape }}"
+               placeholder="{{ 'general.search.placeholder' | t }}">
+        <button type="submit" class="btn site-search__form-btn">
+          {% include 'icon-search' %}
+          <span class="icon-fallback-text">{{ 'general.search.submit' | t }}</span>
+        </button>
+      </form>
+
+      {%- if search.performed -%}
+        <ul class="site-search__results search-results">
+          {%- for item in search.results -%}
+            <li class="search-results__item">
+              <a href="{{ item.url }}" title="{{ item.title | escape }}">
+                
+                <span class="search-results__item-image-wrap">
+                {%- if item.featured_image -%}
+                  {% include 'img' with item.featured_image, alt: item.featured_image.alt, class: 'search-results__item-image', placeholder: true, spinner: true %}
+                {%- endif -%}
+                </span>
+                
+                <h5 class="search-results__item-title">{{ item.title }}</h5>
+              
+                <p class="search-results__item-description">
+                  {%- if item.object_type == 'product' -%}
+                    {%- if customer != blank -%}
+                      {%- if item.compare_at_price > item.price -%}
+                        {%- if item.price_varies -%}
+                          {% assign sale_price = item.price | money %}
+                          {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
+                        {%- else -%}
+                          {{ 'products.product.on_sale' | t }}
+                          <span itemprop="price">{{ item.price | money }}</span>
+                        {%- endif -%}
+                        <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
+                        <s>{{ item.compare_at_price | money }}</s>
+                      {%- else -%}
+                        {%- if item.price_varies -%}
+                          {% assign price = item.price | money %}
+                          <span itemprop="price">{{ 'products.product.from_text_html' | t: price: price }}</span>
+                        {%- else -%}
+                          <span itemprop="price">{{ item.price | money }}</span>
+                        {%- endif -%}
+                      {%- endif -%}
+                    {%- endif -%}
+                    {%- unless item.available -%}
+                      {{ 'products.product.sold_out' | t }}
+                    {%- endunless -%}
+                  {%- else -%}
+                    {{ item.content | strip_html | truncatewords: 50 }}
+                  {%- endif -%}
+                </p>
+
+              </a>
+
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        {%- if paginate.pages > 1 -%}
+          {% include 'pagination' %}
+        {%- endif -%}
+      {%- endif -%}
+
+    </div>
+  </div>
+
+</div>
+
+{%- endpaginate -%}

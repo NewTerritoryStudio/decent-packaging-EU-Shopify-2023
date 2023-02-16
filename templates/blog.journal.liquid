@@ -1,0 +1,64 @@
+{%- section 'page-header--journal-blog' -%}
+
+{%- paginate blog.articles by 6 -%}
+
+<div class="journal-blog">
+    <div class="container page-width">
+        <div class="container">
+
+            <div class="section-list">
+
+                {%- for article in blog.articles -%}
+
+                    {%- if forloop.index == 1 or forloop.index == 6 -%}
+                        {%- assign layout = 'group-full' -%}
+                        {%- assign flag = 1 -%}
+                    {%- else -%}
+                        {%- assign layout = 'group-half' -%}
+                        {%- assign flag = 0 -%}
+                    {%- endif -%}
+
+                    {%- if forloop.index == 2 and layout == 'group-half' -%}
+                        <div class="list-group {{ layout }}">
+                    {%- endif -%}
+
+                    {%- if flag == 1 -%}
+                    <div class="list-group {{ layout }}">
+                    {%- endif -%}
+
+                    <div class="list-item">
+                        <div class="list-item__pic">
+                            {% include 'img' with article.image, class: '' %}
+                        </div>
+                        <div class="list-item__wrap">
+                            <div class="list-item__ttl">{{ article.title }}</div>
+                            <div class="list-item__date">{{ article.published_at | date: "%d %B" }}</div>
+                            <div class="list-item__link">
+                                <a href="{{ article.url }}">read more</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {%- if forloop.index == 5 and layout == 'group-half' -%}
+                    </div>
+                    {%- endif -%}
+
+                    {%- if flag == 1 -%}
+                        </div>
+                    {%- endif -%}
+
+                {%- endfor -%}
+
+            </div>
+
+
+            {%- if paginate.pages > 1 -%}
+                <div class="pagination-wrap">
+                    {% include 'pagination' %}
+                </div>
+            {%- endif -%}
+        </div>
+    </div>
+</div>
+
+{%- endpaginate -%}

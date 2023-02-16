@@ -1,0 +1,87 @@
+<section class="selector">
+  {% if section.settings.image != blank %}
+    {%- render 'media', media: section.settings.image -%}
+  {% endif %}
+
+
+  <div class="selector__container radio-container">
+      <div class="selector__container-inner">
+        {% if section.settings.cta_text != blank %}
+          <a href="{{ section.settings.cta_link | default: '#' }}" aria-label="{{ section.settings.cta_text }}">{{- section.settings.cta_text -}}</a>
+        {% endif %}
+
+          <h2>{{- page.title -}}</h2>
+      </div>
+
+      <div class="selector__container-inner">
+        <ul class="selector__list">
+          {%- for block in section.blocks -%}
+            <li>
+              {% if block.settings.image != blank %}
+                {%- render 'media', media: block.settings.image -%}
+              {% endif %}
+
+              {% if section.settings.cta_text != blank %}
+                <div class="richtext">
+                  {{- block.settings.text -}}
+                </div>
+              {% endif %}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Distributor Info",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Return Text"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Return Link"
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background Image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Distributor",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

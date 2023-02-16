@@ -1,0 +1,537 @@
+{
+  "general": {
+    "accessibility": {
+      "skip_to_content": "Skip to content",
+      "close_modal": "Close"
+    },
+    "contact": {
+      "contact_panel_title": "Need assistance?",
+      "contact_panel_paragraph": "If you wish to get in touch, send us an email and request a call back – we'd love to hear from you.",
+      "phone_display": "",
+      "phone_number": "",
+      "email_display": "hello@decentpackaging.co.uk",
+      "email_address": "hello@decentpackaging.co.uk",
+      "live_chat_display": "Live chat"
+    },
+    "meta": {
+      "tags": "Tagged \"{{ tags }}\"",
+      "page": "Page {{ page }}"
+    },
+    "404": {
+      "title": "oops, something's gone missing...",
+      "subtext": "Throw something in the air or choose one of the options below!"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "current_page": "Page {{ current }} of {{ total }}"
+    },
+    "breadcrumbs": {
+      "home": "Home",
+      "separator": "\/"
+    },
+    "password_page": {
+      "opening_soon": "Opening Soon",
+      "spread_the_word": "Spread the word",
+      "login_form_heading": "Enter store using password",
+      "login_form_password_label": "Password",
+      "login_form_password_placeholder": "Your password",
+      "login_form_submit": "Enter",
+      "signup_form_heading": "Be the first to know when we open",
+      "signup_form_email_label": "Email",
+      "signup_form_email_placeholder": "Your email",
+      "signup_form_submit": "Submit",
+      "signup_form_success": "We will send you an email right before we open!",
+      "admin_link_html": "Are you the store owner? <a href=\"\/admin\" class=\"text-link\">Log in here<\/a>",
+      "password_link": "Enter using password",
+      "powered_by_shopify_html": "This shop will be powered by {{ shopify }}"
+    },
+    "social": {
+      "share": "SHARE VIA",
+      "share_on_facebook": "Share",
+      "share_on_twitter": "Tweet",
+      "share_on_pinterest": "Pin it",
+      "alt_text": {
+        "share_on_facebook": "Share on Facebook",
+        "share_on_twitter": "Tweet on Twitter",
+        "share_on_pinterest": "Pin on Pinterest"
+      }
+    },
+    "search": {
+      "no_results_html": "Search Results - no results",
+      "results_for_html": "Search Results - {{ count }} results",
+      "title": "Search for products on our site",
+      "placeholder": "Search our store",
+      "submit": "Search",
+      "results_with_count": {
+        "one": "{{ count }} result for \"{{ terms }}\"",
+        "other": "{{ count }} results for \"{{ terms }}\""
+      },
+      "close": "Close search"
+    },
+    "newsletter": {
+      "title": "Be the first to know",
+      "description": "Stay up-to-date with the latest product releases and news!",
+      "name_placeholder": "Name",
+      "email_placeholder": "Your email address...",
+      "confirmation": "Thanks for subscribing",
+      "submit": "Sign up"
+    },
+    "filters": {
+      "show_more": "Show More",
+      "show_less": "Show Less"
+    }
+  },
+  "sections": {
+    "slideshow": {
+      "next_slide": "Next slide",
+      "previous_slide": "Previous slide",
+      "pause_slideshow": "Pause slideshow",
+      "play_slideshow": "Play slideshow",
+      "play_video": "Play video",
+      "close_video": "Close video"
+    },
+    "map": {
+      "address_error": "Error looking up that address",
+      "address_no_results": "No results for that address",
+      "address_query_limit_html": "You have exceeded the Google API usage limit. Consider upgrading to a <a href=\"https:\/\/developers.google.com\/maps\/premium\/usage-limits\">Premium Plan<\/a>.",
+      "auth_error_html": "There was a problem authenticating your Google Maps account."
+    }
+  },
+  "blogs": {
+    "article": {
+      "author_on_date_html": "Posted by {{ author }} on {{ date }}",
+      "comment_meta_html": "{{ author }} on {{ date }}",
+      "read_more": "Read more",
+      "view_all": "View all",
+      "all_topics": "All topics",
+      "by_author": "by {{ author }}",
+      "posted_in": "Posted in",
+      "back_to_blog": "Back to {{ title }}"
+    },
+    "comments": {
+      "title": "Leave a comment",
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "post": "Post comment",
+      "moderated": "Please note, comments must be approved before they are published",
+      "success_moderated": "Your comment was posted successfully. We will publish it in a little while, as our blog is moderated.",
+      "success": "Your comment was posted successfully! Thank you!",
+      "with_count": {
+        "one": "{{ count }} comment",
+        "other": "{{ count }} comments"
+      }
+    },
+    "general": {
+      "categories": "Categories"
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "My Cart",
+      "description": "",
+      "title_no_items": "Your Cart",
+      "remove": "Remove",
+      "plus": "Add 1",
+      "minus": "Remove 1",
+      "note": "Please double check your order before confirming, as changes aren't able to be made after purchase. All orders placed before 2pm Mon - Fri will be delivered the next working day. We deliver from 8am til 6pm. If you're open later or close earlier let us know your opening hours or operating days:",
+      "subtotal": "Grand Total",
+      "shipping_at_checkout": "Shipping & taxes calculated at checkout",
+      "update": "Update",
+      "checkout": "Continue to Checkout",
+      "empty": "Your cart is currently empty.",
+      "cookies_required": "Enable cookies to use the shopping cart",
+      "continue_browsing_html": "Continue browsing <a href=\"\/collections\/all\">here<\/a>.",
+      "item_quantity": "Item quantity",
+      "savings": "You're saving",
+      "edit": "Edit",
+      "cancel": "Cancel",
+      "continue_shopping": "Continue shopping",
+      "order_summary": "Order summary"
+    },
+    "label": {
+      "product": "Product",
+      "price": "Price",
+      "quantity": "Quantity",
+      "total": "Total",
+      "discounted_price": "Discounted price",
+      "original_price": "Original price"
+    },
+    "drawer": {
+      "close": "Close"
+    }
+  },
+  "collections": {
+    "general": {
+      "no_matches": "Sorry, there are no products in this collection",
+      "link_title": "Browse our {{ title }} collection",
+      "view_all": "Shop all",
+      "shop_now": "Shop now",
+      "items_with_count": {
+        "one": "{{ count }} product",
+        "other": "{{ count }} products"
+      },
+      "view_products": "View products:"
+    },
+    "sorting": {
+      "title": "Sort",
+      "featured": "Featured",
+      "best_selling": "Best Selling",
+      "az": "Alphabetically, A-Z",
+      "za": "Alphabetically, Z-A",
+      "price_ascending": "Price, low to high",
+      "price_descending": "Price, high to low",
+      "date_descending": "Date, new to old",
+      "date_ascending": "Date, old to new"
+    },
+    "filters": {
+      "title_tags": "Filter",
+      "all_tags": "All products",
+      "filter_by": "Filter by:"
+    }
+  },
+  "contact": {
+    "form": {
+      "title": "Get in contact",
+      "subtitle": "We'd love to hear from you! Get in touch with any questions or queries and you'll hear from us very shortly.",
+      "first_name": "Company name",
+      "marketing_consent": "I provide my consent to receive marketing emails.",
+      "privacy_policy": "Privacy Policy",
+      "last_name": "Contact Name",
+      "enquiry_type": "Enquiry Type",
+      "company": "Business\/Institution Name",
+      "email": "Email",
+      "phone": "Phone Number",
+      "message": "Message",
+      "send": "Send",
+      "post_success": "Thanks for contacting us. We'll get back to you as soon as possible."
+    }
+  },
+  "wholesale": {
+    "register": {
+      "title": "Wholesale Account Application",
+      "venue_name": "Venue Name",
+      "name": "Your Name",
+      "first_name": "Your First Company Name",
+      "last_name": "Your Full Name",
+      "enquiry_type": "Enquiry Type",
+      "company": "Business\/Institution Name",
+      "email": "Email Address",
+      "phone": "Mobile Number",
+      "address": "Address",
+      "suburb": "Suburb",
+      "state": "State",
+      "post_code": "Post Code",
+      "message": "Message",
+      "send": "Submit Application",
+      "post_success": "Thanks for contacting us. We'll get back to you as soon as possible."
+    }
+  },
+  "customer": {
+    "account": {
+      "title": "My Account",
+      "description": "",
+      "details": "Account Details",
+      "view_addresses": "View Addresses",
+      "return": "Return to Account Details",
+      "type": "Account Type",
+      "view_all": "View all",
+      "edit_details": "edit details",
+      "save_changes": "Save changes",
+      "personal_information": "Personal Information",
+      "notices": "Notices"
+    },
+    "activate_account": {
+      "title": "Activate Account",
+      "subtext": "Please enter your password to activate your account.",
+      "password": "Password",
+      "password_confirm": "Confirm Password",
+      "submit": "Activate Account",
+      "cancel": "Decline Invitation"
+    },
+    "addresses": {
+      "title": "My Addresses",
+      "new_company_address": "New company address",
+      "edit_company_address": "Edit company address",
+      "company_address": "Company address",
+      "default": "Default",
+      "add_new": "Add a New Address",
+      "edit_address": "Edit address",
+      "company_name": "Company Name",
+      "tranding_as": "Trading as",
+      "first_name": "Company Name",
+      "last_name": "Contact Name",
+      "company": "Company",
+      "address1": "Delivery Address Line 1",
+      "address2": "Flat\/Level Number",
+      "city": "City",
+      "country": "Country",
+      "province": "Region",
+      "zip": "Postcode",
+      "phone": "Phone",
+      "set_default": "Set as default address",
+      "add": "Add Address",
+      "update": "Update Address",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete",
+      "delete_confirm": "Are you sure you wish to delete this address?",
+      "address_list": "My Addresses",
+      "description": "Add and edit delivery addresses. When you place your order, you can select which address you would like your order to go to.",
+      "no_addresses": "You don't have any addresses stored yet!",
+      "trading_as": "Trading as"
+    },
+    "login": {
+      "title": "Log In",
+      "subtext": "Sign in to edit your profile, check out faster, view your order status, and process returns.",
+      "site_upgrade_please_note": "Existing users: ",
+      "site_upgrade_message": "First time logging into the new order platform? Click here to activate your new account.",
+      "site_upgrade_welcome_back": "Welcome back",
+      "site_upgrade_instructions": "We've upgraded our order platform and just need you to verify your email address. Enter it below and we'll send you an email straight away. Any questions please give HQ a call on 09 5233870",
+      "site_upgrade_submit": "Submit",
+      "email": "Email Address",
+      "password": "Password",
+      "forgot_password": "Reset password",
+      "sign_in": "Log In",
+      "cancel": "Return to Store",
+      "guest_title": "Continue as a guest",
+      "guest_continue": "Continue",
+      "returning_member": "Returning member",
+      "join_the_club_title": "Join the decent club",
+      "join_the_club_subtitle": "Get Started",
+      "join_the_club_description": "Join today and get exclusive offers, access to additional features and super fast shipping.",
+      "join_the_club_button": "Sign Up"
+    },
+    "orders": {
+      "title": "Order History",
+      "description": "Look through recent orders, track your Payment Status, Order Status, and Order Details.",
+      "order_number": "Order #",
+      "order_details": "Order details",
+      "view_details": "View Details",
+      "add_cart_to_order": "Add Order to Cart",
+      "reorder": "Reorder",
+      "date": "Date",
+      "payment_status": "Payment Status",
+      "fulfillment_status": "Fulfillment Status",
+      "total": "Total",
+      "none": "You haven't placed any orders yet."
+    },
+    "order": {
+      "title": "Order {{ name }}",
+      "date": "Placed on {{ date }}",
+      "order_date": "Order date",
+      "cancelled": "Order Cancelled on {{ date }}",
+      "cancelled_reason": "Reason: {{ reason }}",
+      "billing_address": "Billing Address",
+      "payment_status": "Payment Status",
+      "payment_method": "Payment Method",
+      "shipping_address": "Delivery Address",
+      "fulfillment_status": "Status",
+      "discount": "Discount",
+      "shipping": "Shipping",
+      "tax": "Tax",
+      "product": "Product",
+      "sku": "SKU",
+      "price": "Price",
+      "quantity": "Quantity",
+      "total": "Total",
+      "grand_total": "Grand Total",
+      "fulfilled_at": "Fulfilled {{ date }}",
+      "subtotal": "Subtotal",
+      "track_shipment": "Track shipment",
+      "order_invoice": "Order invoice",
+      "download_invoice": "Download invoice",
+      "reorder": "Reorder",
+      "add_to_cart": "Add Product To Cart",
+      "add_to_cart_mobile": "Add To Cart",
+      "excluding_tax": "(exc. tax)",
+      "including_tax": "(inc. tax)"
+    },
+    "place_order": {
+      "title": "Place order",
+      "description": "Add products to your cart, search popular products and view your most recently ordered products."
+    },
+    "news": {
+      "title": "News",
+      "read_more": "read more"
+    },
+    "recover_password": {
+      "title": "Reset your password",
+      "email": "Email",
+      "submit": "Reset password",
+      "cancel": "Cancel",
+      "subtext": "Enter your email address below. We'll send you an email to reset your password.",
+      "success": "We've sent you an email with a link to update your password."
+    },
+    "reset_password": {
+      "title": "Reset account password",
+      "subtext": "Enter a new password for {{ email }}",
+      "password": "Password",
+      "password_confirm": "Confirm Password",
+      "submit": "Reset Password"
+    },
+    "register": {
+      "title": "Get started",
+      "subtitle": "Sign up as a business",
+      "description": "From Food Trucks & Festivals to Cafes & Coffee Roasters, we'd love to help you find a plant-based solution to your packaging needs.",
+      "first_name": "First Name",
+      "last_name": "Contact Name",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Submit",
+      "cancel": "Return to Store",
+      "account_already_exists": "Already have an account?",
+      "complete_registration": "Complete Your Registration",
+      "complete_registration_short": "Complete Registration",
+      "accepts_marketing": "Join our community of sustainable customers using compostable packaging solutions for their businesses. Make sure you're signed up to receive emails on new products, sales, news and pricing updates.",
+      "about_your_business": "Please tell us a little bit about your business",
+      "how_did_you_find_out": "How did you find out about decent packaging?",
+      "sources": "Facebook|Instagram|Word of Mouth|Search Engine|News Media|My Local Cafe|The Full Package|I’ve been chatting with your team|Other"
+    }
+  },
+  "homepage": {
+    "onboarding": {
+      "product_title": "Your product's name",
+      "product_description": "This area is used to describe your product’s details. Tell customers about the look, feel, and style of your product. Add details on color, materials used, sizing, and where it was made.",
+      "collection_title": "Your collection's name",
+      "collection_empty": "This collection contains no products",
+      "blog_title": "Your post's title",
+      "blog_excerpt": "Your store hasn’t published any blog posts yet. A blog can be used to talk about new product launches, tips, or other news you want to share with your customers. You can check out Shopify’s ecommerce blog for inspiration and advice for your own store and blog.",
+      "blog_author": "Author name",
+      "no_content": "This section doesn’t currently include any content. Add content to this section using the sidebar."
+    }
+  },
+  "layout": {
+    "navigation": {
+      "search": "Search",
+      "toggle": "expand\/collapse",
+      "expand": "expand",
+      "collapse": "collapse",
+      "back": "back"
+    },
+    "cart": {
+      "title": "Cart",
+      "items_count": {
+        "one": "item",
+        "other": "items"
+      }
+    },
+    "customer": {
+      "account": "Account",
+      "welcome": "Hi, {{ first_name }}",
+      "logged_in_as_html": "Logged in as {{ first_name }}!",
+      "log_out": "Sign out",
+      "log_in": "Sign in",
+      "create_account": "Create account",
+      "create_account_more_info": "Create an account or log in for more information"
+    },
+    "footer": {
+      "social_platform": "{{ name }} on {{ platform }}",
+      "copyright": "Copyright",
+      "additional_details": "",
+      "payment_methods": "We accept",
+      "contact": "Contact Us",
+      "phone": "Phone",
+      "address": "Address",
+      "email": "Email"
+    }
+  },
+  "products": {
+    "product": {
+      "regular_price": "Regular price",
+      "sold_out": "Coming soon",
+      "unavailable": "Unavailable",
+      "quantity_unavailable": "Quantity Unavailable",
+      "on_sale": "On Sale",
+      "on_sale_from_html": "On Sale from {{ price }}",
+      "from_text": "From",
+      "from_text_html": "From {{ price }}",
+      "quantity": "Quantity",
+      "add_to_cart": "Add to Cart",
+      "add_to_wishlist": "Add to Favourites",
+      "wishlist_title": "Wishlist",
+      "sku": "SKU",
+      "shipping_info_unavailable": "No shipping information available.",
+      "view_product": "View Product",
+      "specifications": "Details & Specifications",
+      "price_restricted": "Pricing info and purchase available to registered customers",
+      "additional_freight_charge": "Note: This product requires an additional freight charge due to its size.",
+      "sale_badge": "SALE",
+      "new_badge": "NEW",
+      "preorder_badge": "PREORDER",
+      "sold_out_badge": "SOLD\nOUT",
+      "select_an_option_html": "Select a {{ option }}",
+      "compare_sizes": "Compare sizes",
+      "per_carton": "per carton",
+      "variants_available": "Sizes available",
+      "number_variants_available": "{{ count }} sizes available",
+      "select_size_label": "Select size & number of cartons:",
+      "select_size_label_half_carton": "Select size & number of half cartons:",
+      "select_size_label_secondary": "Select size & number of {{ type }} cartons:",
+      "select_size_instruction": "Select size and quantity...",
+      "select_size_instruction_half_carton": "Select size and quantity...",
+      "select_size_instruction_secondary": "Select size and quantity...",
+      "tax_excluded": "pricing is VAT exclusive",
+      "tax_included": "pricing is VAT inclusive",
+      "units_par_carton": "Units per carton:",
+      "half_cartons_available": "Half cartons available",
+      "units": "units",
+      "benefits": "Benefits",
+      "materials": "Materials"
+    },
+    "back_order": {
+      "notify_me": "Click {{ link }} to be notified by email when {{ product }} becomes available.",
+      "link_text": "here",
+      "placeholder": "your@email.com",
+      "message": "Please notify me when {{ product }} becomes available.",
+      "invalid_email": "Please provide a valid email address.",
+      "form_success": "Thanks! We will notify you when this product becomes available!",
+      "submit": "Notify Me"
+    }
+  },
+  "gift_cards": {
+    "issued": {
+      "title": "Here's your {{ value }} gift card for {{ shop }}!",
+      "subtext": "Here's your gift card!",
+      "disabled": "Disabled",
+      "expired": "Expired on {{ expiry }}",
+      "active": "Expires on {{ expiry }}",
+      "redeem": "Use this code at checkout to redeem your gift card",
+      "shop_link": "Start shopping",
+      "print": "Print",
+      "remaining_html": "{{ balance }} left",
+      "add_to_apple_wallet": "Add to Apple Wallet"
+    }
+  },
+  "date_formats": {
+    "month_day_year": "%B %d, %Y"
+  },
+  "shopify": {
+    "checkout": {
+      "contact": {
+        "optional_company_label": "Address Company (optional)",
+        "first_name_label": "Company name",
+        "optional_first_name_label": "First name (optional)",
+        "last_name_label": "Contact name",
+        "phone_label": "Phone number for order and delivery updates",
+        "phone_tooltip": "We may also send news and offers (per checkout above)",
+        "optional_phone_label": "Phone number for order and delivery updates"
+      },
+      "field_errors": {
+        "address_first_name_blank": "Enter your company name",
+        "address_last_name_blank": "Enter your full name"
+      },
+      "marketing": {
+        "accept_marketing_checkbox_label": "Keep me up to date on news and exclusive offers via Email or SMS. By checking this box, I consent to receive emails or SMS. Consent is not a condition of purchase. I can opt-out at any time (See privacy policy below for details)."
+      }
+    },
+    "attributes": {
+      "first_name": "Company name",
+      "last_name": "Contact name"
+    },
+    "errors": {
+      "full_name_required": "Enter your company name or full name"
+    }
+  }
+}

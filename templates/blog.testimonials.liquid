@@ -1,0 +1,44 @@
+{%- paginate blog.articles by 50 -%}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-md-10 col-md-offset-1 col-xl-8 col-xl-offset-2">
+            
+        {%- assign blog_title = blog.title -%}
+
+        {%- if current_tags -%}
+          {% capture blog_title %}{{ blog.title | link_to: blog.url }} &mdash; {{ current_tags.first }}{% endcapture %}
+        {%- endif -%}
+
+        <div class="section-header text-{{ settings.page_header_text_align }}">
+          <h1>{{ blog_title }}</h1>
+        </div>
+
+        {%- for testimonial in blog.articles -%}
+          <div class="testimonial">
+            {%- assign testimonial_parts = testimonial.title | replace: ' – ', ' - ' | split: ' - ' -%}
+            {%- assign testimonial_name = testimonial_parts[0] -%}
+            {%- assign testimonial_position = testimonial_parts[1] -%}
+
+            <h3 class="testimonial__title">
+              {{ testimonial_name }}
+              <span>{{ testimonial_position }}</span>
+            </h3>
+
+            <div class="rte testimonial__text">
+              <p>
+                {%- include 'text' with testimonial.content -%}
+              </p>
+            </div>
+          </div>
+        {%- endfor -%}
+
+        {%- if paginate.pages > 1 -%}
+          {% include 'pagination' %}
+        {%- endif -%}
+
+      </div>
+    </div>
+  </div>
+
+{%- endpaginate -%}

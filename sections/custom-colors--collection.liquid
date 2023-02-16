@@ -1,0 +1,36 @@
+{%- assign this_theme = collection.metafields.style.theme | downcase -%}
+
+{%- if this_theme == 'custom' -%}
+  {%- include 'custom-colors' -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Collection custom colours",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "ADVANCED: Custom colours"
+    },
+    {
+      "type": "paragraph",
+      "content": "Colours selected here will apply to all collections with the theme 'Custom'. Select the Custom theme in the collections's custom fields"
+    },
+    {
+      "type": "color",
+      "id": "color_custom_primary",
+      "label": "Primary colour"
+    },
+    {
+      "type": "color",
+      "id": "color_custom_secondary",
+      "label": "Secondary colour"
+    },
+    {
+      "type": "color",
+      "id": "color_custom_tertiary",
+      "label": "Tertiary colour"
+    }
+  ]
+}
+{% endschema %}

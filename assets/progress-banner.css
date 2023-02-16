@@ -1,0 +1,34 @@
+.cart-drawer__progress-banner {
+    width: 100%;
+    height: 3rem;
+    /* background-color: yellow; */
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+}
+
+.cart-drawer__progress-banner__banner {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+ .progress-banner__spent {
+    margin-left: 10px;
+    height: 100%;
+    height: 0.2rem;
+    background-color: var(--color-yellow-primary);
+    border-radius: 3rem 0 0 3rem;
+}
+
+
+.progress-banner__tospend {
+    height: 100%;
+    margin-right: 10px;
+    height: 0.2rem;
+    background-color: rgb(218, 218, 218);
+    border-radius: 0 3rem 3rem 0;  
+}

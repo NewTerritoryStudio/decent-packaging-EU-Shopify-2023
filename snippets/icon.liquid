@@ -1,0 +1,23 @@
+{%- capture snippet %}icon-{{icon}}{% endcapture -%}
+{%- capture icon_output %}{%- include snippet -%}{% endcapture -%}
+
+{%- assign class_string = class | default: '' -%}
+
+{%- if color == true or colour == true -%}
+  {%- assign class_string = class_string | prepend: 'icon--full-color ' -%}
+{%- endif -%}
+
+{%- if class_string != blank -%}
+  {%- assign class_string = class_string | append: ' ' | prepend: 'class="icon ' -%}
+  {%- assign icon_output = icon_output | replace: 'class="icon ', class_string -%}
+{%- endif -%}
+
+{%- unless icon_output contains 'Liquid error' -%}
+  {{ icon_output }}
+{%- endunless -%}
+
+{%- assign class = null -%}
+{%- assign class_string = null -%}
+{%- assign color = null -%}
+{%- assign colour = null -%}
+{%- assign icon_output = null -%}

@@ -1,0 +1,58 @@
+{% assign is_geotagged_customer_login = false %}
+{% assign is_geotagged_location_north = false %}
+{% assign is_geotagged_location_south = false %}
+
+{% comment %} north-island zip codes {% endcomment %}
+{% assign north_island_from = shop.metafields.globals.first_group_north_island_from | plus: 0 %}
+{% assign north_island_to = shop.metafields.globals.first_group_north_island_to | plus: 0 %}
+{% comment %} south-island zip codes {% endcomment %}
+{% assign south_island_from = shop.metafields.globals.second_group_south_island_from | plus: 0 %}
+{% assign south_island_to = shop.metafields.globals.second_group_south_island_to | plus: 0 %}
+
+{% assign disable_geotagged_functional = shop.metafields.globals.disable_geotagged_functional %}
+
+{% unless disable_geotagged_functional %}
+  {% if customer %}
+    {% assign globalLoginUserZip = '' %}
+    {% if customer.addresses.first.zip != blank %}
+      {% assign globalLoginUserZip = customer.addresses.first.zip | plus: 0 %}
+    {% endif %}
+
+    {% comment %}
+      This tag need add to product Geotagged:north-island Geotagged:south-island for work this functional
+    {% endcomment %}
+    {% assign tag_geotagged_location_north = '' %} {% comment %} north-island  {% endcomment %}
+    {% assign tag_geotagged_location_south = '' %} {% comment %} south-island {% endcomment %}
+    {% assign is_geotagged_customer_login = true %}
+
+    {% capture check_prod_tags %}
+      {% for tag in product.tags %}
+        {% if tag contains 'Geotagged:' %}
+          {% assign new_tag = tag | remove: 'Geotagged:' %}
+          {% if new_tag == 'north-island' %}
+            {% assign tag_geotagged_location_north = new_tag  %}
+          {% elsif new_tag == 'south-island' %}
+            {% assign tag_geotagged_location_south = new_tag  %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    {% endcapture %}
+
+    {% if globalLoginUserZip == blank %}
+      {% assign is_geotagged_customer_login = false %}
+    {% elsif north_island_from <= globalLoginUserZip and north_island_to >= globalLoginUserZip %}
+      {{ check_prod_tags }}
+      {% if tag_geotagged_location_north contains 'north-island' %}
+        {% assign is_geotagged_location_north = true %}
+      {% endif %}
+    {% elsif south_island_from <= globalLoginUserZip and south_island_to >= globalLoginUserZip %}
+      {{ check_prod_tags }}
+      {% if tag_geotagged_location_south contains 'south-island' %}
+        {% assign is_geotagged_location_south = true %}
+      {% endif %}
+    {% else %}
+      {% assign is_geotagged_customer_login = false %}
+    {% endif %}
+    
+  {%- endif -%}
+{% endunless %}

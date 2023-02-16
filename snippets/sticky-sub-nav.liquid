@@ -1,0 +1,28 @@
+<div class="sticky-sub-nav" data-section-id="{{ section.id }}" data-section-type="sticky-sub-nav">
+
+  <div class="container">
+    <div class="container sticky-sub-nav__container">
+
+      <div class="sticky-sub-nav__accordion" data-simple-accordion data-simple-accordion-max="lg">
+
+          <span class="sticky-sub-nav__title">{{ section.settings.title }}</span>
+
+          <ul class="sticky-sub-nav__links">
+
+            {%- for block in section.blocks -%}
+              {%- if block.type != 'nav-item' -%}
+                {%- continue -%}
+              {%- endif -%}
+
+              <li><a href="#{{ block.settings.anchor | replace: '#', '' | replace: ' ', '-' }}">{{ block.settings.title }}</a></li>
+              
+            {%- endfor -%}
+            
+          </ul>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>

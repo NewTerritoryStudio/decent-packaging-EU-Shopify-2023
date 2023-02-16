@@ -1,0 +1,48 @@
+{%- include 'globals' -%}
+
+<div class="section-part__inner" id="CustomerLoginForm">
+  <div class="part-title">
+    <div class="part-title__pic">
+      {%- include 'icon' with 'get-started-noodle', color: true -%}
+    </div>
+    <div class="part-title__wrap">
+      <div class="part-title__subttl">{{ 'customer.login.title' | t }}</div>
+      <div class="part-title__ttl">{{ 'customer.login.returning_member' | t }}</div>
+    </div>
+  </div>
+
+  <div class="part-description">
+
+    <div class="part-description__txt">
+      <div class="section-header template__main-title text-{{ settings.page_header_text_align }}">
+
+        {%- assign default_header_text = 'customer.login.subtext' | t -%}
+        {%- assign text_content = text | default: default_header_text -%}
+
+        {%- if text_content != blank -%}
+        {%- include 'text' with text_content -%}
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if active_country_code == 'NZ' -%}
+      <div class="part-description__txt">
+        <div class="section-header template__main-title text-{{ settings.page_header_text_align }}">
+
+          <a href="#" id="NewCustomer">
+            <b>{{'customer.login.site_upgrade_please_note' | t }}</b>
+
+            {%- assign text_content = 'customer.login.site_upgrade_message' | t -%}
+            {%- if text_content != blank -%}
+            {%- include 'text' with text_content -%}
+            {%- endif -%}
+          </a>
+
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- include 'customer-login-form' -%}
+
+  </div>
+</div>

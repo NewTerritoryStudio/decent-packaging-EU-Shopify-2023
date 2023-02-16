@@ -1,0 +1,50 @@
+<div data-section-id="{{ section.id }}" data-section-type="instagram-feature" class="feature-instagram">
+
+  {%- assign url = section.settings.title | replace: '@', '' | prepend: 'https://www.instagram.com/' -%}
+  <div class="container page-width">
+    <div class="feature-instagram__text">
+      <div class="feature-instagram__username">
+        {%- include 'icon' with 'instagram' -%}
+        <a href="{{ url }}" target="_blank">{{ section.settings.title | replace: '@', '' | prepend: '@'}}</a>
+      </div>
+      <div class="feature-instagram__follow-text">
+        <a href="{{ url }}" target="_blank">{{ section.settings.follow_text }}</a>
+      </div>
+    </div>
+
+    {%- if shop.permanent_domain contains 'innocentp-uk' -%}
+      {%- assign instashow_id = 'elfsight-sapp-c177f620-2823-11e9-8cb8-4f00719a51d4' -%}
+    {% else %}
+      {%- assign instashow_id = 'elfsight-sapp-60cb1160-2f25-11e9-b160-e7847575fce8' -%}
+    {%- endif -%}
+
+    <div class="{{ instashow_id }}"></div>
+  </div>
+  
+</div>
+
+{% schema %}
+  {
+    "name": "Instagram Feed",
+    "settings": [
+      {
+        "label": "Username",
+        "id": "title",
+        "type": "text",
+        "default": "@innocentpackaging"
+      },
+      {
+        "type": "text",
+        "id": "follow_text",
+        "label": "Follow text",
+        "default": "Follow us"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Instagram Feed",
+        "category": "Promotion"
+      }
+    ]
+  }
+{% endschema %}

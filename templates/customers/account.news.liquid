@@ -1,0 +1,5 @@
+{%- capture main %}
+  {%- include 'account-news' -%}
+{% endcapture -%}
+
+{%- include 'account-view' with main: main -%}

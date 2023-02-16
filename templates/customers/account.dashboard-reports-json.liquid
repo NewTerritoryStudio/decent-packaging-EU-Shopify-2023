@@ -1,0 +1,208 @@
+{%- layout none -%}
+
+{%- assign report_time_periods = '7##Week||30##Month||90##3 Months||182##6 Months||365##12 Months' | split: '||' -%}
+
+{%- assign types_to_collect = 'lids||Hot Cup Lid|Hot Cup Lids|Clear Cup Lid|Clear Cup Lids|||cups||Hot Cup|Hot Cups|Custom Coffix|Custom And Coffee|Custom 7010 Your Local|Custom Addington Coffee|Custom Ark|Custom Aro Coffee|Clear Cup|Clear Cups|Hot Chip Cups|Custom ASB Showgrounds|Custom 7010 Your Local|Custom Bach on Breakwater|||Cutlery||Cutlery - Wooden|Cutlery - CPLA' | split: '|||' -%}
+
+{% comment %} 
+
+Carbon Calculator
+
+1 carton = 0.00281234774 tCO2e (tons of carbon dioxide emissions)
+
+
+
+
+
+{% endcomment %}
+
+
+
+{% comment %} Initialise report_data from report_time_periods {% endcomment %}
+{%- assign report_data = '' -%}
+{%- for report_time_period in report_time_periods -%}
+  {%- assign report_time_period_split = report_time_period | split: '##' -%}
+  {%- assign report_time_period_days = report_time_period_split[0] -%}
+  {%- assign report_data = report_data | append: report_time_period_days | append: '####' -%}
+{%- endfor -%}
+{%- assign report_data = report_data | split: '####' -%}
+
+{%- assign pieces_of_plastic_purchased = 0 -%}
+{%- assign pieces_of_plastic_line_item_ids = '' -%}
+{%- assign report_data_rebuilt = '' -%}
+
+{%- for order in customer.orders -%}
+
+  {%- assign order_date_seconds = order.created_at | date: '%s' -%}
+  {%- assign now_date_seconds = 'now' | date: '%s' -%}
+  {%- assign seconds_since_order_placed = now_date_seconds | minus: order_date_seconds -%}
+  {%- assign days_since_order_placed = seconds_since_order_placed | divided_by: 86400 -%}
+
+  {%- for data in report_data -%}
+
+    {%- assign data_split = data | split: '###' -%}
+    {%- assign data_days = data_split[0] | plus: 0 -%}
+    {%- assign data_types = data_split[1] -%}
+
+    {%- if days_since_order_placed < data_days -%}
+
+      {%- for line_item in order.line_items -%}
+
+        {%- assign line_item_type = line_item.product.type -%}
+        {%- assign line_item_quantity = line_item.quantity -%}
+        {%- assign line_item_carton_size = line_item.metafields.details.carton_quantity | default: 1000 -%}
+
+        {%- assign line_item_units = line_item_carton_size | times: line_item_quantity -%}
+
+        {% comment %}
+        THIS BLOCK GROUPS PRODUCTS BASED ON
+        PRODUCT TYPE. REMOVE THIS TO CAPTURE
+        ALL PRODUCT TYPES INDIVIDUALLY
+        {% endcomment %}
+        {%- assign type_found = false -%}
+        {%- for type in types_to_collect -%}
+          {%- assign type_split = type | split: '||' -%}
+          {%- assign type_name = type_split[0] -%}
+          {%- assign type_types = type_split[1] | split: '|' -%}
+          {%- for type_type in type_types -%}
+            {%- assign type_type_downcase = type_type | downcase -%}
+            {%- assign product_type_downcase = line_item_type | downcase -%}
+            {%- if type_type_downcase == product_type_downcase -%}
+              {%- assign type_found = true -%}
+              {%- assign line_item_type = type_name -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endfor -%}
+        {%- if type_found == false -%}
+          {%- assign line_item_type = 'other' -%}
+        {%- endif -%}
+
+        {%- unless pieces_of_plastic_line_item_ids contains line_item.id -%}
+          {%- assign pieces_of_plastic_purchased = pieces_of_plastic_purchased | plus: line_item_units -%}
+          {%- assign pieces_of_plastic_line_item_ids = pieces_of_plastic_line_item_ids | append: '-' | append: line_item.id -%}
+        {%- endunless -%}
+        
+
+        {%- if data_types != blank -%}
+
+          {%- assign data_types = data_types | split: '##' -%}
+
+          {%- assign data_types_rebuilt = '' -%}
+          {%- assign found = false -%}
+
+          {%- for data_type in data_types -%}
+            {%- assign data_type_split = data_type | split: '#' -%}
+            {%- assign data_type_type = data_type_split[0] -%}
+            {%- assign data_type_count = data_type_split[1] | plus: 0 -%}
+              {%- if data_type_type == line_item_type -%}
+                {%- assign data_type_count = data_type_count | plus: line_item_units -%}
+                {%- assign found = true -%}
+              {%- endif -%}
+            {%- assign data_type_rebuilt = data_type_type | append: '#' | append: data_type_count -%}
+            {%- if data_types_rebuilt != blank -%}
+              {%- assign data_types_rebuilt = data_types_rebuilt | append: '##' -%}
+            {%- endif -%}
+            {%- assign data_types_rebuilt = data_types_rebuilt | append: data_type_rebuilt -%}
+          {%- endfor -%}
+
+          {%- assign data_types = data_types_rebuilt -%}
+
+          {%- if found == false -%}
+            {%- assign data_types = data_types | append: '##' | append: line_item_type | append: '#' | append: line_item_units -%}
+          {%- endif -%}
+
+        {% else %}
+          {%- assign data_types = data_types | append: line_item_type | append: '#' | append: line_item_units -%}
+        {%- endif -%}
+
+      {%- endfor -%}
+    {%- endif -%}
+
+    {%- assign data_rebuilt = data_days -%}
+    {%- if data_types != blank -%}
+      {%- assign data_rebuilt = data_rebuilt | append: '###' | append: data_types -%}
+    {%- endif -%}
+
+    {%- if report_data_rebuilt != blank -%}
+      {%- assign report_data_rebuilt = report_data_rebuilt | append: '####' -%}
+    {%- endif -%}
+    {%- assign report_data_rebuilt = report_data_rebuilt | append: data_rebuilt -%}
+
+  {%- endfor -%}
+
+  {%- assign report_data = report_data_rebuilt | split: '####' -%}
+  {%- assign report_data_rebuilt = '' -%}
+{%- endfor -%}
+
+{%- capture reports %}
+
+  {%- for data in report_data -%}
+
+    {%- assign data_split = data | split: '###' -%}
+    {%- assign data_days = data_split[0] | plus: 0 -%}
+    {%- assign data_types = data_split[1] | split: '##' -%}
+
+    {%- for report_time_period in report_time_periods -%}
+      {%- assign report_time_period_split = report_time_period | split: '##' -%}
+      {%- assign report_time_days = report_time_period_split[0] | plus: 0 -%}
+      {%- assign report_time_title = report_time_period_split[1] -%}
+      {%- if report_time_days == data_days -%}
+        {%- assign data_title = report_time_title -%}
+        {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- capture reports_types_data %}
+      {%- for data_type in data_types -%}
+        {%- assign data_type_split = data_type | split: '#' -%}
+        {%- assign data_type_title = data_type_split[0] -%}
+        {%- assign data_type_count = data_type_split[1] -%}
+
+        {%- if data_type_title == 'other' -%}
+          {%- continue -%}
+        {%- endif -%}
+
+        {
+          "title": {{ data_type_title | json }},
+          "count": {{ data_type_count | plus: 0 | json }}
+        },
+
+      {%- endfor -%}
+    {% endcapture -%}
+
+    {%- assign reports_types_data = reports_types_data | strip | split: "" | reverse | join: "" | remove_first: ',' | split: "" | reverse | join: "" -%}
+
+    {%- if reports_types_data == blank -%}
+      {%- continue -%}
+    {%- endif -%}
+
+    {
+      "days": {{ data_days | plus: 0 | json }},
+      "title": {{ data_title | json }},
+      "types": [
+        {{- reports_types_data -}}
+      ]
+    },
+  {%- endfor -%}
+{% endcapture -%}
+
+{% comment %} 
+
+CO2 calc => 
+
+x / 1000 * 0.00281234774
+
+{% endcomment %}
+
+{% assign tonnes_of_carbon_emissions_saved = pieces_of_plastic_purchased | divided_by: 1000 | times: 0.00281234774 %}
+{%- assign reports = reports | strip | split: "" | reverse | join: "" | remove_first: ',' | split: "" | reverse | join: "" -%}
+{% assign name = customer.name %}
+
+{
+  "pieces_of_plastic_purchased": {{ pieces_of_plastic_purchased | json }},
+  "tonnes_of_carbon_emissions_saved" : {{ tonnes_of_carbon_emissions_saved | round: 4 | json }},
+  "customer_name": {{ name | json }},
+  "reports": [
+    {{- reports -}}
+  ]
+}

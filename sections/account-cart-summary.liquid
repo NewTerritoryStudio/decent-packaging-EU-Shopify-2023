@@ -1,0 +1,55 @@
+<div data-section-id="{{ section.id }}" data-section-type="cart-summary">
+
+  <div class="cart-summary" data-cart-view>
+    <form action="/cart" method="post" novalidate="">
+
+      <div class="account-card">
+
+        <div class="account-card__title">
+          <p>{{ 'cart.general.note' | t }}</p>
+        </div>
+
+        <div class="cart-summary__note">
+          <div class="cart-drawer__note-input active">
+            <label for="cart-note" class="label-hidden">{{ 'cart.general.note' | t }}</label>
+            <textarea id="cart-note" name="note">{{ cart.note }}</textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="account-card">
+
+        <div class="account-card__title">
+          <p>{{ 'cart.general.order_summary' | t }}</p>
+        </div>
+
+        <div class="cart-summary__total">
+          <div class="cart-summary__total-title">
+            {{ 'cart.general.subtotal' | t }}
+
+            <span class="cart-summary__total-notice">
+              {% if shop.taxes_included != true %}
+                {{ 'products.product.tax_excluded' | t }}
+              {% else %}
+                {{ 'products.product.tax_included' | t }}
+              {% endif %}
+            </span>
+
+            <span class="cart-summary__total-notice">
+              {{ 'cart.general.shipping_at_checkout' | t }}
+            </span>
+
+          </div>
+          <div class="cart-summary__total-price" rv-html="cart.total_price | money shop.currency"></div>
+        </div>
+
+        
+          <button class="cart-summary__submit btn btn--wide btn-black" type="submit" name="checkout" rv-enabled="cart.item_count | gt 0">{{ 'cart.general.checkout' | t }}</button>
+        
+
+      </div>
+
+    </form>
+  </div>
+
+</div>

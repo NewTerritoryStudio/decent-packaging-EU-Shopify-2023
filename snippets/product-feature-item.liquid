@@ -1,0 +1,62 @@
+<div class="row middle-xs product-feature-item">
+
+  <div class="col-xs-12 col-sm-6 product-feature-item__image">
+    <a href="{{ product.url }}">
+      {% include 'img' with product.featured_image, placeholder: 'image' %}
+    </a>
+  </div>
+  
+  <div class="col-xs-12 col-sm-6 product-feature-item__details">
+
+    <div class="product-feature-item__title h2">
+      {{ product.title }}
+    </div>
+
+    <div class="product-feature-item__vendor h2">
+      {{ product.vendor }}
+    </div>
+  
+    <div class="product-feature-item__price product__price">
+
+      {%- if product.compare_at_price > product.price -%}
+        <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
+        <s>{{ 'products.product.on_sale' | t }} {{ product.compare_at_price | money }}</s>
+      {%- endif -%}
+
+      {%- if product.compare_at_price > product.price -%}
+
+        {%- if product.price_varies -%}
+          {%- assign sale_price = product.price | money -%}
+          {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
+        {%- else -%}
+          {{ product.price | money }}
+        {%- endif -%}
+
+      {%- else -%}
+
+        {%- if product.price_varies -%}
+          {%- assign price = product.price | money -%}
+          {{ 'products.product.from_text_html' | t: price: price }}
+        {%- else -%}
+          {{ product.price | money }}
+        {%- endif -%}
+
+      {%- endif -%}
+
+      {%- unless product.available -%}
+        {{ 'products.product.sold_out' | t }}
+      {%- endunless -%}
+    </div>
+
+    <div class="product-feature-item__buttons">
+      <a href="{{ product.url }}" class="btn btn-primary-o btn-details">
+        <span>{{ 'products.product.view_product' | t }}</span>
+      </a>
+      {% comment %}<a href="{{ product.url }}" class="btn btn-primary btn-add-to-cart" data-cart-add="{{ product.selected_or_first_available_variant.id }}" data-cart-quantity="1" data-progress-element data-opens-cart-drawer>
+        {% include 'icon-zd_cart' %} <span>{{ 'products.product.add_to_cart' | t }}</span>
+      </a>{% endcomment %}
+    </div>
+
+  </div>
+</div>
+

@@ -1,0 +1,129 @@
+<div data-section-id="{{ section.id }}" data-section-type="collection-list">
+  <div class="container">
+
+    {%- if section.settings.title != blank -%}
+      <div class="section-header text-center">
+        <h2 class="section-header__title">
+          <span>{{ section.settings.title | escape }}</span>
+        </h2>
+      </div>
+    {%- endif -%}
+
+    <div class="collection-list-grid">
+      <div class="row between-xs">
+
+        {%- for block in section.blocks limit: section.blocks.size -%}
+          <div class="col-xs-6 col-sm-3 collection-list-item-wrap" {{ block.shopify_attributes }}>
+            {%- if block.settings.collection != blank -%}
+              {%- assign collection = collections[block.settings.collection] -%}
+            {%- else -%}
+              {%- assign collection = false -%}
+            {%- endif -%}
+            {%- if block.settings.image != blank -%}
+              {%- assign img = block.settings.image -%}
+            {%- elsif collection.image != blank -%}
+              {%- assign img = collection.image -%}
+            {%- elsif collection.products.first.featured_image != blank -%}
+              {%- assign img = collection.products.first.featured_image -%}
+            {%- elsif collection.products.first.images.first != blank -%}
+              {%- assign img = collection.products.first.images.first -%}
+            {%- else -%}
+              {%- assign img = false -%}
+            {%- endif -%}
+
+            <div class="collection-list-item">
+              <a href="{{ collection.url | default: '#' }}" class="collection-list-item__anchor">
+
+                <div class="collection-list-item__actions">
+                  <span class="btn btn-primary collection-list-item__button">
+                    {{ 'collections.general.shop_now' | t }}
+                  </span>
+                </div>
+
+                {%- if img != blank -%}
+                  {% include 'img' with img, class: 'collection-list-item__image' %}
+                {%- else -%}
+                  {% capture placeholder_svg %}{% cycle 'collection-4', 'collection-5', 'collection-6' %}{% endcapture %}
+                  {{ placeholder_svg | placeholder_svg_tag: 'placeholder-svg' }}
+                {%- endif -%}
+
+                <div class="collection-list-item__text">
+
+                  <div class="collection-list-item__title bottom-xs">
+                    {%- if block.settings.title != blank -%}
+                      {{ block.settings.title }}
+                    {%- elsif collection.title != blank -%}
+                      {{ collection.title }}
+                    {%- else -%}
+                      {{ 'homepage.onboarding.collection_title' | t }}
+                    {%- endif -%}
+                  </div>
+
+                  {%- if block.settings.text != blank -%}
+                  <div class="collection-list-item__description">
+                    {{ block.settings.text | escape }}
+                  </div>
+                  {%- endif -%}
+                </div>
+                
+              </a>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Collection list",
+    "class": "index-section collection-list-section",
+    "max_blocks": 4,
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Featured Collections"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "featured_collection",
+        "name": "Collection",
+        "settings": [
+          {
+            "label": "Collection",
+            "id": "collection",
+            "type": "collection"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "info": "If unset, collection title will be used"
+          },
+          {
+            "type": "text",
+            "id": "text",
+            "label": "Text"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image",
+            "info": "Images should be a minimum of 1000px wide x 600px tall. Larger images will be sized to fit automatically."
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Collection list",
+        "category": "Collection"
+      }
+    ]
+  }
+{% endschema %}

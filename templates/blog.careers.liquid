@@ -1,0 +1,74 @@
+{%- section 'page-header--careers-blog' -%}
+
+<div class="careers-blog careers-blog__page-list">
+    <div class="container narrow">
+
+        <h2 class="careers-blog-title">{{ blog.title }}</h2>
+
+        {%- paginate blog.articles by 6 -%}
+            <div class="careers-blog-list">
+
+                {%- for article in blog.articles -%}
+
+                    {% assign loopindex = forloop.index0 | modulo: 3 %}
+
+                    {%- if loopindex == 0  -%}
+                        {%- assign flag = 1 -%}
+
+                        {%- if forloop.index0 != 0  -%}
+                            </div>
+                        {%- endif -%}
+
+                        <div class="row">
+
+                    {%- else -%}
+                        {%- assign flag = 0 -%}
+                    {%- endif -%}
+
+
+                    <div class="col-xs-12 col-md-4">
+                        <div class="careers-blog-list__item">
+
+                            {%- assign color_classes = 'background-secondary color-primary' -%}
+                            {%- if article.metafields.style.theme != blank -%}
+                                {%- assign color = article.metafields.style.theme | downcase -%}
+                                {%- assign color_classes = 'background-' | append: color | append: '-secondary' | append: ' color-' | append: color | append: '-primary' -%}
+                            {%- endif -%}
+
+                            <div class="careers-blog-list__item-image  {{ color_classes }}">
+                                <div class="careers-blog-list__item-container">
+
+                                    <div class="careers-blog-list__item-image-icon">
+                                        {%- include 'icon' with 'careers' -%}
+                                    </div>
+
+                                    <div class="careers-blog-list__item-image-title">
+                                        {{ article.title }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="careers-blog-list__item-info">
+                                <div class="careers-blog-list__item-container">
+                                    <div class="careers-blog-list__item-title">{{ article.title }}</div>
+                                    <div class="careers-blog-list__item-date">Listed: {{ article.published_at | date: "%d %B" }}</div>
+                                    <div class="careers-blog-list__item-content">{{ article.excerpt_or_content }}</div>
+                                    <a href="{{ article.url }}" class="careers-blog-list__item-link">View details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                {%- endfor -%}
+                        </div> <!-- close row -->
+            </div>
+
+            {%- if paginate.pages > 1 -%}
+                <div class="pagination-wrap">
+                    {% include 'pagination' %}
+                </div>
+            {%- endif -%}
+
+        {%- endpaginate -%}
+    </div>
+</div>
+

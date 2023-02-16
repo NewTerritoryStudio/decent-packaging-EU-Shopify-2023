@@ -1,0 +1,62 @@
+{%- assign outerLoopIndex = 0 -%}
+<nav id="MobileNavDrawer" class="mobile-nav-drawer mobile-nav-wrapper drawer drawer--left" role="navigation">
+
+  <div class="mobile-nav-drawer__header">
+
+    {%- if customer -%}
+      {%- include 'user-details' with address: false, type: true -%}
+    {%- endif -%}
+    
+  </div>
+
+  <ul id="MobileNav" class="mobile-nav container">
+
+    {%- for link in linklists[section.settings.primary_linklist].links -%}
+      {%- assign link_list_type = 'primary' -%}
+      {%- assign outerLoopIndex = outerLoopIndex | plus: 1 -%}
+      {%- assign child_list_handle = link.title | handleize -%}
+      {% include 'mobile-nav-link' %}
+    {%- endfor -%}
+
+    {%- if customer -%}
+
+      {%- if section.settings.secondary_linklist_customer != blank -%}
+        {%- for link in linklists[section.settings.secondary_linklist_customer].links -%}
+          {%- assign link_list_type = 'secondary' -%}
+          {%- assign outerLoopIndex = outerLoopIndex | plus: 1 -%}
+          {%- assign child_list_handle = link.title | handleize -%}
+          {% include 'mobile-nav-link' %}
+        {%- endfor -%}
+      {%- endif -%}
+
+    {% else %}
+
+      {%- if section.settings.secondary_linklist != blank -%}
+        {%- for link in linklists[section.settings.secondary_linklist].links -%}
+          {%- assign link_list_type = 'secondary' -%}
+          {%- assign outerLoopIndex = outerLoopIndex | plus: 1 -%}
+          {%- assign child_list_handle = link.title | handleize -%}
+          {% include 'mobile-nav-link' %}
+        {%- endfor -%}
+      {%- endif -%}
+      
+    {%- endif -%}
+
+
+    {%- if section.settings.account_linklist != blank -%}
+      {%- for link in linklists[section.settings.account_linklist].links -%}
+        {%- assign link_list_type = 'account' -%}
+        {%- assign outerLoopIndex = outerLoopIndex | plus: 1 -%}
+        {%- assign child_list_handle = link.title | handleize -%}
+        {% include 'mobile-nav-link' %}
+      {%- endfor -%}
+    {%- endif -%}
+
+
+
+
+
+
+  </ul>
+
+</nav>

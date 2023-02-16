@@ -1,0 +1,76 @@
+<div class="product-benefits">
+
+
+  {%- if product.metafields.details.benefits_title != blank or product.metafields.details.benefits_description != blank -%}
+    <div class="product-benefits__text">
+      {%- if product.metafields.details.benefits_title != blank -%}
+        <h2>{{ product.metafields.details.benefits_title }}</h2>
+      {%- endif -%}
+
+      {%- if product.metafields.details.benefits_description != blank -%}
+
+        {% comment %}
+        <div class="product-benefits__title">
+          <p class="h6">{{ 'products.product.benefits' | t }}</p>
+        </div>
+        {% endcomment %}
+
+        <p>{{ product.metafields.details.benefits_description }}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- capture materials %}
+    {%- for block in section.blocks -%}
+      {%- if block.type != 'materials' -%}
+        {%- continue -%}
+      {%- endif -%}
+
+      {%- assign title_to_check = block.settings.title | handle -%}
+      {%- assign product_materials = product.metafields.details.materials | handle -%}
+      {%- unless product_materials contains title_to_check -%}
+        {%- continue -%}
+      {%- endunless -%}
+
+      <div class="product-material">
+
+        {%- if block.settings.image != blank -%}
+          <div class="product-material__image">
+            {%- include 'img' with block.settings.image -%}
+          </div>
+        {%- endif -%}
+
+        <div class="product-material__text">
+
+          {%- if block.settings.title != blank -%}
+            <div class="product-material__title">
+              {{ block.settings.title }}
+            </div>
+          {%- endif -%}
+
+          {%- if block.settings.description != blank -%}
+            <div class="product-material__description">
+              {{ block.settings.description }}
+            </div>
+          {%- endif -%}
+
+        </div>
+      </div>
+    {%- endfor -%}
+  {% endcapture -%}
+
+  {%- if materials != blank -%}
+    <div class="product-benefits__materials">
+
+      <div class="product-benefits__title">
+        <p class="h6">{{ 'products.product.materials' | t }}</p>
+      </div>
+      
+      {{ materials }}
+
+    </div>
+  {%- endif -%}
+
+
+
+</div>

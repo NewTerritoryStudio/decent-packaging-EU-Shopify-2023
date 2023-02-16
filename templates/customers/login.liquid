@@ -1,0 +1,16 @@
+{%- section 'custom-colors--login' -%}
+
+{%- assign form_success = false -%}
+{%- capture form %}
+  {% form 'recover_customer_password' %}
+    {% if form.posted_successfully? %}
+      {%- assign form_success = true -%}
+    {% endif %}
+  {%- endform -%}
+{% endcapture -%}
+
+{%- if customer and form_success != true -%}
+  {%- section '404' -%}
+{% else %}
+  {%- section 'login' -%}
+{%- endif -%}

@@ -1,0 +1,36 @@
+{%- assign this_theme = product.metafields.style.theme | downcase -%}
+
+{%- if this_theme == 'custom' -%}
+  {%- include 'custom-colors' -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product custom colours",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Custom colours"
+    },
+    {
+      "type": "paragraph",
+      "content": "Colours selected here will apply to all products with the theme 'Custom'. Select the Custom theme in the product's custom fields"
+    },
+    {
+      "type": "color",
+      "id": "color_custom_primary",
+      "label": "Primary colour"
+    },
+    {
+      "type": "color",
+      "id": "color_custom_secondary",
+      "label": "Secondary colour"
+    },
+    {
+      "type": "color",
+      "id": "color_custom_tertiary",
+      "label": "Tertiary colour"
+    }
+  ]
+}
+{% endschema %}

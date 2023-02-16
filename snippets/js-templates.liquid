@@ -1,0 +1,88 @@
+{%- comment %} Product Grid Item {% endcomment -%}
+{% capture product_grid_template %}{% include 'product-grid-item' with product: null %}{% endcapture %}
+<template class="js-template" data-template-for="product-grid-item" tabindex="-1" aria-hidden="true">
+{{ product_grid_template | strip_newlines }}
+</template>
+{%- comment %} Photoswipe Template {% endcomment -%}
+{%- comment %} NOTE: Before modifying this template, read the documentation on it. {% endcomment -%}
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="pswp__bg"></div>
+  <div class="pswp__scroll-wrap">
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    <div class="pswp__ui pswp__ui--hidden">
+      <div class="pswp__top-bar">
+        <div class="pswp__counter"></div>
+        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+        <button class="pswp__button pswp__button--share" title="Share"></button>
+        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+        <div class="pswp__preloader">
+          <div class="pswp__preloader__icn">
+            <div class="pswp__preloader__cut">
+              <div class="pswp__preloader__donut"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+        <div class="pswp__share-tooltip"></div>
+      </div>
+      <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+      <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+      <div class="pswp__caption">
+        <div class="pswp__caption__center"></div>
+      </div>
+    </div>
+  </div>
+</div>
+{% comment %}
+var $templates = $('.js-template[data-template-for]');
+// if (!$templates.length) {
+//   return;
+// }
+
+$templates.each(function(){
+  var $template = $(this);
+  rivets.components[$template.data('template-for')] = {
+    template: function() {
+      return $template.html()
+    },
+
+    initialize: (el, attrs) => {
+      return { data: attrs.data }
+    }
+  }
+});
+
+// rivets.init('todo-item', $('#modal-content'), {product: data})
+// rivets.bind($('app'), scope)
+
+$.getJSON('/products/auto-finesse-avalanche-foaming-wash', function(data){
+  var gridItem;
+  rivets.init('product-grid-item', gridItem, {product: data});
+  console.log(gridItem);
+});
+{% endcomment %}
+<template class="js-template" data-template-for="header-features" tabindex="-1" aria-hidden="true">
+  
+  <div class="site-nav__feature" rv-each-feature="data.features">
+    <a rv-href="feature.link_url">
+      <span class="feature__titles">
+        <span class="feature__title h4" rv-text="feature.title"></span>
+        <span class="feature__subtitle" rv-text="feature.link_text"></span>
+      </span>
+      <span rv-if="feature.image" class="feature__image">
+        <img rv-data-src="feature.image" class="lazyload" data-sizes="auto"/>
+      </span>
+    </a>
+  </div>
+
+</template>
+
+<template class="js-template" data-template-for="product-sticky-add-to-cart" tabindex="-1" aria-hidden="true">
+  {%- include 'product-sticky-add-to-cart' -%}
+</template>

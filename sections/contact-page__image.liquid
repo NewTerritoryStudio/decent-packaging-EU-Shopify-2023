@@ -1,0 +1,24 @@
+{%- if section.settings.location_image != blank -%}
+  <div class="" data-section-id="{{ section.id }}" data-section-type="location-image">
+    <div class="">
+      <div class="contact-section__image">
+        {%- include 'img' with section.settings.location_image -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+
+
+{% schema %}
+{
+  "name": "Contact - team photo",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "location_image",
+      "label": "Location image"
+    }
+  ]
+}
+{% endschema %}

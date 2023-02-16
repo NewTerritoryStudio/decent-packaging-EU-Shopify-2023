@@ -1,0 +1,59 @@
+<div class="product-plastic-counter" data-section-id="{{ section.id }}" data-section-type="section-plastic-counter">
+
+  <div class="product-plastic-counter__image">
+    <img src="{{ 'icon-plastic-saved.svg' | asset_url }}">
+  </div>
+
+  <div class="container narrow">
+
+    <div class="product-plastic-counter__content">
+      
+      <div class="product-plastic-counter__background">
+      </div>
+
+      <div class="product-plastic-counter__text">
+
+        <div class="row">
+          <div class="col-xs-12 col-md-6 col-md-offset-6">
+            <p class="h2 product-plastic-counter__count" data-plastic-saved-count>{{ section.settings.count }}</p>
+            <p class="h3 product-plastic-counter__title">{{ section.settings.title }}</p>
+            <p>{{ section.settings.description }}</p>
+          </div>
+        </div>
+
+      </div>
+    
+    </div>
+
+  </div>
+
+</div>
+
+{% schema %}
+  {
+    "name": "Plastic Counter",
+    "class": "plastic-counter-section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "count",
+        "label": "Plastic saved count",
+        "default": "135,000,000"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title text",
+        "default": "pieces of plastic taken out of circulation"
+      },
+      {
+        "type": "textarea",
+        "id": "description",
+        "label": "Description",
+        "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam illud vehementer repugnat, eundem beatum esse et multis malis oppressum. Hoc est non modo cor non habere, sed ne palatum quidem. Illud mihi a te nimium festinanter dictum videtur, sapientis omnis."
+      }
+    ]
+  }
+{% endschema %}
+
+

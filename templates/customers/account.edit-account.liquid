@@ -1,0 +1,5 @@
+{%- capture main %}
+  {%- include 'account-edit-account' -%}
+{% endcapture -%}
+
+{%- include 'account-view' with main: main -%}

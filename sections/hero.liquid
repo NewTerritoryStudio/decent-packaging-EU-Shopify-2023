@@ -1,0 +1,240 @@
+<div data-section-id="{{ section.id }}" data-section-type="hero">
+
+  <div class="hero"> 
+
+
+    <div class="hero__slider-wrapper">
+      <div class="hero__slider"
+        id="hero__slider-{{ section.id }}"
+        data-slideshow
+        data-autoplay="true" 
+        data-arrows="false" 
+        data-dots="true" 
+        data-slides-show-desktop="1"
+        data-slides-show-tablet="1"
+        data-slides-show-mobile="1"
+        data-slides-scroll-desktop="1"
+        data-slides-scroll-tablet="1"
+        data-slides-scroll-mobile="1"
+        data-infinite="true"
+        data-fade="true"
+        speed="1000"
+        >
+        
+        {%- for block in section.blocks -%}
+          {%- include 'hero-slide' with block -%}
+        {%- endfor -%}
+
+      </div>
+    </div>
+
+    <div class="hero__cta">
+
+      {%- include 'call-to-action' with 
+        title: section.settings.cta_title
+        title_customer: section.settings.cta_title_customer
+        text: section.settings.cta_text
+        text_customer: section.settings.cta_text_customer
+       -%}
+
+    </div>
+  </div>
+
+  {%- include 'custom-colors' with primary: false -%}
+
+</div>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "text",
+      "id": "cta_title",
+      "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "cta_title_customer",
+      "label": "Title (signed in)"
+    },
+    {
+      "type": "textarea",
+      "id": "cta_text",
+      "label": "Text"
+    },
+    {
+      "type": "textarea",
+      "id": "cta_text_customer",
+      "label": "Text (Signed in)"
+    },
+    {
+      "type": "text",
+      "id": "btn_one_text",
+      "label": "Button One Text"
+    },
+    {
+      "type": "url",
+      "id": "btn_one_url",
+      "label": "Button One Link"
+    },
+    {
+      "type": "text",
+      "id": "btn_two_text",
+      "label": "Button Two Text"
+    },
+    {
+      "type": "url",
+      "id": "btn_two_url",
+      "label": "Button Two Link"
+    },
+    {
+      "type": "text",
+      "id": "btn_one_text_customer",
+      "label": "Button One Text (signed in)"
+    },
+    {
+      "type": "url",
+      "id": "btn_one_url_customer",
+      "label": "Button One Link (signed in)"
+    },
+    {
+      "type": "text",
+      "id": "btn_two_text_customer",
+      "label": "Button Two Text (signed in)"
+    },
+    {
+      "type": "url",
+      "id": "btn_two_url_customer",
+      "label": "Button Two Link (signed in)"
+    },
+    {
+      "type": "header",
+      "content": "Custom Colours"
+    },
+    {
+      "type": "paragraph",
+      "content": "ADVANCED: Choose colours below. Select 'custom' background colour in the slide you would like to apply this to."
+    },
+    {
+      "type": "color",
+      "id": "color_custom_primary",
+      "label": "Primary colour"
+    },
+    {
+      "type": "color",
+      "id": "color_custom_secondary",
+      "label": "Secondary colour"
+    },
+    {
+      "type": "color",
+      "id": "color_custom_tertiary",
+      "label": "Tertiary colour"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button url"
+        },
+        {
+          "type": "url",
+          "id": "video_url",
+          "label": "Video URL",
+          "info": "Copy and paste this URL from the Shopify Files section"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Mobile image"
+        },
+        {
+          "type": "select",
+          "id": "image_size",
+          "label": "Image size",
+          "options": [
+            {
+              "value": "default",
+              "label": "Default"
+            },
+            {
+              "value": "full-size-image",
+              "label": "Full size"
+            },
+            {
+              "value": "full-size-image-with-header",
+              "label": "Full size image with header"
+            }
+          ],
+          "default": "default"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text colour",
+          "default": "#fff"
+        },
+        {
+          "type": "select",
+          "id": "background_color",
+          "label": "Background",
+          "options": [
+            {
+              "value": "orange-secondary",
+              "label": "Orange"
+            },
+            {
+              "value": "blue-secondary",
+              "label": "Blue"
+            },
+            {
+              "value": "yellow-secondary",
+              "label": "Yellow"
+            },
+            {
+              "value": "custom-secondary",
+              "label": "Custom"
+            }
+          ],
+          "default": "orange-secondary"
+        }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Hero",
+    "category": "Content",
+    "settings": {
+    }
+  }]
+}
+{% endschema %}

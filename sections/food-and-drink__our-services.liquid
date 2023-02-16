@@ -1,0 +1,84 @@
+<div class="fd-page__section-view related-articles" data-section-id="{{ section.id }}" data-section-type="our-services">
+    <div class="container fd-page__view-width">
+        <div class="fd-page__section-view_title">Our services</div>
+
+        <div class="careers-blog__page-list">
+            <div class="careers-blog-list">
+                <div class="row">
+
+                    {% for item in section.blocks %}
+                        {% if item.type == 'our_block' %}
+
+                            <div class="col-xs-12 col-md-4">
+                                <div class="careers-blog-list__item">
+
+                                    {% assign color_class = ' -v1 ' %}
+
+                                    {% if forloop.index == 2 %}
+                                        {% assign color_class = ' -v2 ' %}
+                                    {% endif %}
+
+                                    {% if forloop.index == 3 %}
+                                        {% assign color_class = ' -v3 ' %}
+                                    {% endif %}
+
+                                    <div class="careers-blog-list__item-image {{ color_class }}">
+
+                                        <div class="careers-blog-list__item-container">
+                                            {% include 'img' with item.settings.service_image, class: '' %}
+                                            <div class="careers-blog-list__item-image-title">{{ item.settings.service_title }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="careers-blog-list__item-info">
+                                        <div class="careers-blog-list__item-container">
+                                            <div class="careers-blog-list__item-content">{{ item.settings.service_description }}</div>
+                                            <a href="{{ item.settings.service_url }}" class="careers-blog-list__item-link">View details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% schema %}
+    {
+        "name": "Our services",
+        "blocks":[
+            {
+                "type": "our_block",
+                "name": "Our services",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "service_title",
+                        "default": "Custom branding",
+                        "label": "Service title"
+                    },
+                    {
+                        "type": "textarea",
+                        "id": "service_description",
+                        "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. At certe gravius. Certe non potest. Duo Reges: constructio interrete. Quis hoc dicit? Iam in altera",
+                        "label": "Service description"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "service_image",
+                        "label": "Image"
+                    },
+                    {
+                        "id": "service_url",
+                        "type": "url",
+                        "label": "Service URL"
+                    }
+                ]
+            }
+        ]
+    }
+{% endschema %}

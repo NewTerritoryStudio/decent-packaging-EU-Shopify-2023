@@ -1,0 +1,63 @@
+{%- include 'globals' -%}
+
+{%- assign customer_image = customer.metafields.customr['Profile_image'] -%}
+{%- assign no_image = false -%}
+
+
+{%- if customer_image == blank -%}
+  {%- assign no_image = true -%}
+  {%- assign customer_image = settings.default_profile_image -%}
+{%- endif -%}
+
+<div class="user-details">
+  <div class="user-details__image">
+    {%- if no_image -%}
+      {%- include 'img' with customer_image -%}
+    {% else %}
+      {%- include 'img' with customer_image, type: 'url' -%}
+    {%- endif -%}
+    
+  </div>
+
+  <div class="user-details__info">
+
+    <div class="user-details__name">{{ customer_name }}</div>
+
+    {%- if address == true -%}
+
+      {%- assign customer_street_address = '' -%}
+      {%- if customer.default_address.street != blank -%}
+        {%- assign customer_street_address = customer_street_address | append: customer.default_address.street -%}
+      {%- endif -%}
+
+      {%- if customer.default_address.city != blank -%}
+        {%- assign customer_street_address = customer_street_address | append: ', ' | append: customer.default_address.city -%}
+      {%- endif -%}
+
+      {%- if customer.default_address.province != blank -%}
+        {%- assign customer_street_address = customer_street_address | append: ', ' | append: customer.default_address.province -%}
+      {%- endif -%}
+
+      <div class="user-details__address">{{ customer_street_address }}</div>
+    {%- endif -%}
+
+    {%- if type == true -%}
+      {%- if customer.metafields.customr['Business Type'] contains '::' and customer.metafields.customr['Business Type'] contains '=>' -%}
+        {%- assign customer_type = customer.metafields.customr['Business Type'] | split: '=>' | last | strip -%}
+      {% else %}
+        {%- assign customer_type = customer.metafields.customr['Business Type'] -%}
+      {%- endif -%}
+      {%- if customer_type != blank -%}
+        <div class="user-details__type">{{ customer_type | capitalize }}</div>
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if edit_link == true -%}
+      <div class="user-details__edit-link">
+        <a href="/account?view=edit-account">{{ 'customer.account.edit_details' | t }}</a>
+      </div>
+    {%- endif -%}
+
+  </div>
+
+</div>

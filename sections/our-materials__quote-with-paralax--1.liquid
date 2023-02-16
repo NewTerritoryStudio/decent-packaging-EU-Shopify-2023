@@ -1,0 +1,76 @@
+<div class="quote-with-paralax" data-section-id="{{ section.id }}" data-section-type="quote-with-paralax">
+
+  {%- assign background_color_custom = section.settings.background_color_custom -%}
+  <div class="quote-with-paralax__container background--{{ section.settings.background_color }}" {% if background_color_custom %}style="background-color: {{ background_color_custom }}"{% endif %}>
+
+   <p class="quote-with-paralax__title h1">{{ section.settings.title }}</p>
+
+   <div class="quote-with-paralax__image-layer-1">
+     {%- include 'img' with section.settings.image_layer_1 -%}
+   </div>
+
+   {%- if section.settings.image_layer_2 -%}
+      <div class="quote-with-paralax__image-layer-2">
+       {%- include 'img' with section.settings.image_layer_2 -%}
+     </div>
+   {%- endif -%}
+
+  </div>
+
+</div>
+
+{% schema %}
+  {
+    "name": "Quote with paralax",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Quote"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_layer_1",
+        "label": "Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_layer_2",
+        "label": "Image"
+      },
+      {
+        "type": "select",
+        "id": "background_color",
+        "label": "Background",
+        "options": [
+          {
+            "value": "white",
+            "label": "White"
+          },
+          {
+            "value": "secondary",
+            "label": "Auto"
+          },
+          {
+            "value": "orange-secondary",
+            "label": "Orange"
+          },
+          {
+            "value": "blue-secondary",
+            "label": "Blue"
+          },
+          {
+            "value": "yellow-secondary",
+            "label": "Yellow"
+          }
+        ],
+        "default": "secondary"
+      },
+      {
+        "type": "color",
+        "id": "background_color_custom",
+        "label": "Background colour custom"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,42 @@
+{%- assign social_accounts = 'Facebook, Twitter, Pinterest, Instagram, LinkedIn, Snapchat, Tumblr, YouTube, Vimeo,' | split: ', ' -%}
+{%- assign circled_icons = false -%}
+<ul class="social-links list--inline">
+  <li class="social-links__title">
+    <span class="h6">Follow us:</span>
+  </li>
+  {%- assign active_social_links = 0 -%}
+  {%- assign last_active_social_link = 0 -%}
+  {%- capture social_links -%}
+    {%- for social in social_accounts -%}
+      {%- assign social_title = social -%}
+      {%- assign social_handle = social | handleize -%}
+      {%- capture social_link %}social_{{ social_handle }}_link{% endcapture -%}
+      {%- capture social_icon %}icon-{{ social_handle }}{% endcapture -%}
+
+      {%- if settings[social_link] != blank -%}
+        {%- assign active_social_links = active_social_links | plus: 1 -%}
+        {%- assign last_active_social_link = social_title -%}
+        <li>
+          <a href="{{ settings[social_link] }}" class="social-link{% if circled_icons %} social-link--circled{% endif %}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: social }}" target="_blank">
+            {% include social_icon %}
+            <span class="icon-fallback-text">{{ social }}</span>
+          </a>
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+  
+  {% comment %}{%- if active_social_links == 1 and last_active_social_link == 'Facebook' %}
+    <h5>
+      <a href="{{ settings[social_facebook_link] }}" class="social-link" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: last_active_social_link }}">
+        <span>Find us on </span> {% include 'logo' with last_active_social_link %}
+        <span class="icon-fallback-text">{{ last_active_social_link }}</span>
+      </a>
+    </h5>
+  {% else %}
+    {{ social_links }}
+  {% endif -%}{% endcomment %}
+  {%- if active_social_links > 0 -%}
+    {{ social_links }}
+  {%- endif -%}
+</ul>

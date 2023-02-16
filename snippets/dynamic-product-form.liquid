@@ -1,0 +1,76 @@
+{%- assign form_items = dynamic-product-form | default: 'primary|halfCarton|secondary' | split: '|' -%}
+{%- assign sticky_form = sticky_form | default: false -%}
+
+{%- for form_item in form_items -%}
+
+  <div class="js product-form__item" rv-class-show="products.{{ form_item }}.show">
+
+    <div class="product-form__item-title">
+      <div class="product-form__title-block">
+        <h4 rv-if="products.{{ form_item }}.selectSizeLabel" rv-html="products.{{ form_item }}.selectSizeLabel"></h4>
+        <p>
+          {% if shop.taxes_included != true %}
+            <span>{{ 'products.product.tax_excluded' | t }}</span>
+          {% else %}
+            <span>{{ 'products.product.tax_included' | t }}</span>
+          {% endif %}
+          <span class="product-form__units-per-carton" rv-if="products.{{ form_item }}.metafields.details.carton_quantity">{{ 'products.product.units_par_carton' | t }}
+          <span rv-text="products.{{ form_item }}.metafields.details.carton_quantity"></span>
+        </span>
+        </p>
+      </div>
+      <p class="product-form__item-note">
+
+        {%- unless sticky_form == true -%}
+          {%- if form_item == 'primary' -%}
+            <span class="product-form__half-carton-available" data-form="halfCarton" rv-on-click="methods.formToggle" rv-if="products.halfCarton.id">{{ 'products.product.half_cartons_available' | t }}</span>
+          {%- endif -%}
+        {%- endunless -%}
+
+      </p>
+    </div>
+
+    <div class="product-form__variants-select" rv-data-product-id="products.{{ form_item }}.id">
+      <div class="variant" rv-each-variant="products.{{ form_item }}.variants" rv-data-variant-id="variant.id">
+        <span class="variant__title" rv-text="variant.title"></span>
+        <span class="variant__price" rv-text="variant.price | money"></span>
+        <span  class="variant__quantity">
+
+          <span class="variant__quantity-minus"
+            rv-data-variant-id="variant.id"
+            rv-on-click="methods.subtractVariantFromOrder"
+            rv-class-disabled="order.updatedAt | variantInOrderCount order.items variant.id | eq 0">
+            <span>{% include 'icon-minus' %}</span>
+          </span>
+
+          <span rv-if="products.{{ form_item }}.variants.length | eq 1" class="variant__quantity-count">
+            <!-- <span rv-text="order.updatedAt | variantInOrderCount order.items variant.id"></span> -->
+            <span rv-hide="order.updatedAt | variantInOrderCount order.items variant.id > 1" rv-text="1"></span>
+            <span rv-text="order.updatedAt | variantInOrderCount order.items variant.id" rv-show="order.updatedAt | variantInOrderCount order.items variant.id > 1"></span>
+          </span>
+
+          <span rv-if="products.{{ form_item }}.variants.length | eq 1 | not" class="variant__quantity-count">
+            <span rv-text="order.updatedAt | variantInOrderCount order.items variant.id"></span>
+          </span>
+
+
+          {%- assign max_string = 'variant.inventory_quantity' -%}
+          {%- if form_item == 'halfCarton' -%}
+            {%- assign max_string = 1 -%}
+          {%- endif -%}
+
+          <span class="variant__quantity-plus"
+            data-product-add
+            rv-data-variant-id="variant.id"
+            rv-data-product-id="products.{{ form_item }}.id"
+            rv-data-max="{{ max_string }}"
+            rv-on-click="methods.addVariantToOrder"
+            rv-class-disabled="order.updatedAt | variantInOrderCount order.items variant.id | eq {{ max_string }}">
+            <span>{% include 'icon-plus' %}</span>
+          </span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+{%- endfor -%}

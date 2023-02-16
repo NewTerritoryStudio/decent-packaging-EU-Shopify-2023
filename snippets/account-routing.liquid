@@ -1,0 +1,54 @@
+{%- assign error_string = 'Liquid error: Could not find asset' -%}
+
+{%- assign account_areas = 'customers/addresses.edit,customers/addresses.new,customers/addresses,customers/order,search,cart' | split: ',' -%}
+{%- assign account_page = false -%}
+
+{%- if template.name == 'account' or account_areas contains template -%}
+  {%- assign account_page = true -%}
+{%- endif -%}
+
+
+{%- if customer and account_page == true -%}
+  {% comment %} Visitor is signed in and is accessing an account page {% endcomment %}
+
+  <div class="account">
+    <div class="account__side-bar">
+      <div class="account__user-details">
+        {%- include 'user-details' with address: true, type: false, edit_link: true -%}
+      </div>
+      <div class="account__nav">
+        {%- section 'account-nav' -%}
+      </div>
+    </div>
+    <div class="account__view">
+     {{ content_for_layout }}
+    </div>
+  </div>
+
+{%- elsif template.name =='cart' or template.name =='search' -%}
+  {% comment %} Pages with account view for signed out users {% endcomment %}
+
+  <div class="account">
+    <div class="account__view">
+     {{ content_for_layout }}
+    </div>
+  </div>
+
+{% elsif customer and account_page != true %}
+  {% comment %} Visitor is signed in and is not accessing an account page {% endcomment %}
+
+  {{ content_for_layout }}
+
+{% elsif account_page != true %}
+  {% comment %} Visitor is not signed in and is not accessing an account page {% endcomment %}
+
+  {{ content_for_layout }}
+
+{%- else -%}
+  {% comment %} Visitor is not signed in and is accessing an account page {% endcomment %}
+
+  {%- section '404' -%}
+
+{%- endif -%}
+
+

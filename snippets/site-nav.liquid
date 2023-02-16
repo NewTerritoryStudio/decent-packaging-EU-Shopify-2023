@@ -1,0 +1,202 @@
+{%- assign nav = site-nav | default: section.settings.primary_linklist -%}
+{%- assign type = type | default: 'default' -%}{% comment %}default, swipe{% endcomment %}
+{%- assign dropdown = dropdown | default: 'simple' -%}{% comment %}simple, mega{% endcomment %}
+{%- assign show_arrows = show_arrows | default: true -%}
+{%- unless dropdown -%}
+  {%- assign show_arrows = false -%}
+{%- endunless -%}
+{%- assign menu_id = id | default: 'SiteNav' -%}
+
+{%- assign accordion = false -%}
+{%- assign accordion_max = accordion_max | default: false -%}
+{%- assign accordion_min = accordion_min | default: false -%}
+
+{%- if accordion_max != false or accordion_min != false -%}
+  {%- assign accordion = true -%}
+{%- endif -%}
+
+
+
+<ul class="site-nav site-nav--{{ type }}
+  {% if dropdown %}site-nav--{{ dropdown }}{% endif %}
+  {% unless inline == false %}list--inline{% endunless %}
+  {% if type == 'swipe' %}swipeable{% endif %}"
+  {% if accordion != false %}data-simple-accordion{% endif %}
+  {% if accordion_max != false %}data-simple-accordion-max="{{ accordion_max }}"{% endif %}
+  {% if accordion_min != false %}data-simple-accordion-min="{{ accordion_min }}"{% endif %}
+  id="{{ menu_id }}">
+  {%- for link in linklists[nav].links -%}
+    {%- assign three_level_nav = false -%}
+    {%- assign child_list_handle = link.title | handleize -%}
+
+    {%- if linklists[child_list_handle].links != blank -%}
+      {%- for childlink in linklists[child_list_handle].links -%}
+        {%- assign grand_child_list_handle = childlink.title | handleize -%}
+        {%- if linklists[grand_child_list_handle].links != blank -%}
+          {%- assign three_level_nav = true -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+
+    {%- if linklists[child_list_handle].links != blank %}
+      <li class="
+      {% if dropdown %}site-nav--has-dropdown{% endif %}
+      {% if link.active %}site-nav--active{% endif %}
+      {% if type == 'feature-blocks' %}lazyload{% endif %}"
+
+      {% if dropdown %} aria-has-popup="true" aria-controls="SiteNavLabel-{{ child_list_handle }}"{% endif %}
+
+      {% if type == 'feature-blocks' %}
+        {%- assign block = section.blocks[forloop.index0] -%}
+        {%- assign bg_image = block.settings.image -%}
+        data-bgset="{% include 'bgset' with bg_image %}"
+        data-sizes="auto"
+        {%- assign bg_image = blank -%}
+      {% endif %}
+
+      >
+        <a href="{{ link.url }}" class="
+          site-nav__link site-nav__link--main
+          {% if accordion != false %}simple-accordion__title{% endif %}">
+          <span class="{% if type == 'feature-blocks' %}h1{% endif %}">{{ link.title }}</span>
+          {%- if show_arrows -%}
+            {% include 'icon-caret-down' %}
+            <span class="visually-hidden">{{ 'layout.navigation.expand' | t }}</span>
+          {%- endif -%}
+        </a>
+
+        {%- if dropdown == 'tippy' -%}
+          <div class="js-template" data-template-for="SiteNavLabel-{{ child_list_handle }}" tabindex="-1" aria-hidden="true">
+        {%- endif -%}
+        {%- if dropdown %}
+          <div class="site-nav__dropdown" id="SiteNavLabel-{{ child_list_handle }}" aria-expanded="false">
+        {% endif -%}
+          {%- if three_level_nav -%}
+            <div class="site-nav__childlist">
+              {%- if linklists[child_list_handle].links != blank -%}
+                <div class="site-nav__childlist-grid" data-list-length="{{ linklists[child_list_handle].links.size }}">
+
+                  {% comment %}<div class="site-nav__childlist-item site-nav__childlist-details">
+                    
+                    <div class="site-nav__childlist-title h4">
+                      {{ link.title }}
+                    </div>
+
+                    {%- assign menu_image_source = '' -%}
+                    {%- assign url_collection = link.url | split: '/' | last | split: '?' | first -%}
+                    {%- if collections[url_collection].image != blank -%}
+                      {%- assign menu_image_source = collections[url_collection].image -%}
+                    {%- elsif collections[child_list_handle].image != blank -%}
+                      {%- assign menu_image_source = collections[child_list_handle].image -%}
+                    {%- endif -%}
+                    
+                    {%- if menu_image_source != blank -%}
+                      <div class="site-nav__childlist-image hidden-xs lazyload lazypreload"
+                           data-bgset="{% include 'bgset', image: menu_image_source %}"
+                           data-sizes="auto"
+                           data-parent-fit="cover"
+                           style="background-position: center;">
+                      </div>
+                    {%- endif -%}
+                    
+                  </div>{% endcomment %}
+
+                  {%- for childlink in linklists[child_list_handle].links %}
+                    {%- assign grand_child_list_handle = childlink.title | handle -%}
+
+                    <div class="site-nav__childlist-item site-nav__childlist-navlist" data-list-length="{% if linklists[child_list_handle].links.size > 5 %}long{% else %}short{% endif %}">
+                      <a href="{{ childlink.url }}" class="site-nav__link site-nav__child-link site-nav__child-link--parent">
+                        <span>{{ childlink.title | escape }}</span>
+                      </a>
+                      {%- if linklists[grand_child_list_handle].links.size > 0 -%}
+                        <ul class="site-nav__grandchildlist">
+                          {%- for grandchildlink in linklists[grand_child_list_handle].links -%}
+                            <li>
+                              <a href="{{ grandchildlink.url }}" class="site-nav__link site-nav__grandchild-link">
+                                <span>{{ grandchildlink.title | escape }}</span>
+                              </a>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      {%- endif -%}
+                    </div>
+                  {% endfor -%}
+                  
+                </div>
+              {%- endif -%}
+              {% comment %}<div class="site-nav__childlist-footer">
+                <a href="{{ link.url }}" class="btn btn-primary">
+                  {{ 'collections.general.view_all' | t }}
+                </a>
+              </div>{% endcomment %}
+            </div>
+          {% else %}
+
+            <ul>
+              {%- for childlink in linklists[child_list_handle].links %}
+                {%- if childlink.title == '[snippet contact-info]' -%}
+                  <li>
+                    {%- include 'store-contact' -%}
+                  </li>
+                  {%- continue -%}
+                    
+                {%- elsif childlink.title == '[snippet sms-assistance]' -%}
+
+                      <!-- SMS Blocks -->
+
+                      <!-- sms:(+44)({{ shop.metafields.globals.assistance_sms_number }})" -->
+
+                      {%- assign sms_link = childlink.url | remove: '#' | replace: '?', '(' | replace: '__', ')(' | append: ')' -%}
+
+
+                      <!-- SMS Blocks -->
+                      
+                {%- else -%}
+
+                <li{% if childlink.active %} class="site-nav--active"{% endif %}>
+                  <a href="{{ childlink.url }}" class="site-nav__link site-nav__child-link{% if forloop.last %} site-nav__link--last{% endif %}">
+                    <span>{{ childlink.title | escape }}</span>
+                  </a>
+                </li>
+
+                {%- endif -%}
+              {% endfor -%}
+            </ul>
+
+
+          {%- endif -%}
+        
+        {%- if dropdown %}
+          </div>
+        {% endif -%}
+        {%- if dropdown == 'tippy' %}
+          </div>
+        {%- endif -%}
+
+
+      </li>
+    {%- else -%}
+      <li class="{% if link.active %}site-nav--active {% endif %}{% if type == 'feature-blocks' %}lazyload{% endif %}"
+
+      {% if type == 'feature-blocks' %}
+        {%- assign block = section.blocks[forloop.index0] -%}
+        {%- assign bg_image = block.settings.image -%}
+        data-bgset="{% include 'bgset' with bg_image %}"
+        data-sizes="auto"
+        {%- assign bg_image = blank -%}
+      {% endif %}
+
+      >
+        <a href="{{ link.url }}" class="site-nav__link site-nav__link--main">
+          <span class="{% if type == 'feature-blocks' %}h1{% endif %}">{{ link.title }}</span>
+        </a>
+      </li>
+    {%- endif -%}
+  {% endfor -%}
+</ul>
+
+{%- assign nav = null -%}
+{%- assign type = null -%}
+{%- assign dropdown = null -%}
+{%- assign show_arrows = null -%}
+{%- assign menu_id = null -%}

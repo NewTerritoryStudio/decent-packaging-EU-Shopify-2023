@@ -1,0 +1,95 @@
+<div class="fd-page__business-view" data-section-id="{{ section.id }}" data-section-type="for-your-business">
+    <div class="container fd-page__view-width">
+        <div class="fd-page__business-view_head">
+            <h1>{{ section.settings.business_title }}</h1>
+            <div>{{ section.settings.business_description }}</div>
+        </div>
+        <div class="fd-page__business-view_grid">
+            <div class="fd-page__business-view_list">
+                {% for item in section.blocks %}
+                    {% if item.type == 'business_block' %}
+
+                        {% assign color_class = ' v1 ' %}
+
+                        {% if forloop.index == 2 %}
+                            {% assign color_class = ' v2 ' %}
+                        {% endif %}
+
+                        {% if forloop.index == 3 %}
+                            {% assign color_class = ' v3 ' %}
+                        {% endif %}
+
+                        <div class="fd-page__business-item {{ color_class }}">
+                            <div class="fd-page__business-item_title">{{ item.settings.business_info_title }}</div>
+                            <div class="fd-page__business-item_text">{{ item.settings.business_info_description }}</div>
+                        </div>
+
+                    {% endif %}
+                {% endfor %}
+
+                <div class="fd-page__business-item_tools">
+                    <a href="{{ section.settings.business_url }}" class="btn btn-black-o">{{ section.settings.button_text }}</a>
+                </div>
+            </div>
+            <div class="fd-page__business-view_img">
+                {%- include 'img' with section.settings.business_image -%}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+    {
+        "name": "For your business",
+        "settings": [
+            {
+                "type": "text",
+                "id": "business_title",
+                "default": "We make it simple for your business",
+                "label": "Business title"
+            },
+            {
+                "type": "textarea",
+                "id": "business_description",
+                "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. At certe gravius. Certe non potest. Duo Reges: constructio interrete. Quis hoc dicit? Iam in altera",
+                "label": "Business description"
+            },
+            {
+                "type": "image_picker",
+                "id": "business_image",
+                "label": "Image"
+            },
+            {
+              "type": "text",
+              "id": "button_text",
+              "label": "Button Text",
+              "default": "Get started"
+            },
+            {
+                "id": "button_url",
+                "type": "url",
+                "label": "Button URL"
+            }
+        ],
+        "blocks":[
+            {
+                "type": "business_block",
+                "name": "Business item",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "business_info_title",
+                        "default": "Benefits of using innocent #3",
+                        "label": "Business title"
+                    },
+                    {
+                        "type": "textarea",
+                        "id": "business_info_description",
+                        "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. At certe gravius. Certe non potest. Duo Reges: constructio interrete. Quis hoc dicit? Iam in altera",
+                        "label": "Business description"
+                    }
+                ]
+            }
+        ]
+    }
+{% endschema %}

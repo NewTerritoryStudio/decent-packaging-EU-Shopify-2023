@@ -1,0 +1,53 @@
+<div class="fd-page__section-view related-articles" data-section-id="{{ section.id }}" data-section-type="popular-products">
+    <div class="container fd-page__view-width">
+        <div class="related-articles__title">
+            <div class="fd-page__section-view_title sl-ttl">Popular products</div>
+            <div class="sl-controls">
+                <button type="button" class="sl-prev"></button>
+                <button type="button" class="sl-next"></button>
+            </div>
+        </div>
+        <div class="sl-wrap not-init">
+            <div class="slider">
+                {% for item in section.blocks %}
+                    {% if item.type == 'popular_block' %}
+                        {% assign product_item = all_products[item.settings.popular_product] %}
+                        <div class="prod-item slide">
+                            <a href="{{ product_item.url }}" class="prod-item__pic">
+                                {%- include 'img' with product_item.featured_image -%}
+                            </a>
+                            <div class="prod-item__ttl">
+                                <a href="{{ product_item.url }}">{{ product_item.title }}</a>
+                            </div>
+                            <div class="prod-item__txt">{{ product_item.type }}</div>
+                            <div class="prod-item__price">
+                                {%- include 'price' with product_item -%}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% schema %}
+{
+    "name": "Popular products",
+    "blocks":[
+        {
+            "type": "popular_block",
+            "name": "Popular products",
+            "settings": [
+                {
+                    "type": "product",
+                    "id": "popular_product",
+                    "label": "Popular product"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}

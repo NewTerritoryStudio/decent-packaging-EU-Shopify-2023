@@ -1,0 +1,22 @@
+{%- assign collection = collection -%}
+
+{%- assign collection_handles = blank -%}
+{%- include 'child_collection_handles' -%}
+{%- assign is_parent_collection = true -%}
+
+{%- if collection_handles.size == 0 -%}
+  {%- assign is_parent_collection = false -%}
+{%- endif -%}
+
+{%- include 'collection-sticky-nav' with sort: false, container: false -%}
+
+{%- for collection_handle in collection_handles -%}
+
+  {%- assign collection_in_loop = collections[collection_handle] -%}
+  {%- include 'collection-grid-items' with collection: collection_in_loop, index: forloop.index0, container: false, order_form: true, items_per_page: 999 -%}
+
+{% else %}
+
+  {%- include 'collection-grid-items' with collection: collection, index: 0, container: false, order_form: true, items_per_page: 999 -%}
+
+{%- endfor -%}

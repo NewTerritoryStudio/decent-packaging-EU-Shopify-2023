@@ -1,0 +1,93 @@
+{%- assign this = hero-slide | default: block -%}
+
+<div class="
+  hero-slide
+  hero-slide--{{ this.id }}
+  background--{{ this.settings.background_color }}
+  hero-slide--{{ this.settings.image_size }}
+  "
+  data-theme="{{ this.settings.background_color | split: '-' | first | downcase }}">
+
+  {%- style %}
+    .hero-slide--{{ this.id }} .hero-slide__title,
+    .hero-slide--{{ this.id }} .hero-slide__subtitle,
+    .hero-slide--{{ this.id }} .hero-slide__button {
+      color: {{ this.settings.text_color }}
+    }
+  {% endstyle -%}
+  
+  <div class="container narrow">
+    <div class="hero-slide__content">
+
+      <div class="hero-slide__titles">
+        {%- if this.settings.title != blank -%}
+          <div class="hero-slide__title">
+            <p class="h1">
+              {{ this.settings.title }}
+            </p>
+          </div>
+        {%- endif -%}
+
+        {%- if this.settings.subtitle != blank -%}
+          <div class="hero-slide__subtitle">
+            <p class="h4">
+              {{ this.settings.subtitle }}
+            </p>
+          </div> 
+        {%- endif -%}
+
+        {%- if this.settings.button_text != blank and this.settings.button_url != blank -%}
+          <div class="hero-slide__button">
+            <a href="{{ this.settings.button_url }}" class="btn btn-black-o btn--mega">{{ this.settings.button_text}}</a>
+          </div>
+        {%- endif -%}
+
+      </div>
+
+      <div class="hero-slide__media">
+
+          {%- if this.settings.video_url != blank -%}
+            <div class="hero-slide__video-wrapper">
+              
+              <video class="video" loop autoplay muted>
+                <source src="{{ this.settings.video_url }}" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+
+            </div>
+
+          {%- elsif this.settings.image != blank -%}
+
+            <div class="hero-slide__image-wrapper">
+
+              {%- assign desktop_image_class = '' -%}
+              {%- if this.settings.image_mobile -%}
+                {%- assign desktop_image_class = 'hidden-xs hidden-sm' -%}
+              {%- endif -%}
+              {%- include 'img' with this.settings.image, img_class: desktop_image_class -%}
+
+              {%- if this.settings.image_mobile -%}
+                {%- include 'img' with this.settings.image_mobile, img_class: 'hidden-md hidden-lg hidden-xl' -%}
+              {%- endif -%}
+
+            </div>
+
+          {% else %}
+            <div class="hero-slide__placeholder">
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+          {%- endif -%}
+
+
+          {%- if this.settings.button_text != blank and this.settings.button_url != blank -%}
+            <div class="hero-slide__button">
+              <a href="{{ this.settings.button_url }}" class="btn btn-black-o btn--mega">{{ this.settings.button_text}}</a>
+            </div>
+          {%- endif -%}
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{%- assign this = blank -%}

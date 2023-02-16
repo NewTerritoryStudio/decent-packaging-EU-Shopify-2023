@@ -1,0 +1,80 @@
+<div class="container page-width" data-section-id="{{ section.id }}" data-section-type="made-of-plants">
+    <div class="fd-page__separate-view">
+
+        <div class="fd-page__separate-img">
+            {%- include 'img' with section.settings.plants_image -%}
+        </div>
+
+        <div class="fd-page__separate-container">
+            <h1>{{ section.settings.plants_title }}</h1>
+
+
+            {% for item in section.blocks %}
+                {% if item.type == 'plants_block' %}
+
+                    {% assign loopindex = forloop.index0 | modulo: 2 %}
+
+                    {%- if loopindex == 0  -%}
+                        {%- assign flag = 1 -%}
+
+                        {%- if forloop.index0 != 0  -%}
+                            </div>
+                        {%- endif -%}
+
+                        <div class="fd-page__separate-view_row">
+
+                    {%- else -%}
+                        {%- assign flag = 0 -%}
+                    {%- endif -%}
+
+                        <div class="fd-page__separate-view_item">
+                            <div class="fd-page__separate-view_item_title">{{ item.settings.plants_info_title }}</div>
+                            <div class="fd-page__separate-view_text">{{ item.settings.plants_info_description }}</div>
+                        </div>
+
+                {% endif %}
+            {% endfor %}
+
+                        </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+    {
+        "name": "Made of plants",
+        "settings": [
+            {
+                "type": "text",
+                "id": "plants_title",
+                "default": "Everything is made out of plants, yep… plants",
+                "label": "Plants title"
+            },
+            {
+                "type": "image_picker",
+                "id": "plants_image",
+                "label": "Image"
+            }
+        ],
+        "blocks":[
+            {
+                "type": "plants_block",
+                "name": "Plants item",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "plants_info_title",
+                        "default": "Benefits of using innocent #1",
+                        "label": "Plants title"
+                    },
+                    {
+                        "type": "textarea",
+                        "id": "plants_info_description",
+                        "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. At certe gravius. Certe non potest. Duo Reges: constructio interrete. Quis hoc dicit? Iam in altera",
+                        "label": "Plants description"
+                    }
+                ]
+            }
+        ]
+    }
+{% endschema %}

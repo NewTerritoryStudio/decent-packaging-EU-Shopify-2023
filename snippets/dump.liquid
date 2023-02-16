@@ -1,0 +1,6 @@
+{%- assign vardump = dump | json | escape -%}
+{%- if vardump == blank -%}
+  {%- assign vardump = 'Empty output?' | json | escape -%}
+{%- endif -%}
+
+<pre class="vardump" data-json="{{ vardump }}"></pre>

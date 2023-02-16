@@ -1,0 +1,40 @@
+{%- assign primary = primary | default: true -%}
+
+{%- assign color_name = '' -%}
+{%- if primary != true -%}
+  {%- assign color_name = '-custom' -%}
+{%- endif -%}
+
+{%- if section.settings.color_custom_primary and section.settings.color_custom_secondary and section.settings.color_custom_tertiary -%}
+
+  {%- assign custom_primary = section.settings.color_custom_primary -%}
+  {%- assign custom_secondary = section.settings.color_custom_secondary -%}
+  {%- assign custom_tertiary = section.settings.color_custom_tertiary -%}
+  
+  {% style %}
+
+    :root {
+
+      {%- if custom_primary != blank -%}
+        --color{{ color_name }}-primary: {{ custom_primary | color_to_rgb }};
+        --color{{ color_name }}-secondary: {{ custom_secondary | color_to_rgb }};
+        --color{{ color_name }}-tertiary: {{ custom_tertiary | color_to_rgb }};
+      {%- endif -%}
+
+      {%- if custom_secondary != blank -%}
+        --color{{ color_name }}-secondary-active: {{ custom_secondary | color_lighten: 5 }};
+        --color{{ color_name }}-secondary-hover: {{ custom_secondary | color_lighten: 10 }};
+        --color{{ color_name }}-secondary-light: {{ custom_secondary | color_lighten: 15 }};
+      {%- endif -%}
+
+      {%- if custom_tertiary != blank -%}
+        --color{{ color_name }}-tertiary-active: {{ custom_tertiary | color_lighten: 5 }};
+        --color{{ color_name }}-tertiary-hover: {{ custom_tertiary | color_lighten: 10 }};
+        --color{{ color_name }}-tertiary-light: {{ custom_tertiary | color_lighten: 15 }};
+      {%- endif -%}
+
+    }
+
+  {%- endstyle -%}
+
+{%- endif -%}

@@ -1,0 +1,53 @@
+<div class="related-brands" data-section-id="{{ section.id }}" data-section-type="related-brands">
+
+  <div class="container narrow">
+      <div class="row">
+        <div class="col-xs-12 col-md-4">
+          <p class="h1 related-brands__title">{{ section.settings.title | replace: '  ', '</br>' }}</p>
+        </div>
+        <div class="col-xs-12 col-md-8">
+          <div class="related-brands__additional">
+            <p class="related-brands__description-container">
+              {{ section.settings.description }}
+            </p>
+            <div class="related-brands__logos">
+              
+              {%- for block in section.blocks -%}
+                {%- if block.type != 'logo' -%}
+                  {%- continue -%}
+                {%- endif -%}
+
+                <div class="related-brands__logo">
+                  {%- assign logo = 'related-brand-' | append: block.settings.brand -%}
+                  {%- include 'icon' with logo -%}
+                </div>
+              {%- endfor -%}
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="related-brands__images"
+        data-slideshow
+        data-disable-mobile="true"
+        data-slides-show="4"
+        data-slides-scroll="1"
+        data-infinite="false">
+        {%- for block in section.blocks -%}
+          {%- if block.type != 'image' -%}
+            {%- continue -%}
+          {%- endif -%}
+
+          <div class="related-brands__image-wrapper">
+            <div class="related-brands__image">
+              {%- include 'img' with block.settings.image -%}
+            </div>
+          </div>
+
+        {%- endfor -%}
+      </div>
+
+  </div>
+
+</div>

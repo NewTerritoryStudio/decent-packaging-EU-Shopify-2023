@@ -1,0 +1,130 @@
+<div data-section-id="{{ section.id }}" data-section-type="featured-product">
+  {% if section.blocks.size > 0 or section.settings.collection != blank %}
+    <div class="section">
+      <div class="container">
+        {%- if section.settings.title != blank -%}
+          <div class="section-header text-center">
+            <h2 class="section-header__title">
+              <span>{{ section.settings.title | escape }}</span>
+            </h2>
+          </div>
+        {%- endif -%}
+
+        <div class="row">
+          <div class="col-xs-12 featured-products featured-products--{{ section.settings.layout }}">
+            <div class="featured-product"
+                 id="featured-products-{{ section.id }}"
+                 {%- unless section.settings.autoplay == 'disabled' -%}
+                   data-autoplay="{% if section.settings.autoplay == 'mobile' %}false{% else %}true{% endif %}"
+                   data-autoplay-mobile="{% if section.settings.autoplay == 'desktop' %}false{% else %}true{% endif %}"
+                   data-speed="{{ section.settings.autoplay_speed }}"
+                 {%- endunless -%}>
+
+              {% for block in section.blocks %}
+                <div class="featured-products__slide">
+                  {%- assign product = all_products[block.settings.product] -%}
+                  {% include 'product-feature-item' %}
+                </div>
+              {% endfor %}
+
+            </div>
+            <button type="button" class="slideshow__prev featured-products__prev hidden-xs">{% include 'icon-chevron-left' %}</button>
+            <button type="button" class="slideshow__next featured-products__next hidden-xs">{% include 'icon-chevron-right' %}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+  {
+    "name": "Featured products",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Featured products"
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "options": [
+          { "value": "default", "label": "Default"},
+          { "value": "feature-block", "label": "With feature area"}
+        ],
+        "label": "Layout",
+        "default": "default"
+      },
+      {
+        "type": "select",
+        "id": "autoplay",
+        "options": [
+          { "value": "disabled", "label": "Disabled"},
+          { "value": "mobile", "label": "On small screens only"},
+          { "value": "desktop", "label": "On large screens only"},
+          { "value": "all", "label": "On all screen sizes"}
+        ],
+        "label": "Auto-rotate slides",
+        "default": "disabled"
+      },
+      {
+        "type": "select",
+        "id": "autoplay_speed",
+        "label": "Change slides every",
+        "options": [
+          { "value": "5000", "label": "5 seconds" },
+          { "value": "6000", "label": "6 seconds" },
+          { "value": "7000", "label": "7 seconds" },
+          { "value": "8000", "label": "8 seconds" },
+          { "value": "9000", "label": "9 seconds" },
+          { "value": "10000", "label": "10 seconds" }
+        ],
+        "default": "7000"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_vendor",
+        "label": "Show Vendor",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text",
+        "default": "View Product"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "product",
+        "name": "Featured product",
+        "settings": [
+          {
+            "type": "product",
+            "id": "product",
+            "label": "Product"
+          },
+          {
+            "type": "text",
+            "id": "subtitle",
+            "label": "Subtitle"
+          },
+          {
+            "type": "textarea",
+            "id": "text",
+            "label": "Text"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Featured products slider",
+        "category": "Product"
+      }
+    ]
+  }
+
+{% endschema %}

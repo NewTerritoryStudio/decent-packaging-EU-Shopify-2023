@@ -1,0 +1,148 @@
+<div class="register-section under-header">
+    <div class="container page-width section-wrap">
+        <div class="row">
+            <div class="col-xs-12 col-md-6 section-part section-part__first">
+                <div class="section-part__inner">
+                    <div class="part-title">
+                        <div class="part-title__subttl">{{ 'customer.register.title' | t }}</div>
+                        <div class="part-title__ttl">{{ 'customer.register.subtitle' | t }}</div>
+                    </div>
+                    <div class="part-description">
+                        <div class="part-description__txt">{{ 'customer.register.description' | t }}</div>
+
+                        {%- capture create_customer_form_fields %}
+                            {%- include 'account-details-fields' -%}
+                        {% endcapture -%}
+
+                        <div class="cf-container">
+                          
+                          <!-- <h2>{{ 'customer.register.title' | t }}</h2> -->
+
+                          {% render "customer-fields", form_id: "4Qty09" %}
+                          
+                          <div class="form-group">
+                            <div class="form__footer">
+                              {{ 'customer.register.account_already_exists' | t }} <a href="/account/login">{{ 'customer.login.title' | t }}</a>
+                            </div>
+                          </div>
+                        </div>
+                        
+
+                        {%- comment -%}
+
+                          {%- include 'customer-fields-form' with
+                            fields: create_customer_form_fields,
+                            server_fields: false,
+                            form_class: 'part-description__form'
+                            -%}
+
+                        {%- endcomment -%}
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-md-6 section-part section-part__second">
+                <div class="section-part__inner">
+                    <div class="part-title">
+                        <div class="part-title__ttl">{{ section.settings.title }}</div>
+                    </div>
+                    <div class="part-description">
+                        <div class="part-description__txt">{{ section.settings.description }}</div>
+                        <div class="part-description__list">
+
+                            {%- for block in section.blocks -%}
+
+                                {%- if block.type != 'feature' -%}
+                                  {%- continue -%}
+                                {%- endif -%}
+
+                                <div class="list-item">
+                                    <div class="list-item__title">
+                                        <div class="item-title__pic">
+
+                                            {%- include 'icon' with block.settings.icon -%}
+
+                                        </div>
+                                        <div class="item-title__ttl">{{ block.settings.title }}</div>
+                                    </div>
+                                    <div class="list-item__text">{{ block.settings.description }}</div>
+                                </div>
+                            {%- endfor -%}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Register",
+    "class": "register-section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Need packaging on the regular?"
+      },
+      {
+        "type": "textarea",
+        "id": "description",
+        "label": "Description",
+        "default": "Lorem ipsum dolordfgdf sit amet, consectetur adipiscing elit. Dicimus aliquem hilare vivere; Sed id ne cogitari quidem potest quale sit, ut non repugnet ipsum sibi. Aliis esse maiora, illud dubium, ad id, quod summum bonum dicitis, ecquaenam possit fieri accessio. Naturales divitias dixit parabiles esse, quod parvo esset natura contenta."
+      },
+      {
+        "type": "text",
+        "id": "trading_as_tooltip",
+        "label": "Trading as tooltip",
+        "default": "Optional"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Feature",
+        "type": "feature",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "textarea",
+            "id": "description",
+            "label": "Title"
+          },
+          {
+            "type": "select",
+            "id": "icon",
+            "label": "Icon",
+            "options": [
+              {
+                "value": "delivery",
+                "label": "Delivery"
+              },
+              {
+                "value": "exclusive",
+                "label": "Exclusive"
+              },
+              {
+                "value": "vast",
+                "label": "Vast"
+              },
+              {
+                "value": "sms",
+                "label": "SMS"
+              }
+            ],
+            "default": "delivery"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,43 @@
+{% comment %}
+<div class="page-header under-header
+    {% if feature_block != blank %}page-header--with-feature{% endif %}
+    {% if condense_titles == true %}page-header--condensed-titles{% endif %}
+    {% if show_border_bottom != false %}page-header--with-border-bottom{% endif %}"
+    {% if section.settings.background_color != blank %}style="background-color: {{ section.settings.background_color }}"{% endif %}
+>
+
+    <div class="container page-width">
+        {%- if hide_breadcrumbs != true -%}
+            {%- include 'breadcrumbs' -%}
+        {%- endif -%}
+        <div class="page-header__container container">
+            <div class="page-header__text">
+                <div class="career-article__img">{% include 'img' with article.image, class: '' %}</div>
+                <div class="career-article__title">{{ article.title }}</div>
+                <div class="career-article__listed">Listed: {{ article.published_at | date: "%d %B" }}</div>
+            </div>
+        </div>
+    </div>
+</div>{% endcomment %}
+
+{%- section 'page-header--careers-article' -%}
+
+<div class="journal-article career-article"  itemscope itemtype="http://schema.org/Article">
+    <div class="article-content">
+        <div class="content-body">
+            {{ article.content }}
+        </div>
+
+
+        <div class="article-controls">
+
+            <div class="share-wrap">
+                {% if settings.social_sharing_blog %}
+                    {% include 'social-sharing', share_title: article.title, share_permalink: article.url, share_image: article.image, layout: 'buttons' %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+

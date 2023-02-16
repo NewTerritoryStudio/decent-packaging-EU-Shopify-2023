@@ -1,0 +1,121 @@
+<div data-section-id="{{ section.id }}" data-section-type="quotes">
+  {%- if section.blocks.size > 0 -%}
+    <div class="quotes">
+      <div class="page-width slideshow-wrapper">
+        {%- if section.settings.title != blank -%}
+          <div class="section-header text-center">
+            <h2 class="section-header__title">
+              <span>{{ section.settings.title | escape }}</span>
+            </h2>
+          </div>
+        {%- endif -%}
+        
+        <div class="quotes__slider" id="Quotes-{{ section.id }}" data-count="{{ section.blocks.size }}">
+          {%- for block in section.blocks -%}
+            <div class="quotes-slide--{{ block.id }}" {{ block.shopify_attributes }}>
+              {%- if block.settings.image != blank -%}
+                <div class="quote__image">
+                  {% include 'img' with block.settings.image, placeholder: false %}
+                </div>
+              {%- endif -%}
+              <div class="quote__stars">
+                <svg aria-hidden="true" focusable="false" role="presentation" class="stars" viewBox="0 0 116 18" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path fill="#F1F1F1" d="M-687-251H802v456H-687z"/><g fill="#3068B3"><path d="M10 14.9252329L3.81966011 18 5 11.4875388 0 6.8753882l6.90983006-.95015528L10 0l3.0901699 5.92523292L20 6.8753882l-5 4.6121506L16.1803399 18zM34 14.9252329L27.8196601 18 29 11.4875388l-5-4.6121506 6.9098301-.95015528L34 0l3.0901699 5.92523292L44 6.8753882l-5 4.6121506L40.1803399 18zM58 14.9252329L51.8196601 18 53 11.4875388l-5-4.6121506 6.9098301-.95015528L58 0l3.0901699 5.92523292L68 6.8753882l-5 4.6121506L64.1803399 18zM82 14.9252329L75.8196601 18 77 11.4875388l-5-4.6121506 6.9098301-.95015528L82 0l3.0901699 5.92523292L92 6.8753882l-5 4.6121506L88.1803399 18zM106 14.9252329L99.8196601 18 101 11.4875388l-5-4.6121506 6.90983-.95015528L106 0l3.09017 5.92523292L116 6.8753882l-5 4.6121506L112.18034 18z"/></g></g></svg>
+              </div>
+              {% comment %} Reference
+              <defs>
+                <linearGradient id="stars_gradient_10">
+                  <stop offset="0" stop-color="#3068B3"></stop>
+                  <stop offset="0.915" stop-color="#3068B3"></stop>
+                  <stop offset=".916" stop-color="#a0b9e4"></stop>
+                  <stop offset="1" stop-color="#a0b9e4"></stop>
+                </linearGradient>
+              </defs>
+              ...
+              fill="url(#stars_gradient_10)"
+              {% endcomment %}
+              <blockquote class="quotes-slider__text text-center">
+                <span class="quote-icon quote-icon--left">{% include 'icon-quote_dbl_left' %}</span>
+                <span class="quote-icon quote-icon--right">{% include 'icon-quote_dbl_right' %}</span>
+                {%- if block.settings.quote != blank -%}
+                  <div class="rte">
+                    {%- include 'text' with block.settings.quote -%}
+                  </div>
+                {%- endif -%}
+                {%- if block.settings.author != blank -%}
+                  <cite>{{ block.settings.author | escape }}</cite>
+                {%- endif -%}
+              </blockquote>
+            </div>
+          {%- endfor -%}
+        </div>
+        <button type="button" class="slideshow__prev featured-collections__prev">{% include 'icon-chevron-left' %}</button>
+        <button type="button" class="slideshow__next featured-collections__next">{% include 'icon-chevron-right' %}</button>
+      </div>
+
+    </div>
+  {%- endif -%}
+
+  {%- if section.blocks.size == 0 -%}
+    {% include 'no-blocks' %}
+  {%- endif -%}
+</div>
+
+{% schema %}
+  {
+    "name": "Testimonials",
+    "class": "index-section",
+    "max_blocks": 9,
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Testimonials"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "quote",
+        "name": "Testimonial",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "richtext",
+            "id": "quote",
+            "label": "Text",
+            "default": "<p>Add customer reviews and testimonials to showcase your store’s happy customers.</p>"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "author",
+            "label": "Author",
+            "default": "Author's name"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Testimonials",
+        "category": "Text",
+        "blocks": [
+          {
+            "type": "quote"
+          },
+          {
+            "type": "quote"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

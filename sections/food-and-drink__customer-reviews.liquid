@@ -1,0 +1,100 @@
+<div class="fd-page__section-view related-articles" data-section-id="{{ section.id }}" data-section-type="customer-reviews">
+    <div class="container fd-page__view-width">
+        <div class="related-articles__title">
+            <div class="fd-page__section-view_title sl-ttl">Customer reviews</div>
+            <div class="sl-controls">
+                <button type="button" class="sl-prev"></button>
+                <button type="button" class="sl-next"></button>
+            </div>
+        </div>
+        <div class="sl-wrap not-init">
+            <div class="slider">
+
+                {% for item in section.blocks %}
+                    {% if item.type == 'reviews_block' %}
+
+                        <div class="prod-item slide">
+                            <div class="fd-customer-card">
+                                <div class="fd-customer-card__header">
+                                    <div class="_img lazyload"
+                                        data-bgset="{% include 'bgset' with item.settings.review_logo %}"
+                                        data-sizes="auto"
+                                    >
+                                    </div>
+
+                                    {% for i in (1.. item.settings.review_stars ) %}
+                                        <div class="_star"></div>
+                                    {% endfor %}
+
+                                </div>
+                                <div class="fd-customer-card__title">{{ item.settings.review_title }}</div>
+                                <div class="fd-customer-card__text">{{ item.settings.review_description }}</div>
+                                <div class="fd-customer-card__sign">
+                                    <b>{{ item.settings.review_name }}</b><br>{{ item.settings.review_job }}
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+    {
+        "name": "Customer reviews",
+        "blocks":[
+            {
+                "type": "reviews_block",
+                "name": "Customer reviews",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "review_title",
+                        "default": "The best online service",
+                        "label": "Review title"
+                    },
+                    {
+                        "type": "textarea",
+                        "id": "review_description",
+                        "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. At certe gravius. Certe non potest. Duo Reges: constructio interrete. Quis hoc dicit? Iam in altera",
+                        "label": "Review description"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "review_logo",
+                        "label": "Logo"
+                    },
+                    {
+                        "type": "select",
+                        "id": "review_stars",
+                        "options": [
+                            { "value": "5", "label": "5 Stars"},
+                            { "value": "4", "label": "4 Stars"},
+                            { "value": "3", "label": "3 Stars"},
+                            { "value": "2", "label": "2 Stars"},
+                            { "value": "1", "label": "1 Stars"},
+                            { "value": "0", "label": "0 Stars"}
+                        ],
+                        "label": "Stars"
+                    },
+                    {
+                        "type": "text",
+                        "id": "review_name",
+                        "default": "kokako coffee",
+                        "label": "Name"
+                    },
+                    {
+                        "type": "text",
+                        "id": "review_job",
+                        "default": "cafe owner",
+                        "label": "Job"
+                    }
+                ]
+            }
+        ]
+    }
+{% endschema %}

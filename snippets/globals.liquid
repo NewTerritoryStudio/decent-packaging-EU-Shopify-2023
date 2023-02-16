@@ -1,0 +1,120 @@
+{%- assign output = output | downcase | replace: ' ', '_' -%}
+
+{%- if output != blank -%}
+
+  {%- case output -%}
+
+    {%- when 'phone' or 'telephone' -%}
+
+      {%- assign phone_number = 'general.contact.phone_number' | t -%}
+      {%- assign phone_title = 'general.contact.phone_display' | default: 'general.contact.phone_number' -%}
+      {%- if phone_number != blank -%}
+        <a class="link--phone" href="tel:{{ phone_number }}"{% if style == 'tooltip' %} data-tippy="{{ phone_title | t | escape }}" data-tippy-placement="left" data-tippy-arrow="true"{% endif %}>
+          {%- if icon == true -%}{%- include 'icon' with 'phone' -%}{%- endif -%}
+          {%- unless style == 'tooltip' -%}
+            <span>{{ phone_title | t }}</span>
+          {%- endunless -%}
+        </a>
+      {%- endif -%}
+      {%- assign phone_number = null -%}
+      {%- assign phone_title = null -%}
+
+    {%- when 'email' -%}
+
+      {%- assign email_address = 'general.contact.email_address' | t -%}
+      {%- assign email_title = 'general.contact.email_display' | default: 'general.contact.email_address' -%}
+      {%- if email_address != blank -%}
+        <a class="link--email" href="mailto:{{ email_address }}"{% if style == 'tooltip' %} data-tippy="{{ email_title | t | escape }}" data-tippy-placement="left" data-tippy-arrow="true"{% endif %}>
+          {%- if icon == true -%}{%- include 'icon' with 'email' -%}{%- endif -%}
+          {%- unless style == 'tooltip' -%}
+            <span>{{ email_title | t }}</span>
+          {%- endunless -%}
+        </a>
+      {%- endif -%}
+      {%- assign email_address = null -%}
+      {%- assign email_title = null -%}
+
+    {%- when 'live_chat' -%}
+
+      {%- assign live_chat_title = 'general.contact.live_chat_display' -%}
+        <a class="link--live-chat" href="/pages/live-chat"{% if style == 'tooltip' %} data-tippy="{{ live_chat_title | t | escape }}" data-tippy-placement="left" data-tippy-arrow="true"{% endif %}>
+          {%- if icon == true -%}{%- include 'icon' with 'chat' -%}{%- endif -%}
+          {%- unless style == 'tooltip' -%}
+            <span>{{ live_chat_title | t }}</span>
+          {%- endunless -%}
+        </a>
+      {%- assign live_chat_title = null -%}
+
+    {%- when 'payment' or 'payment_icons' -%}
+      {%- unless shop.enabled_payment_types == empty %}
+        {% assign style = style | default: 'default' %}
+        {%- assign payment_icons_available = 'afterpay,amazon_payments,american_express,apple_pay,bitcoin,cirrus,dankort,diners_club,discover,dogecoin,dwolla,forbrugsforeningen,interac,jcb,litecoin,maestro,master,visa,paypal' | split: ',' -%}
+        <ul class="payment-icons payment-icons--{{ style }}">
+          {%- for type in shop.enabled_payment_types -%}
+            {%- if payment_icons_available contains type -%}
+              <li>
+                {%- if style == 'card' -%}
+                  <img src="{{ type | payment_type_img_url }}" class="payment-card payment-card--{{ type }}" />
+                {%- else -%}
+                  {%- include 'icon' with type -%}
+                {%- endif -%}
+                <span class="visually-hidden">{{ type | capitalize | replace: '_', ' ' }}</span>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if settings.payment_enable_afterpay -%}
+            <li>
+              {%- if style == 'card' -%}
+                {%- include 'icon' with 'afterpay-mark' -%}
+              {%- else -%}
+                {%- include 'icon' with 'afterpay' -%}
+              {%- endif -%}
+              <span class="visually-hidden">Afterpay</span>
+            </li>
+          {%- endif -%}
+          {%- if settings.payment_enable_zipmoney -%}
+            <li>
+              {%- if style == 'card' -%}
+                {%- include 'icon' with 'zipmoney-mark' -%}
+              {%- else -%}
+                {%- include 'icon' with 'zipmoney' -%}
+              {%- endif -%}
+              <span class="visually-hidden">ZipMoney</span>
+            </li>
+          {%- endif -%}
+        </ul>
+      {% endunless -%}
+
+  {%- endcase -%}
+
+{% else %}
+
+  {% comment %} STORE DETAILS {% endcomment %}
+  {%- assign active_country_name = 'New Zealand' -%}
+  {%- assign active_country_code = 'NZ' -%}
+  {%- if shop.permanent_domain contains 'innocentp-uk' -%}
+    {%- assign active_country_name = 'United Kingdom' -%}
+    {%- assign active_country_code = 'UK' -%}
+  {%- endif -%}
+
+  {% comment %} CUSTOMER DETAILS {% endcomment %}
+  {%- if customer -%}
+
+    {% comment %} CUSTOMER NAME {% endcomment %}
+    {%- assign customer_name = customer.first_name -%}
+    {%- if customer.metafields.customr['Trading As'] != blank -%}
+      {%- assign customer_name = customer.metafields.customr['Trading As'] -%}
+    {% else %}
+      {%- for address in customer.addresses -%}
+        {%- if address.company != blank -%}
+          {%- assign customer_name = address.company -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+
+  {%- endif -%}
+
+{%- endif -%}
+
+{%- assign output = null -%}

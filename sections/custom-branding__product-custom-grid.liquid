@@ -1,0 +1,161 @@
+{{ 'custom_brand_assets.css'  | asset_url | stylesheet_tag }}
+
+<div class="custom-branding-product-range" data-section-id="{{ section.id }}" data-section-type="custom-branding-product-range">
+
+  <div class="container narrow">
+
+    <div class="row">
+      <div class="col-xs-12">
+        <p class="h3">{{ section.settings.title }}</p>
+      </div>
+    </div>
+
+    <div class="row">
+
+      {%- for block in section.blocks -%}
+        {%- if block.type != 'product-range' -%}
+          {%- continue -%}
+        {%- endif -%}
+
+        <div class="col-xs-6 col-md-4 col-lg">
+          <a class="product-range-grid-item" href="{{ block.settings.url }}">
+            <span class="product-range-grid-item__image">
+
+              {%- include 'img' with block.settings.image, class: 'product-range-grid-item__thumb-image' -%}
+
+              {%- if block.settings.hover_image -%}
+                {%- include 'img' with block.settings.hover_image, class: 'product-range-grid-item__hover-image' -%}
+              {%- endif -%}
+
+            </span>
+            <p class="product-grid-item__title">
+              {{ block.settings.title }}
+            </p>
+            <p class="product-range-grid-item__subtitle">
+              {{ block.settings.subtitle }}
+            </p>
+
+            <div class="product__price product-grid-item__price">
+              <div data-price-wrapper="" class="product__price">
+                <span data-product-price="">
+                  {{ block.settings.price_range }}
+                </span>
+              </div>
+            </div>
+
+          </a>
+          
+          <div class="customise_btn--box">
+            <label>
+              <input  id="customize_btn-{{- forloop.index -}}" class="visually-hidden customize_btn" type="file"  id="custom_branding" name="logo_here"accept="image/png, image/jpeg">
+              <span class="btn btn-black">Customise</span>
+            </label>
+          </div>
+
+        </div>
+        
+  
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{%- for block in section.blocks -%}
+
+{% comment %} Custom Branding {% endcomment %}
+
+<style>
+  .prod_overlay__pattern_{{ forloop.index0 }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width:  100%;
+    height: 100%;
+  }
+</style>
+    
+{% comment %} {{ block.settings.image.src }} {% endcomment %}
+
+    {% render 'product-upload--popup-custom', block:block, forloop:forloop. section:section, product_title:block.settings.title %}
+  
+{% comment %} Custom Branding {% endcomment %}
+
+
+{% comment %} {{ block.settings.image.src | img_url: 'master' }} {% endcomment %}
+
+{%- endfor -%}
+
+
+<script src="https://cdn.jsdelivr.net/npm/fabric@4.6.0/dist/fabric.min.js" defer="defer"></script>
+<script src="{{ 'custom_branding_webgl.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+  {
+    "name": "Custom Product Range",
+    "class": "custom-product-range-section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Customisable product range"
+      },
+      {
+        "type": "text",
+        "id": "pop_up_title",
+        "label": "Pop Up Form Title",
+        "default": "Get in touch",
+        "info": "Title of the form that pops up when you upload brand assets"
+      },
+      {
+        "type": "richtext",
+        "id": "pop_up_text",
+        "label": "Pop Up Form Text",
+        "default": "<p>If you'd like to use Innocent Packaging at your cafe, eatery, restaurant, or business, get in touch and one of our team will say hello, we’d love to hear from you.</p>"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "product-range",
+        "type": "product-range",
+        "settings": [
+          {
+            "type": "url",
+            "id": "url",
+            "label": "URL",
+            "default": "/"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Hot Cups"
+          },
+          {
+            "type": "text",
+            "id": "subtitle",
+            "label": "Subtitle",
+            "default": "5 sizes + available"
+          },
+          {
+            "type": "text",
+            "id": "price_range",
+            "label": "Product price range",
+            "default": "From $87.00"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "image_picker",
+            "id": "hover_image",
+            "label": "Hover image"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+  

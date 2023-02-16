@@ -1,0 +1,137 @@
+{%- assign output_title = title
+  | default: section.settings.title
+  -%}
+
+{%- assign output_text = text
+  | default: section.settings.text
+  -%}
+
+{%- assign output_icon = icon
+  | default: section.settings.icon
+  -%}
+
+{%- assign output_btn_one_text = btn_text
+  | default: section.settings.btn_one_text
+  -%}
+
+{%- assign output_btn_one_url = btn_url
+  | default: section.settings.btn_one_url
+  -%}
+
+{%- assign output_btn_two_text = btn_text
+  | default: section.settings.btn_two_text
+  -%}
+
+{%- assign output_btn_two_url = btn_url
+  | default: section.settings.btn_two_url
+  -%}
+
+{%- assign output_center_align = center_align
+  | default: section.settings.center_align
+  | default: false
+  -%}
+
+{%- if customer -%}
+
+  {%- assign output_title = title_customer
+    | default: section.settings.title_customer
+    -%}
+
+  {%- assign output_text = text_customer
+    | default: section.settings.text_customer
+    -%}
+
+  {%- assign output_btn_one_text = btn_one_text_customer
+    | default: section.settings.btn_one_text_customer
+    -%}
+
+  {%- assign output_btn_one_url = btn_one_url_customer
+    | default: section.settings.btn_one_url_customer
+    -%}
+
+  {%- assign output_btn_two_text = btn_two_text_customer
+    | default: section.settings.btn_two_text_customer
+    -%}
+
+  {%- assign output_btn_two_url = btn_two_url_customer
+    | default: section.settings.btn_two_url_customer
+    | default: false
+    -%}
+
+{%- endif -%}
+
+{%- capture output_buttons -%}
+
+  {%- if output_btn_one_text != blank and output_btn_one_url != blank -%}
+    <a href="{{ output_btn_one_url }}" class="btn btn-black-o">{{ output_btn_one_text | escape }}</a>
+  {%- endif -%}
+
+  {%- if output_btn_two_text != blank and output_btn_two_url != blank -%}
+    <a href="{{ output_btn_two_url }}" class="btn btn-black">{{ output_btn_two_text | escape }}</a>
+  {%- endif -%}
+
+{%- endcapture -%}
+
+<!-- output_title: {{ output_title }} -->
+<!-- output_text: {{ output_text }} -->
+
+{%- if output_title != blank and output_text != blank -%}
+
+  {%- if customer -%}
+    <!-- customer yes -->
+    <!-- text: {{ text }} -->
+    <!-- section.settings.text_customer: {{ section.settings.text_customer }} -->
+    <!--text_customer: {{ text_customer }} -->
+    <!--section.settings.btn_one_text_customer: {{ section.settings.btn_one_text_customer }} -->
+  {%- endif -%}
+
+  <div class="call-to-action {% if output_center_align == true %}call-to-action--center{% endif %}">
+    <div class="container page-width">
+
+      <div class="row bottom-md {% if output_center_align == true %}text-center{% endif %}">
+
+        <div class="col-xs-12 {% if output_buttons != blank and output_center_align != true %}col-md-8{% elsif output_center_align == true %}col-md-6 col-md-offset-3{% endif %}">
+
+          {%- if output_icon != blank -%}
+          <div class="call-to-action__icon">
+            {%- include 'img' with output_icon -%}
+          </div>
+          {%- endif -%}
+
+          {%- if output_title != blank -%}
+          <div class="call-to-action__header">
+            <h2 class="call-to-action__title h5">{{ output_title | escape }}</h2>
+          </div>
+          {%- endif -%}
+
+          {%- if output_text != blank -%}
+          <div class="call-to-action__text rte">
+            <p>{{ output_text | escape }}</p>
+          </div>
+          {%- endif -%}
+
+        </div>
+
+        {%- if output_buttons != blank -%}
+          <div class="col-xs-12 {% if output_center_align == true %}col-md-6 col-md-offset-3{% else %}col-md-4{% endif %}">
+            <div class="call-to-action__buttons">
+              {{ output_buttons }}
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+
+    </div>
+  </div>
+
+{%- endif -%}
+
+{%- assign output_title = null -%}
+{%- assign output_text = null -%}
+{%- assign output_icon = null -%}
+{%- assign output_btn_one_text = null -%}
+{%- assign output_btn_one_url = null -%}
+{%- assign output_btn_two_text = null -%}
+{%- assign output_btn_two_url = null -%}
+{%- assign output_align = null -%}
+{%- assign output_buttons = null -%}

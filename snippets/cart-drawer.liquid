@@ -1,0 +1,128 @@
+{{ 'progress-banner.css' | asset_url | stylesheet_tag }}
+{% comment %}
+$('#CartDrawer').removeClass('drawer drawer--right');
+
+(function() {
+  var popupAnchor = $('.site-header__cart')[0];
+  var view = false;
+
+  $('#CartDrawer').addClass('loading');
+  
+  tippy(popupAnchor, {
+    content: $('#PageContainer > #CartDrawer')[0],
+    interactive: true,
+    appendTo: popupAnchor,
+    animateFill: false,
+    theme: 'light',
+  arrow: true,
+  arrowTransform: 'scaleX(1.5)',
+    onShown: function() {
+      if (!view) {
+        var $parentElem = $(this.appendTo);
+
+        view = tinybind.bind($parentElem, $.extend({
+          cart: CartJS.cart
+        }, CartJS.settings.tinybindModels));
+
+        $('#CartDrawer').removeClass('loading');
+      }
+    }
+  });
+})();
+
+{% assign cart_type = 'popup' %}
+{% endcomment %}
+{%- assign cart_close_button = 'icon' -%}{% comment %}icon, text{% endcomment %}
+{%- assign cart_type = type | default: 'drawer' -%}
+
+<div {% if cart_type != 'cart_page' %}id="CartDrawer"{% endif %} class="cart-drawer {% if cart_type == 'drawer' %}drawer drawer--right{% elsif cart_type == 'popup' %}cart-drawer--popup{% endif %}">
+  <div rv-class-cart-drawer--loaded="cart" class="drawer__inner cart-drawer__inner"{% if cart_type != 'popup' %} data-cart-view{% endif %}>
+    
+    {%- if cart_type != 'cart_page' -%}
+      <div class="cart-drawer__header">
+        
+        <button type="button" class="btn btn--link cart-drawer__close js-drawer-close" data-tippy-content="{{ 'cart.drawer.close' | t }}">
+          {%- if cart_close_button == 'icon' -%}
+            {% include 'icon-close' %}
+            <span class="icon-fallback-text">{{ 'cart.drawer.close' | t }}</span>
+          {%- else -%}
+            <span>{{ 'cart.drawer.close' | t }}</span>
+          {%- endif -%}
+        </button>
+
+        {%- capture cart_title_number %}{ cart.item_count }{% endcapture -%}
+        {%- capture cart_title_items %}{ cart.item_count | pluralize 'item' 'items' }{% endcapture -%}
+        <div class="cart-drawer__title">
+          {{ 'cart.general.title' | t: number: cart_title_number, items: cart_title_items }}
+        </div>
+         
+      </div>
+
+      <div class="cart-drawer__search">
+        {%- include 'search-bar' -%}
+      </div>
+
+    {%- endif -%}
+    
+    <div class="cart-drawer__content">
+
+      {%- include 'cart-drawer-tabs' -%}
+
+    </div>
+    
+    <div class="cart-drawer__footer">
+      <form action="/cart" method="post" novalidate="">
+
+        <div class="cart-drawer__progress-banner">
+          <span rv-if="cart.total_price | lt 15000" rv-html="15000 | minus cart.total_price | money | prepend 'You are ' | append ' away from free shipping!'"></span>
+          <span rv-if="cart.total_price | gt 14999" rv-html="'You have unlocked free shipping!'"></span>
+          <div class="cart-drawer__progress-banner__banner">
+            £0
+            <span class="progress-banner__spent"></span>
+            <span class="progress-banner__tospend" style="width: 100%;"></span>
+            £150
+          </div>
+        </div>
+      
+        <div class="cart-drawer__note" data-simple-accordion>
+
+          <p class="cart-drawer__note-title">{{ 'cart.general.note' | t }}</p>
+          <div class="cart-drawer__note-input active">
+            <label for="cart-drawer-note" class="label-hidden">{{ 'cart.general.note' | t }}</label>
+            <textarea id="cart-drawer-note" name="note">{{ cart.note }}</textarea>
+          </div>
+
+        </div>
+
+        <div class="cart-drawer__total">
+          <div class="cart-drawer__total-title">
+            {{ 'cart.general.subtotal' | t }}
+
+            <span class="cart-drawer__total-gst-notice">
+              {% if shop.taxes_included != true %}
+                {{ 'products.product.tax_excluded' | t }}
+              {% else %}
+                {{ 'products.product.tax_included' | t }}
+              {% endif %}
+            </span>
+
+          </div>
+          <div class="cart-drawer__total-price" rv-html="cart.total_price | money shop.currency"></div>
+        </div>
+
+        <div class="cart-drawer__actions">
+          <button class="cart-drawer__submit" type="submit" name="checkout" rv-enabled="cart.item_count | gt 0">{{ 'cart.general.checkout' | t }}</button>
+        </div>
+        
+        {%- if settings.cart_show_payment_icons -%}
+          <div class="cart-drawer__payment-methods">
+            {%- include 'globals' with output: 'payment_icons', color: true -%}
+          </div>
+        {%- endif -%}
+
+      </form>
+
+    </div>
+
+  </div>
+</div>

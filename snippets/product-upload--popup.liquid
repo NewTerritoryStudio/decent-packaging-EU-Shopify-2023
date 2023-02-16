@@ -1,0 +1,105 @@
+<div id="product-upload--popup">
+
+
+  <div id="custom_branded--product" class="shirt custom_branded--product">
+  
+  <div class="prod_overlay__pattern prod_overlay__pattern" data-image="{{ product.metafields.accentuate.branding_clear_cut[0].src }}"></div>
+      
+    <canvas id="glCanvas"  class="canvas-custom"></canvas>
+  
+  </div>
+
+<div class="custom_branded--form">
+  <div class="custom_branded--form-inner">
+    <div class="custom_branded--form-text">
+      
+
+
+      <h4>{{ section.settings.pop_up_title }}</h4>
+      {{ section.settings.pop_up_text }}
+
+      <button id="pop-up--close" type="button" class="btn btn--link pop-up--close" data-tippy-content="{{ 'cart.drawer.close' | t }}">
+        {% render 'icon-close' %}
+        <span class="icon-fallback-text">{{ 'cart.drawer.close' | t }}</span>
+      </button>
+    </div>
+
+    {% form 'contact', id:form_id  %}
+      {{ form_errors | default_errors }}
+
+    <div class="form-group">
+
+    <div class="row">
+    
+      <div class="col-xs-12 col-md-6 form-control first-name">
+        <label class="visually-hidden" for="first-name">First name</label>
+        <input type="text" name="contact[first_name]" placeholder="First name"/>
+      </div>
+
+    
+      <div class="last-name col-xs-12 col-md-6 form-control">
+        <label class="visually-hidden" for="last-name" >Last name</label>
+        <input type="text" name="contact[last_name]" placeholder="Last name"/>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="email form-control col-xs-12">
+        <label class="visually-hidden" for="company">Company</label>
+        <input type="text" name="contact[shipping_address][company]" placeholder="Company" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="email form-control col-xs-12">
+        <label class="visually-hidden" for="phone">Phone</label>
+        <input placeholder="Phone" type="tel" autocomplete="shipping tel" autocorrect="off" data-backup="phone" data-phone-formatter="true" data-phone-formatter-country-select="[name='checkout[shipping_address][country]']"  name="checkout[shipping_address][phone]" country-code="64"/>
+      </div>
+    </div>
+
+
+
+
+    <div class="row">
+      <div class="email form-control col-xs-12">
+        <label class="visually-hidden" for="email">Email</label>
+        <input type="email" name="contact[email]" placeholder="Email" />
+      </div>
+    </div>
+
+    <div class="row">
+    
+    
+      <div class="message form-control col-xs-12">
+        <label  class="visually-hidden" for="message">Message</label>
+        <textarea name="contact[body]" placeholder="Message"></textarea>
+      </div>
+    
+    </div>
+
+    <div class="row">
+
+      <button type="button" class="save_image save_image btn btn-black-o">Add Configured Image</button>
+
+      <input class="visually-hidden" id="image_storage" name="contact[image]" type="text" placeholder="images">
+
+    </div>
+  
+
+    <div class="row">
+
+    
+      <div class="submit form-control col-xs-12">
+        <input class="btn btn-black btn--wide" type="submit" value="Enquire" />
+      </div>
+
+    </div>
+
+    </div>
+
+    {% endform %}
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<div class="journal-article" itemscope itemtype="http://schema.org/Article">
+  <div class="article-hero">
+    <div class="article-hero__img">
+      {%- include 'img' with article.image -%}
+    </div>
+  </div>
+
+  <div class="article-content">
+    <div class="content-head">
+      <p class="article__date">{{ article.published_at | date: "%d %B" }}</p>
+      <h1 class="article__title">{{ article.title }}</h1>
+    </div>
+
+    <div class="content-body">
+      {{ article.content }}
+    </div>
+
+    {% if article.metafields.related.product != null %}
+      {% section 'article-products' %}
+    {% endif %}
+
+    <div class="article-controls">
+      <div class="tags-wrap">
+        {% if article.tags.size > 0 %}
+          <ul>
+            <li class="list-title">Tags: </li>
+            {% for tag in article.tags %}
+              <li>
+                <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      <div class="share-wrap">
+        {% if settings.social_sharing_blog %}
+          {% include 'social-sharing', share_title: article.title, share_permalink: article.url, share_image: article.image, layout: 'buttons' %}
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="article-pagination">
+      {% assign prev_disable = ' ' %}
+      {% if blog.previous_article == article.url or blog.previous_article == null %}
+        {% assign prev_disable = ' disabled="disabled" ' %}
+      {% endif %}
+
+      <a href="{{ blog.previous_article }}" class="pagination-link pagination-link__prev" {{ prev_disable }}>
+        <span class="pagination-link__icon"></span>
+        <span class="pagination-link__text">previous article</span>
+      </a>
+
+      {% assign next_disable = ' ' %}
+      {% if blog.next_article == article.url or blog.next_article == null %}
+        {% assign next_disable = ' disabled="disabled" ' %}
+      {% endif %}
+
+      <a href="{{ blog.next_article }}" class="pagination-link pagination-link__next" {{ next_disable }}>
+        <span class="pagination-link__text">next article</span>
+        <span class="pagination-link__icon"></span>
+      </a>
+    </div>
+  </div>
+</div>
+
+{% if article.metafields.related.article != null %}
+  {% section 'related-articles' %}
+{% endif %}
+

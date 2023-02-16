@@ -1,0 +1,81 @@
+{%- assign collection = collection -%}
+
+{% paginate collection.products by items_per_page %}
+
+{%- assign order_form = order_form | default: false -%}
+{%- assign paginate = paginate | default: false -%}
+
+{%- assign cols = blank -%}
+{%- include 'collection-grid-items-cols' -%}
+
+{%- if container != false -%}
+  <div class="container">
+{%- endif -%}
+  
+    <div class="collection" data-index="{{ index }}" data-collection-handle="{{ collection.handle }}" id="collection-{{ collection.handle }}">
+      {%- if is_parent_collection == true -%}
+        <div class="row">
+          <div class="col-xs-12">
+            <h2 class="collection__title h3">
+              {{ collection.title }}
+            </h2>
+          </div>
+        </div>
+      {%- endif -%}
+
+      <div class="row">
+        {% assign geotagged_products_length = 0 %}
+        {%- for product in collection.products -%}
+          {% capture product_counter %} {% assign geotagged_products_length = geotagged_prodcts_length | plus: 1 %} {% endcapture %}
+          
+          {% capture prod_grid_item %}
+            <div class="{{ cols }}"> {% include 'product-grid-item' with order_form: order_form %} </div>
+          {% endcapture %}
+          
+          {% comment %} When updating this logic don't forget to check tab--recent.liquid {% endcomment %}
+          {%- include 'user-can-view-product' -%}
+          {%- include 'if-customer-and-geotagged' -%}
+          
+          {%- if user_can_view_product -%}
+            {%- if is_geotagged_customer_login == false -%}
+              {{ prod_grid_item }}
+            {%- elsif is_geotagged_location_north -%}
+              {{ product_counter }} {{ prod_grid_item }}
+            {%- elsif is_geotagged_location_south -%}
+              {{ product_counter }} {{ prod_grid_item }}
+            {%- endif -%}
+          {%- endif -%}
+
+        {% else %}
+        <div class="col-xs-12 text-center">
+          <p>{{ 'homepage.onboarding.collection_empty' | t }}</p>
+        </div>
+        {%- endfor -%}
+      </div>
+
+      {% capture coll_paginate %}
+        <div class="row">
+          {%- if paginate.pages > 1 -%}
+            <div class="pagination-wrap col-xs-12">
+              {% include 'pagination' %}
+            </div>
+          {%- endif -%}
+        </div>
+      {% endcapture %}
+      {%- if paginate != false -%}
+        {%- if is_geotagged_customer_login == false -%}
+          {{ coll_paginate }}
+        {%- elsif geotagged_products_length > 24 -%}
+          {{ coll_paginate }}
+        {%- endif -%}
+      {%- endif -%}
+
+    </div>
+
+{%- if container != false -%}
+  </div>
+{%- endif -%}
+
+{% endpaginate %}
+
+{%- assign container = blank -%}

@@ -1,0 +1,184 @@
+{%- include 'globals' -%}
+
+{%- assign form_footer = form_footer | default: true -%}
+
+<div class="form-group">
+    <div class="row middle-xs form-control__wrap">
+        <div class="col-xs-12 col-sm-4 form-control__col">
+            <div class="form-group__txt">{{ 'customer.register.about_your_business' | t }}:
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-8 form-control__col">
+            <div class="form-control">
+                <select data-autotag name="customer[Business Type]" auto-tag>
+                    <option value="cafe">Cafe.</option>
+                    <option value="coffee roaster">Coffee Roaster</option>
+                    <option value="restaurant">Restaurant</option>
+                    <option value="distributor">Distributor</option>
+                    <option value="hotel">Hotel</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="form-control">
+
+        {% comment %} <div class="col-xs-12 col-sm-6 form-control__col">
+            <div class="form-control">
+                <input type="text" name="customer[addresses][][company]" placeholder="{{ 'customer.addresses.company_name' | t}}" autofocus required>
+            </div>
+        </div> {% endcomment %}
+
+        <div class="">
+            <div class="form-control">
+                <input type="text" name="customer[Trading As]" placeholder="{{ 'customer.addresses.trading_as' | t }}">
+                {% if section.settings.trading_as_tooltip != blank %}<div class="form-tooltip" data-tippy="{{ section.settings.trading_as_tooltip }}">?</div>{% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="row middle-xs form-control__wrap">
+        <div class="col-xs-12 col-sm-6 form-control__col">
+            <div class="form-control">
+                <input type="text" name="customer[first_name]" placeholder="{{ 'customer.addresses.first_name' | t}}" id="FirstName" {% if form.first_name %}value="{{ form.first_name }}"{% endif %} required>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 form-control__col">
+            <div class="form-control">
+                <input type="text" name="customer[last_name]" placeholder="{{ 'customer.addresses.last_name' | t}}" id="full_name" {% if form.last_name %}value="{{ form.last_name }}"{% endif %} required>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-control" id="AddressNewForm">
+      <input type="tel" placeholder="Contact Phone" name="customer[addresses][][phone]">
+    </div>
+
+        <div class="form-control">
+            <input type="text" placeholder="{{ 'customer.addresses.address1' | t}}" name="customer[addresses][][address1]" required>
+        </div>
+
+        {% comment %}
+        <div class="form-control">
+            <input type="text" placeholder="{{ 'customer.addresses.address2' | t}}" name="customer[addresses][][address2]">
+        </div>
+        {% endcomment %}
+
+        <div class="form-control">
+            <input type="text" placeholder="{{ 'customer.addresses.city' | t}}" name="customer[addresses][][city]" required>
+        </div>
+
+        <div class="form-control" id="AddressProvinceContainerNew" style="display:none">
+            <select id="AddressProvinceNew" name="customer[addresses][][province]" data-default="{{ form.province }}"></select>
+        </div>
+
+        <div class="form-control">
+            <input type="text" placeholder="{{ 'customer.addresses.zip' | t}}" name="customer[addresses][][zip]" required>
+        </div>
+
+        <div class="form-control">
+            <select id="AddressCountryNew" name="customer[addresses][][country]">
+                {% comment %}{%- assign countries = "New Zealand, Nicaragua, Niger, Nigeria, Norway, Oman, Ottoman Empire, Pakistan, Palau, Panama, Papua New Guinea, Paraguay, Peru, Philippines, Poland, Portugal, Prussia, Qatar, Romania, Rome, Russian Federation, Rwanda, St Kitts & Nevis, St Lucia, Saint Vincent & the, Grenadines, Samoa, San Marino, Sao Tome & Principe, Saudi Arabia, Senegal, Serbia, Seychelles, Sierra Leone, Singapore, Slovakia, Slovenia, Solomon Islands, Somalia, South Africa, Spain, Sri Lanka, Sudan, Suriname, Swaziland, Sweden, Switzerland, Syria, Tajikistan, Tanzania, Thailand, Togo, Tonga, Trinidad & Tobago, Tunisia, Turkey, Turkmenistan, Tuvalu, Uganda, Ukraine, United Arab Emirates, United Kingdom, United States of America, Uruguay, Uzbekistan, Vanuatu, Vatican City, Venezuela, Vietnam, Yemen, Zambia, Zimbabwe" | split: ', ' -%}
+                {%- assign countries = active_country_name -%}
+
+                {%- for country in countries -%}
+                    <option value="{{ country }}"
+                      {%- unless customer -%}
+                        {% if country == active_country_name %}selected{% endif %}
+                      {%- endunless -%}
+                      >
+                      {{ country }}
+                    </option>
+                {%- endfor -%}
+                {% endcomment %}
+
+                {{ country_option_tags }}
+
+            </select>
+        </div>
+
+        <div class="form-control">
+            <input type="email" placeholder="Orders Email Address" name="customer[email]" id="Email" class="{% if form.errors contains 'email' %} input--error{% endif %}" {% if form.email %} value="{{ form.email }}"{% endif %} autocorrect="off" autocapitalize="off" required>
+        </div>
+
+        <div class="form-control">
+            <input type="email" placeholder="Accounts Email Address" name="customer[Secondary Email]">
+        </div>
+        
+        <div class="form-control">
+            <input type="tel" placeholder="Orders Mobile Number" name="customer[phone]">
+        </div>
+
+
+        <div class="form-control">
+            <input type="password" placeholder="Password" name="customer[password]" id="CreatePassword" class="{% if form.errors contains 'password' %} input--error{% endif %}" required>
+        </div>
+
+        <div class="row middle-xs form-control__wrap">
+            <div class="col-xs-12 col-sm-5 form-control__col">
+                <div class="form-group__txt">
+                    {{ 'customer.register.how_did_you_find_out' | t }}
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-7 form-control__col">
+                <div class="form-control">
+                    <select name="customer[Source]">
+
+                        {%- assign sources = 'customer.register.sources' | t | split: '|' -%}
+
+                      {%- for source in sources -%}
+                        <option value="{{ source }}">{{ source }}</option>
+                      {%- endfor -%}
+
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-control">
+            <textarea rows="10" name="customer[Additional Notes]" placeholder="Anything else you wanna tell us? (optional)"></textarea>
+        </div>
+
+</div>
+
+{%- unless customer -%}
+    <div class="form-group">
+        <input type="checkbox" name="customer[email_marketing_consent]" id="AcceptsMarketing" auto-tag>
+        <span>{{ 'customer.register.accepts_marketing' | t }}</span>
+    </div>
+
+    <script>
+        var accepts = document.querySelector("#AcceptsMarketing");
+        if (accepts) {
+            window.onload = function(){
+                accepts.click();
+            };
+        }
+    </script>
+
+    <div class="form-group">
+        <!-- <input class="input-checkbox" type="checkbox" name="customer[sms_marketing_consent]" id="sms_marketing_consent" auto-tag> -->
+        <input class="input-checkbox" type="checkbox" name="customer[tags]" value="sms_marketing_consent">
+        <span>Sign me up for easy SMS ordering and receive occasional updates via SMS.</span>
+    </div>
+
+{%- endunless -%}
+
+{%- if form_footer != false -%}
+  {%- if customer -%}
+      <div class="form-group">
+        <button type="submit" class="btn btn-black btn--wide">{{ 'customer.account.save_changes' | t }}</button>
+      </div>
+
+    {% else %}
+      <div class="form-group">
+        <button type="submit" class="btn btn-black btn--wide">{{ 'customer.register.submit' | t }}</button>
+      </div>
+
+      <div class="form-group">
+        <div class="form__footer">
+          {{ 'customer.register.account_already_exists' | t }} <a href="/account/login">{{ 'customer.login.title' | t }}</a>
+        </div>
+      </div>
+    {%- endif -%}
+{%- endif -%}
+

@@ -1,0 +1,71 @@
+<div class="nav-blocks" data-section-id="{{ section.id }}" data-section-type="featured-nav-blocks">
+
+  {%- assign navigation_id = section.settings.nav | prepend: 'nav-blocks__nav--' -%}
+
+  <style>
+    {%- for block in section.blocks -%}
+      {%- if block.settings.color != blank -%}
+        #{{ navigation_id }} > li:nth-of-type({{ forloop.index }}) {
+          color: {{ block.settings.color }};
+          background-color: {{ block.settings.bg_color }};
+        }
+        #{{ navigation_id }} > li:nth-of-type({{ forloop.index }}):hover > ul {
+          background-color: {{ block.settings.bg_color | color_modify: 'alpha', 0 }};
+        }
+        #{{ navigation_id }} > li:nth-of-type({{ forloop.index }}):hover > ul {
+          background-color: {{ block.settings.bg_color | color_modify: 'alpha', 0.9 }};
+        }
+      {%- endif -%}
+    {%- endfor -%}
+  </style>
+
+  <div class="container narrow">
+
+    {%- if section.settings.nav != blank -%}
+      {%- include 'site-nav' with section.settings.nav, id: navigation_id, dropdown: false, inline: true, type: 'feature-blocks' -%}
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Feature Navigation",
+    "settings": [
+      {
+        "type": "link_list",
+        "id": "nav",
+        "label": "Navigation"
+      }
+     ],
+    "blocks": [
+      {
+        "type": "nav-item-style",
+        "name": "Navigation item style",
+        "settings": [
+          {
+            "type": "color",
+            "id": "color",
+            "label": "Text colour"
+          },
+          {
+            "type": "color",
+            "id": "bg_color",
+            "label": "Background colour"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Background image"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Feature Navigation",
+        "category": "Navigation"
+      }
+    ]
+  }
+{% endschema %}

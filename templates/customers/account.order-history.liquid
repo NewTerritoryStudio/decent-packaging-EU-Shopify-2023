@@ -1,0 +1,5 @@
+{%- capture main %}
+  {%- include 'account-order-history' -%}
+{% endcapture -%}
+
+{%- include 'account-view' with main: main -%}

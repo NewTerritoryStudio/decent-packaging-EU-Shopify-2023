@@ -1,0 +1,66 @@
+{%- if section.settings.sidenav != blank -%}
+
+  {%- if canonical_url contains 'addresses' -%}
+    {%- assign active_view = 'addresses' -%}
+  {%- elsif canonical_url contains 'search' or canonical_url contains 'cart'-%}
+    {%- assign active_view = '?view=place-order' -%}
+  {%- elsif template.suffix != blank -%}
+    {%- assign active_view = '?view=' | append: template.suffix -%}
+  {% elsif canonical_url contains '/account/orders' %}
+    {%- assign active_view = 'order-history' -%}
+  {% elsif canonical_url contains '/account' %}
+    {%- assign active_page = '/account' -%}
+  {%- endif -%}
+
+  {%- assign account_nav = linklists[section.settings.sidenav] -%}
+  <ul class="account-nav swipeable">
+    {%- for link in account_nav.links -%}
+      {%- if link.url contains active_view or active_page contains link.url -%}
+        {%- assign link_active = true -%}
+      {%- endif -%}
+      {%- if link.links == blank -%}
+        <li class="account-nav__item">
+          <a href="{{ link.url }}" {% if link_active %}class="active"{% endif %} {% if link.url contains 'logout' %}data-no-instant{% endif %}>{{ link.title }}</a>
+        </li>
+      {%- else -%}
+        <li class="account-nav__item account-nav__item--has-children">
+          <a href="{{ link.url | default: '#' }}" class="{% if link_active or link.child_active %}active{% endif %}" {% if link.url contains 'logout' %}data-no-instant{% endif %}>
+            {{ link.title }}
+          </a>
+          <ul class="">
+            {%- for sub_link in link.links -%}
+              {%- if sub_link.links == blank -%}
+                {%- assign sub_link_active = '' -%}
+                {%- if sub_link.url contains active_view or sub_link.url == active_page -%}
+                  {%- assign sub_link_active = ' active' -%}
+                {%- endif -%}
+                <li>
+                  <a href="{{ sub_link.url | default: '#' }}" class="{{ sub_link_active }}">
+                    {{ sub_link.title }} <span class="icon-arrow-right"></span>
+                  </a>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </li>
+      {%- endif -%}
+      {%- assign link_active = false -%}
+      {%- assign sub_link_active = false -%}
+    {%- endfor -%}
+  </ul>
+
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Account Side Nav",
+    "class": "account-nav",
+    "settings": [
+      {
+        "type": "link_list",
+        "id": "sidenav",
+        "label": "Side navigation"
+      }
+    ]
+  }
+{% endschema %}

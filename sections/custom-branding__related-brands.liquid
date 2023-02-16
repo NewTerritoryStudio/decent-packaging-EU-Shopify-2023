@@ -1,0 +1,87 @@
+{%- include 'related-brands' -%}
+
+{% schema %}
+  {
+    "name": "Related Brands",
+    "class": "related-brands-section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Don’t worry, you’re in good company"
+      },
+      {
+        "type": "textarea",
+        "id": "description",
+        "label": "Description",
+        "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Longum est enim ad omnia respondere, quae a te dicta sunt. Cur deinde Metrodori liberos commendas? Ait enim se, si uratur, Quam hoc suave! dicturum. "
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Portfolio Image",
+        "type": "logo",
+        "settings": [
+          {
+            "type": "select",
+            "id": "brand",
+            "label": "Brand",
+            "options": [
+              {
+                "value": "1",
+                "label": "Espresso Workshop"
+              },
+              {
+                "value": "2",
+                "label": "Eightthirty"
+              },
+              {
+                "value": "3",
+                "label": "Kokako"
+              },
+              {
+                "value": "4",
+                "label": "Switch Espresso"
+              },
+              {
+                "value": "5",
+                "label": "Mojo"
+              },
+              {
+                "value": "6",
+                "label": "Better Burger"
+              },
+              {
+                "value": "7",
+                "label": "Bean Around The World"
+              },
+              {
+                "value": "8",
+                "label": "Vivace"
+              }
+            ],
+            "default": "1"
+          }
+        ]
+      },
+      {
+        "name": "Image",
+        "type": "image",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Related Brands",
+        "category": "Brands"
+      }
+    ]
+  }
+{% endschema %}

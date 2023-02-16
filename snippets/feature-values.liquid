@@ -1,0 +1,52 @@
+<div class="feature-values" data-section-id="{{ section.id }}" data-section-type="featured-values">
+
+  <div class="feature-values__image">
+    
+    {%- include 'icon' with 'doing-our-part-desktop' -%}
+
+    {% comment %}{%- include 'icon' with 'doing-our-part-mobile', class: 'visible-xs visible-sm' -%}{% endcomment %}
+
+  </div>
+
+  <div class="container narrow">
+
+    {%- if section.settings.title != blank -%}
+      <div class="row">
+        <div class="col-xs-12 col-sm-10 col-md-offset-2 col-md-6 col-lg-4">
+          <div class="feature-values__title">
+            <p class="h1">{{ section.settings.title }}</p>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+
+    <div class="row">
+      {%- for block in section.blocks -%}
+        <div class="col-xs-12 col-md-3 {% if section.blocks.size < 3 and forloop.first %}col-md-offset-4{% else %}col-md-offset-1{% endif %}">
+          <div class="feature-value">
+
+            {%- if block.settings.image != blank -%}
+              <div class="feature-value__image">
+                {%- include 'img' with block.settings.image, placeholder: true -%}
+              </div>
+            {% elsif block.settings.icon != 'none' %}
+              <div class="feature-value__image">
+                {%- include 'icon' with block.settings.icon, color: true -%}
+              </div>
+            {%- endif -%}
+
+            <div class="feature-value__text">
+              <p>{{ block.settings.text }}</p>
+            </div>
+
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+  </div>
+
+
+
+
+</div>

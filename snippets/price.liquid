@@ -1,0 +1,208 @@
+{%- assign current_product = price | default: product -%}
+{%- assign current_variant = current_variant -%}
+
+{%- assign current = current_variant | default: current_product -%}
+
+{%- if current != blank -%}
+  {%- assign output_price = current.price -%}
+  {%- if current.price < current.compare_at_price -%}
+    {%- assign output_price = current.compare_at_price -%}
+    {%- if output_price > current.price -%}
+      {%- assign output_price = current.price -%}
+    {%- endif -%}
+  {%- endif -%}
+  
+  {%- assign product_on_sale = false -%}
+  {%- if current.compare_at_price_max > output_price -%}
+    {%- assign product_on_sale = true -%}
+  {%- endif -%}
+
+  {%- assign undiscounted_price = output_price -%}
+
+  {%- assign allow_discount = true -%}
+
+  {%- assign product_no_discounts = '' -%}
+
+  {%- for tag in current_product.tags -%}
+
+    {%- if tag contains '::' -%}
+      {%- assign tag_split = tag | split: '::' -%}
+      {%- assign tag_type = tag_split | first | strip -%}
+
+      {%- if tag_type == 'no-discount' -%}
+        {%- assign discount_split = tag_split | last | split: '=>' -%}
+        {%- assign discount_property = discount_split | first | downcase | strip -%}
+        {%- assign discount_property_value = discount_split | last | strip | replace: '%', '' -%}
+        {%- assign product_no_discounts = product_no_discounts | append: '##' | append: discount_property | append: '||' | append: discount_property_value -%}
+      {%- endif -%}
+
+    {%- endif -%}
+
+  {%- endfor -%}
+
+  {%- assign product_no_discounts = product_no_discounts | split: '##' -%}
+
+  {%- for product_no_discount in product_no_discounts -%}
+
+    {%- assign property = product_no_discount | split: '||' | first | strip | downcase -%}
+    {%- assign property_value = product_no_discount | split: '||' | last | strip | downcase -%}
+
+    {%- if property_value == 'all' -%}
+      {%- assign allow_discount = false -%}
+    {%- endif -%}
+
+    {%- assign current_variant_property_value = current_variant[property] | downcase | strip -%}
+
+    {%- if property_value != blank and current_variant_property_value != blank -%}
+      {%- if property_value == current_variant_property_value -%}
+        {%- assign allow_discount = false -%}
+      {%- endif -%}
+    {%- endif -%}
+
+  {%- endfor -%}
+
+  {%- if current_product.type and allow_discount == true -%}
+    {%- assign current_product_type = current_product.type | downcase -%}
+
+    {%- assign is_custom_product = false -%}
+
+    {%- if current_product_type contains 'custom' -%}
+      {%- assign is_custom_product = true -%}
+    {%- endif -%}
+
+    {%- assign is_smartass_product = false -%}
+
+    {%- if current_product_type contains 'smartass' -%}
+      {%- assign is_smartass_product = true -%}
+    {%- endif -%}
+
+    {%- if customer -%}
+
+      {%- if customer_discounts == nul or customer_smartass_discounts == nul -%}
+
+        {%- assign customer_discounts = '' -%}
+        {%- assign customer_smartass_discounts = '' -%}
+        {%- for tag in customer.tags -%}
+
+          {%- if tag contains '::' -%}
+            {%- assign tag_split = tag | split: '::' -%}
+            {%- assign tag_type = tag_split | first | strip -%}
+
+            {%- if tag_type == 'discount' -%}
+              {%- assign discount_split = tag_split | last | split: '=>' -%}
+              {%- assign discount_product_type = discount_split | first | downcase | strip -%}
+              {%- assign discount_percent = discount_split | last | strip | replace: '%', '' -%}
+              {%- assign customer_discounts = customer_discounts | append: '##' | append: discount_product_type | append: '||' | append: discount_percent -%}
+            {%- endif -%}
+
+            {%- if tag_type == 'smartass' -%}
+              {%- assign discount_split = tag_split | last | split: '=>' -%}
+              {%- assign discount_variant_sku = discount_split | first | downcase | strip -%}
+              {%- assign discount_percent = discount_split | last | strip | replace: '%', '' -%}
+              {%- assign customer_smartass_discounts = customer_smartass_discounts | append: '##' | append: discount_variant_sku | append: '||' | append: discount_percent -%}
+            {%- endif -%}
+
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- assign customer_discounts = customer_discounts | split: '##' -%}
+        {%- assign customer_smartass_discounts = customer_smartass_discounts | split: '##' -%}
+
+      {%- endif -%}
+
+      {%- assign discount_percentage = 0 -%}
+
+      {%- if is_smartass_product -%}
+
+        {%- unless current_variant -%}
+          {%- assign current_variant = current_product.variants | first -%}
+        {%- endunless -%}
+
+        {%- assign variant_sku = current_variant.sku | downcase -%}
+
+        {%- assign discount_found = false -%}
+        {%- for customer_discount in customer_smartass_discounts -%}
+
+          {%- if customer_discount contains 'all' -%}
+            {%- assign discount_percentage = customer_discount | split: '||' | last | strip | plus: 0 -%}
+          {%- endif -%}
+
+          {%- if customer_discount contains variant_sku -%}
+            {%- assign discount_percentage = customer_discount | split: '||' | last | strip | plus: 0 -%}
+            {%- assign discount_found = true -%}
+          {%- endif -%}
+
+          {%- if discount_found == true -%}
+            {%- break -%}
+          {%- endif -%}
+
+        {%- endfor -%}
+
+      {% else %}
+
+        {%- unless current_product_type contains 'half carton' -%}
+
+          {%- assign discount_found = false -%}
+          {%- for customer_discount in customer_discounts -%}
+
+            {%- if customer_discount contains 'all' and is_custom_product == false -%}
+              {%- assign discount_percentage = customer_discount | split: '||' | last | strip | plus: 0 -%}
+            {%- endif -%}
+
+            {%- if customer_discount contains 'custom' and is_custom_product == true -%}
+              {%- assign discount_percentage = customer_discount | split: '||' | last | strip | plus: 0 -%}
+            {%- endif -%}
+
+            {%- if customer_discount contains current_product_type -%}
+              {%- assign discount_percentage = customer_discount | split: '||' | last | strip | plus: 0 -%}
+              {%- assign discount_found = true -%}
+            {%- endif -%}
+
+            {%- if discount_found == true -%}
+              {%- break -%}
+            {%- endif -%}
+
+          {%- endfor -%}
+
+        {%- endunless -%}
+
+      {%- endif -%}
+
+      {%- if discount_percentage > 0 -%}
+        {%- assign discount_amount = output_price | times: discount_percentage | divided_by: 100 -%}
+        {%- assign output_price = output_price | minus: discount_amount -%}
+      {%- endif -%}
+
+    {%- endif -%}
+  {%- endif -%}
+  {% comment %} END CALCULATE CUSTOMER PRICING {% endcomment %}
+
+  <div data-price-wrapper class="product__price {{ class }}{% unless current_product.available %} product__price--sold-out{% endunless %}{% if product_on_sale %} product__price--on-sale{% endif %}">
+
+    <span data-product-price {% if output_price != undiscounted_price %}data-customer-pricing="{{ undiscounted_price | money }}"{% endif %}>
+      {% if output_price != undiscounted_price %}
+        <span class="og-price">{{ undiscounted_price | money }}</span><span class="discount-price">{{ output_price | money }}</span><br>
+        <span class="discount-save">Save {{ discount_percentage }}%</span>
+      {% else %}
+        {{ output_price | money }}
+      {% endif %}
+    </span>
+
+    {%- if product_on_sale %}
+      {% comment %}<span class="visually-hidden" data-compare-text>{{ 'products.product.regular_price' | t }}</span>{% endcomment %}
+      {% capture compare_price_prefix %}{{ 'products.product.regular_price' | t | escape }} {% endcapture %}
+      {% capture compare_price_suffix %}{% endcapture %}
+      <s data-compare-price data-prefix-string="{{ compare_price_prefix | escape }}" data-suffix-string="{{ compare_price_suffix | escape }}">
+        {%- if current.compare_at_price > output_price -%}
+          {{ compare_price_prefix }}{{ current.compare_at_price | money }}{{ compare_price_suffix }}
+        {%- endif -%}
+      </s>
+      <span class="product-price__sale-label{% if section_id != blank %} product-price__sale-label-{{ section_id }}{% endif %} hide">{{ 'products.product.on_sale' | t }}</span>
+    {% endif -%}
+  </div>
+{%- endif -%}
+
+
+{%- assign current = blank -%}
+{%- assign current_product = blank -%}
+{%- assign current_varriant = blank -%}

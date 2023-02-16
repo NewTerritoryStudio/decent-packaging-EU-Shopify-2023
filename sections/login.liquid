@@ -1,0 +1,42 @@
+<div class="login-section">
+  <div class="container page-width">
+    <div class="row {% if customer %}center-xs{% endif %}">
+      {%- unless customer -%}
+        <div class="col-xs-12 col-md-6 section-part section-part__first">
+          <div class="section-part__inner">
+            <div class="part-title">
+              <div class="part-title__pic">
+                {%- include 'icon' with 'get-started-cup', color: true -%}
+              </div>
+              <div class="part-title__wrap">
+                <div class="part-title__subttl">{{ 'customer.login.join_the_club_subtitle' | t }}</div>
+                <div class="part-title__ttl">{{ 'customer.login.join_the_club_title' | t }}</div>
+              </div>
+            </div>
+            <div class="part-description">
+              <div class="part-description__txt">
+                {{ 'customer.login.join_the_club_description' | t }}
+              </div>
+              <div class="part-description__btn-wrap">
+                <a href="/account/register" class="btn btn-black-o btn--wide btn--mega"><span>{{ 'customer.login.join_the_club_button' | t }}</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {%- endunless -%}
+
+      <div class="col-xs-12 col-md-6 section-part {% unless customer %}section-part__second{% endunless %}
+      ">
+
+        {%- include 'login-form' -%}
+
+        {%- include 'login-recover-password-form' -%}
+
+        {%- include 'login-recover-password-form-success' -%}
+
+        {%- include 'login-new-customer-form' -%}
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+<div class="section-part__inner hide" id="NewCustomerForm">
+
+
+  <div class="part-title">
+    <div class="part-title__pic">
+      {%- include 'icon' with 'get-started-noodle', color: true -%}
+    </div>
+    <div class="part-title__wrap">
+      <div class="part-title__subttl">{{ 'customer.login.title' | t }}</div>
+      {% comment %}<div class="part-title__ttl">{{ 'customer.recover_password.title' | t }}</div>{% endcomment %}
+
+      <div class="part-title__ttl">{{ 'customer.login.site_upgrade_welcome_back' | t }}</div>
+
+    </div>
+  </div>
+
+  <div class="part-description">
+
+    <div class="part-description__txt">
+      <div class="section-header template__main-title text-{{ settings.page_header_text_align }}">
+
+        {%- assign text_content = 'customer.login.site_upgrade_instructions' | t -%}
+        {%- if text_content != blank -%}
+        {%- include 'text' with text_content -%}
+        {%- endif -%}
+
+      </div>
+    </div>
+
+    {%- capture create_customer_form_fields %}
+      <input type="hidden" name="customer[first_name]" value=".">
+      <input type="hidden" name="customer[last_name]" value=".">
+      <input type="hidden" name="customer[password]" value=".">
+
+      <div class="form-group">
+
+        <div class="form-control">
+          <input type="email" placeholder="Orders Email Address" name="customer[email]" id="CreateEmail" class="{% if form.errors contains 'email' %} input--error{% endif %}" {% if form.email %} value="{{ form.email }}"{% endif %} autocorrect="off" autocapitalize="off" required>
+        </div>
+
+      </div>
+
+      <div class="form-group">
+        <div class="form-vertical__actions text-center">
+          <button type="submit" class="btn btn-black btn--wide">{{ 'customer.login.site_upgrade_submit' | t }}</button>
+        </div>
+        <div class="form-vertical__actions text-center">
+          <a href="#" id="HideNewCustomerLink">{{ 'customer.recover_password.cancel' | t }}</a>
+        </div>
+      </div>
+
+    {% endcapture -%}
+
+    {%- include 'customer-fields-form' with
+      fields: create_customer_form_fields,
+      server_fields: false,
+      form_class: 'part-description__form'
+      -%}
+
+  </div>
+
+</div>

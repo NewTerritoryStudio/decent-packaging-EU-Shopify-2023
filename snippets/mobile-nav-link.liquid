@@ -1,0 +1,98 @@
+
+{%- if linklists[child_list_handle].links != blank %}
+  <li class="mobile-nav__item" data-type="{{ link_list_type }}">
+
+    {%- assign child_link_list = linklists[child_list_handle] -%}
+
+    {% comment %}
+      If there is only one nav item and if has
+      children, use the child nav list next. And
+      if this makes no sense speak to Lochlan.
+    {% endcomment %}
+    {%- if linklists[child_list_handle].links.size <= 1 and linklists[linklists[child_list_handle].links.first.handle].links.size > 0 -%}
+      {%- assign child_link_list = linklists[linklists[child_list_handle].links.first.handle] -%}
+    {%- endif -%}
+
+    {% comment %}
+      Only initialise the accordion if the grandchild
+      list has multiple links
+    {% endcomment %}
+    {%- assign grand_child_list_has_children = false -%}
+    <!-- child_link_list.links.size: {{ child_link_list.links.size }} -->
+    {%- if child_link_list.links.size > 0 -%}
+      {%- for grand_child_link in child_link_list.links -%}
+        {%- if linklists[grand_child_link.handle].links.size > 0 -%}
+          <!-- linklists[grand_child_link.handle].links.size : {{ linklists[grand_child_link.handle].links.size  }} -->
+          {%- assign grand_child_list_has_children = true -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+
+    <button type="button" class="btn btn--text js-toggle-submenu mobile-nav__link--top-level mobile-nav__link" data-target="{{ child_list_handle }}-{{ outerLoopIndex }}" data-level="1">
+      {{ link.title }}
+      <div class="mobile-nav__icon">
+        {% include 'icon-chevron-right' %}
+        <span class="icon-fallback-text">{{ 'layout.navigation.expand' | t }}</span>
+      </div>
+    </button>
+    <ul class="mobile-nav__dropdown container"
+      data-parent="{{ child_list_handle }}-{{ outerLoopIndex }}"
+      data-level="2"
+      {% if grand_child_list_has_children == true %}data-simple-accordion{% endif %}
+      >
+      <li class="mobile-nav__item">
+        <div class="mobile-nav__table">
+          <div class="mobile-nav__table-cell mobile-nav__return">
+            <button class="btn btn--text js-toggle-submenu mobile-nav__return-btn" type="button">
+              {% include 'icon-chevron-left' %}
+              <span class="mobile-nav__return-btn-text h6">{{ 'layout.navigation.back' | t }}</span>
+            </button>
+          </div>
+          <a href="{{ link.url }}" class="mobile-nav__sublist-link mobile-nav__sublist-header">
+            {{ link.title }}
+          </a>
+        </div>
+      </li>
+
+      {%- for childlink in child_link_list.links %}
+        {%- assign grand_child_list_handle = childlink.title | handle -%}
+
+        
+        {%- if linklists[grand_child_list_handle].links != blank %}
+          <li class="mobile-nav__item">
+            <button type="button" class="simple-accordion__title btn btn--text mobile-nav__link mobile-nav__sublist-link" data-target="{{ grand_child_list_handle }}-{{ outerLoopIndex }}-{{ forloop.index }}">
+              {{ childlink.title }}
+            </button>
+            <ul class="mobile-nav__accordion-content" data-parent="{{ grand_child_list_handle }}-{{ outerLoopIndex }}-{{ forloop.index }}" data-level="3">
+              {% for grandchildlink in linklists[grand_child_list_handle].links %}
+                <li class="mobile-nav__item mobile-nav__item--link">
+                  <a href="{{ grandchildlink.url }}" class="mobile-nav__sublist-link">
+                    {{ grandchildlink.title | escape }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </li>
+        {% else %}
+          <li class="mobile-nav__item mobile-nav__item--link">
+            {%- if childlink.title == '[snippet contact-info]' -%}
+              {%- include 'store-contact' -%}
+              {%- continue -%}
+            {%- endif -%}
+
+            <a href="{{ childlink.url }}" class="mobile-nav__sublist-link">
+              {{ childlink.title | escape }}
+            </a>
+          </li>
+        {% endif -%}
+      {% endfor %}
+    </ul>
+  </li>
+{% else %}
+  <li class="mobile-nav__item mobile-nav__item--link" data-type="{{ link_list_type }}">
+    <a href="{{ link.url }}" class="mobile-nav__link">
+      {{ link.title }}
+    </a>
+  </li>
+{% endif -%}

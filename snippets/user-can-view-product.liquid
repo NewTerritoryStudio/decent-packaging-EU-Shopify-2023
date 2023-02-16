@@ -1,0 +1,46 @@
+{%- assign user_can_view_product = true -%}
+{%- assign product_type = product.type | handle -%}
+
+{%- if product_type contains 'smartass' -%}
+
+  {%- assign user_can_view_product = true -%}
+
+{% elsif product_type contains 'half-carton' -%}
+
+  {%- assign user_can_view_product = false -%}
+
+{% elsif product_type contains 'custom' -%}
+
+  {%- assign user_can_view_product = false -%}
+
+  {%- if customer -%}
+
+    {%- for tag in customer.tags -%}
+
+      {%- if tag contains '::' -%}
+        {%- assign tag_downcase = tag -%}
+        {%- assign tag_split = tag_downcase | split: '::' -%}
+        {%- assign tag_type = tag_split | first | strip -%}
+
+        {%- if tag_type == 'product' -%}
+
+          {%- assign product_tag_split = tag_split | last | split: '=>' -%}
+          {%- assign product_tag_type = product_tag_split | first | strip -%}
+          {%- assign product_tag_vendor = product_tag_split | last | strip | handle -%}
+
+          {%- if product_tag_type == 'custom' -%}
+
+            {%- if product_type contains product_tag_vendor -%}
+              {%- assign user_can_view_product = true -%}
+            {%- endif -%}
+
+          {%- endif -%}
+
+        {%- endif -%}
+      {%- endif -%}
+
+    {%- endfor -%}
+
+  {%- endif -%}
+
+{%- endif -%}

@@ -1,0 +1,171 @@
+<div data-section-id="{{ section.id }}" data-section-type="image-row">
+  <div class="image-row image-row--{{ section.settings.layout }}{% if section.settings.page_width %} page-width{% endif %}">
+
+    {%- if section.settings.title != blank -%}
+      <div class="section-header text-center">
+        <h2 class="section-header__title">
+          <span>{{ section.settings.title | escape }}</span>
+        </h2>
+      </div>
+    {%- endif -%}
+
+    <div class="image-row-items-wrap slideshow-wrapper">
+      <div class="image-row-items" 
+           id="Slideshow-{{ section.id }}" 
+           data-disable-desktop="true" 
+           data-disable-tablet="true" 
+           data-autoplay="false" 
+           data-arrows="true" 
+           data-slides-show-mobile="1" 
+           data-slides-show="3">
+        {%- for block in section.blocks limit: section.blocks.size -%}
+          <div class="image-row-item" {{ block.shopify_attributes }}>
+            <a href="{{ block.settings.url | default: '#' }}" class="image-row-item__anchor">
+              
+              <span class="image-row-item__text">
+                {%- if block.settings.title != blank -%}
+                  <span class="h4 image-row-item__title">
+                    {{ block.settings.title }}
+                  </span>
+                {%- endif -%}
+                
+                {%- if block.settings.text != blank -%}
+                  <span class="image-row-item__description">
+                    {{ block.settings.text | escape }}
+                  </span>
+                {%- endif -%}
+              </span>
+                
+              {%- if block.settings.button_text != blank -%}
+                <span class="image-row-item__actions">
+                  <span class="btn image-row-item__button">
+                    {{ block.settings.button_text }}
+                  </span>
+                </span>
+              {%- endif -%}
+
+              {%- if block.settings.image != blank -%}
+                <span class="image-row-item__image">
+                  {%- include 'img' with block.settings.image, fit: 'contain', position: section.settings.image_gravity -%}
+                </span>
+              {%- endif -%}
+            </a>
+          </div>
+        {%- endfor -%}
+      </div>
+      <button type="button" class="slideshow__prev featured-collections__prev">{% include 'icon-chevron-left' %}</button>
+      <button type="button" class="slideshow__next featured-collections__next">{% include 'icon-chevron-right' %}</button>
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Image row",
+    "class": "index-section image-row-section",
+    "max_blocks": 3,
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading"
+      },
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "default": "default",
+        "options": [
+          {
+            "value": "default",
+            "label": "Text over image"
+          },
+          {
+            "value": "below",
+            "label": "Text beneath image"
+          },
+          {
+            "value": "around",
+            "label": "Text above image, button below"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "image_gravity",
+        "label": "Pin images to",
+        "info": "When responding to different screen sizes, images will be aligned to this part of the image frame.",
+        "default": "center",
+        "options": [
+          {
+            "value": "top",
+            "label": "Top"
+          },
+          {
+            "value": "center",
+            "label": "Centre"
+          },
+          {
+            "value": "bottom",
+            "label": "Bottom"
+          },
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "page_width",
+        "label": "Limit to content width",
+        "default": true
+      }
+    ],
+    "blocks": [
+      {
+        "type": "featured_collection",
+        "name": "Image",
+        "settings": [
+          {
+            "label": "Link to",
+            "id": "url",
+            "type": "url"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "text",
+            "id": "text",
+            "label": "Text"
+          },
+          {
+            "type": "text",
+            "id": "button_text",
+            "label": "Button text"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image",
+            "info": "Images should be a minimum of 1000px wide x 600px tall. Larger images will be sized to fit automatically."
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image row",
+        "category": "Image"
+      }
+    ]
+  }
+{% endschema %}

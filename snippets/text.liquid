@@ -1,0 +1,22 @@
+{%- capture phone_link %}{% include 'globals' with output: 'phone' %}{% endcapture -%}
+{%- assign phone_number = 'general.contact.phone_number' | t -%}
+{%- assign phone_title = 'general.contact.phone_display' | t -%}
+
+{%- assign text_output = text -%}
+
+{%- if text_output contains '[button ' -%}
+  {%- assign button_elements = text_output | split: '[button ' -%}
+  {%- for content in button_elements offset: 1 -%}
+    {%- assign button_template = content | split: ']' | first -%}
+    {%- assign button_link = button_template | split: ' ' | last -%}
+    {%- assign button_text = content | split: button_link | first | strip -%}
+    {%- assign button_template = button_template | prepend: '[button ' | append: ']' -%}
+    {%- capture button_content %}<a href="{{ button_link }}" class="btn btn-primary">{{ button_text }}</a>{% endcapture -%}
+    {%- assign text_output = text_output | replace: button_template, button_content -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{{ text_output 
+  | replace: phone_number, phone_title 
+  | replace: phone_title, phone_link 
+}}

@@ -1,0 +1,93 @@
+{%- assign cols = blank -%}
+{%- include 'collection-grid-items-cols' -%}
+
+{%- assign search_results_count = 0 -%}
+
+{%- capture search_results_grid %}
+  {%- paginate search.results by 999 -%}
+    <div class="row">
+
+      {%- for item in search.results -%}
+        {%- if item.object_type != 'product' -%}
+          {%- continue -%}
+        {%- endif -%}
+
+        {%- assign product = item -%}
+
+        {%- unless product.handle -%}
+          {%- continue -%}
+        {%- endunless -%}
+
+        {%- if product_handles_rendered contains product.handle -%}
+          {%- continue -%}
+        {%- endif -%}
+
+        {%- include 'if-customer-and-geotagged' -%}
+        {%- include 'user-can-view-product' -%}
+
+        {% assign geo-ni-prod = "" %}
+        {% assign geo-si-prod = "" %}
+
+        {%- if product.metafields.accentuate.out_of_stock contains 'out of stock: north-island' -%}
+          {% assign geo-ni-prod = "os-ni" %}
+          {% capture geo-ni-prod %}{{- geo-ni-prod -}}{% endcapture %}
+        {%- elsif product.metafields.accentuate.out_of_stock contains 'out of stock: south-island' -%}
+          {% assign geo-si-prod = "os-si" %}
+          {% capture geo-si-prod %}{{- geo-si-prod -}}{% endcapture %}
+        {%- endif -%}
+
+        {% capture prod_grid_item %}
+          <div class="{{ cols }}" data-geo-tagged-south="{{geo-si-prod}}" data-geo-tagged-north="{{geo-ni-prod}}">{% include 'product-grid-item' with order_form: true %} </div>
+        {% endcapture %}
+
+        {%- if user_can_view_product -%}
+          {%- if is_geotagged_customer_login == false -%}
+            {{ prod_grid_item }}
+            {%- unless product.metafields.accentuate.out_of_stock contains 'out of stock: north-island' -%}
+                {%- assign search_results_count = search_results_count | plus: 1 -%}
+            {% endunless %}
+          {%- elsif is_geotagged_location_north -%}
+            {{ prod_grid_item }}
+            {%- assign search_results_count = search_results_count | plus: 1 -%}
+          {%- elsif is_geotagged_location_south -%}
+            {{ prod_grid_item }}
+            {%- assign search_results_count = search_results_count | plus: 1 -%}
+          {%- endif -%}
+        {%- endif -%}
+
+        
+      {%- endfor -%}
+      
+    </div>
+  {%- endpaginate -%}
+{% endcapture -%}
+
+<div class="search-tab">
+
+  <div class="search-tab__bar">
+    {%- include 'search-bar' -%}
+  </div>
+
+  <div class="search-tab__title">
+    <h5>
+      {%- if search.performed -%}
+        {%- if search_results_count == 0 -%}
+          {{ 'general.search.no_results_html' | t: terms: search.terms }}
+        {%- else -%}
+          {{ 'general.search.results_for_html' | t: terms: search.terms, count: search_results_count }}
+        {%- endif -%}
+      {%- else -%}
+        {{ 'general.search.title' | t }}
+      {%- endif -%}
+    </h5>
+  </div>
+
+  <div class="search-tab__content">
+
+    {%- if search.performed -%}
+      {{ search_results_grid }}
+    {%- endif -%}
+
+  </div>
+
+</div>

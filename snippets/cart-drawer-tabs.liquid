@@ -1,0 +1,35 @@
+{% comment %}{%- assign tabs = 'popular#Most Popular,recent#Recently Viewed,cart#My Cart' | split: ',' -%}{% endcomment %}
+{%- assign tabs = 'cart#My Cart' | split: ',' -%}
+
+<div class="cart-drawer__tabs tabs-group" id="tabs--{{ section.id }}">
+
+  <div class="tabs-group__tabs">
+
+    {% for tab in tabs %}
+
+      {%- assign tab_handle = tab | split: '#' | first -%}
+      {%- assign tab_name = tab | split: '#' | last -%}
+
+      <div class="tabs-group__tab" data-tab="{{ forloop.index }}" data-tab-title="{{ tab_name }}">
+        {%- case tab_handle -%}
+          {%- when 'popular' -%}
+
+            {%- include 'tab--popular' -%}
+
+          {%- when 'recent' -%}
+
+            {%- include 'tab--recent' -%}
+
+          {%- when 'cart' -%}
+
+            {%- include 'tab--cart' -%}
+
+          {%- else -%}
+            <pre>No tabs :(</pre>
+        {%- endcase -%}
+      </div>
+
+    {% endfor %}
+
+  </div>
+</div>

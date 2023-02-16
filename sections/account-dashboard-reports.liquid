@@ -1,0 +1,169 @@
+<div data-section-id="{{ section.id }}" data-section-type="dashboard-reports">
+  <div class="dashboard-reports">
+
+    <div class="row account-cards">
+
+      {% comment %} REPORTS {% endcomment %}
+      <div class="col-xs-12 col-md-6">
+        <div class="account-card dashboard-report loading" rv-class-loading="ui.loadComplete | not">
+            <div class="account-card__title">
+
+              <div class="dashboard-report__type-selector" rv-if="data.reports.reports | empty | not" rv-class-dropdown-active="ui.showDropdown">
+                <div class="type-selector__title" data-dropdown-button rv-on-click="actions.toggleDropdown">
+                  { ui.active.title }
+                </div>
+                <div class="type-selector__options" data-dropdown-options>
+                  <div class="type-selector__option"
+                    rv-each-report="data.reports.reports"
+                    rv-on-click="actions.changeActiveReport"
+                    rv-data-report-days="report.days"
+                    rv-data-report-title="report.title"
+                    >{ report.title }</div>
+                </div>
+              </div>
+
+              <h5>Reports</h5>
+            </div>
+
+            <div class="account-card__content">
+
+              <div rv-if="data.reports.reports | empty | not">
+                <div rv-each-report="data.reports.reports">
+                  
+                  <div rv-show="ui.active.days| eq report.days" rv-each-type="report.types">
+                    <div class="dashboard-report__data-container" rv-if="type.title | eq 'other' | not">
+                      <div class="dashboard-report__icon">
+
+                        <div rv-if="type.title | eq 'lids'">
+                          {%- include 'icon' with 'reports-lid', color: true -%}
+                        </div>
+
+                        <div rv-if="type.title | eq 'cups'">
+                          {%- include 'icon' with 'reports-cup', color: true -%}
+                        </div>
+
+                      </div>
+                      <div class="dashboard-report__data">
+                        <span class="dashboard-report__count">{ type.count }</span>
+                        <span class="dashboard-report__description">{ type.title } used in the last { report.title }</span>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <div rv-if="data.reports.reports | empty">
+                {%- if customer.orders_count > 0 -%}
+                  <p>{{ section.settings.no_orders_new_platform_text }}</p>
+                {% else %}
+                  <p>{{ section.settings.no_orders_text }}</p>
+                {%- endif -%}
+                
+              </div>
+
+            </div>
+        </div>
+      </div>
+
+      {% comment %} POP Counter{% endcomment %}
+      <div class="col-xs-12 col-md-6">
+        <div class="account-card dashboard-report dashboard-report--feature loading" rv-class-loading="ui.loadComplete | not">
+            <div class="account-card__title">
+              <h5>POP Counter</h5>
+            </div>
+
+            <div class="account-card__content">
+              <div class="dashboard-report__data-container carbon">
+                
+                <div class="dashboard-report__icon-box">
+                  
+                <div class="dashboard-report__icon">
+                  {%- include 'icon' with 'reports-plastic', color: true -%}
+                </div>
+                <div class="dashboard-report__icon">
+                  {%- include 'icon' with 'reports-carbon', color: true -%}
+                </div>
+
+                </div>
+                
+                <div class="dashboard-report__data-carbon">
+
+                  <div class="dashboard-report__data carbon-reports">
+                    <span class="dashboard-report__count" rv-html="data.reports.pieces_of_plastic_purchased"></span>
+                    <span class="dashboard-report__description">{{ section.settings.pieces_of_plastic }}</span>
+                    <span class="dashboard-report__paragraph">{{ section.settings.out_of_curculation }}</span>
+                  </div>
+
+                  <div class="dashboard-report__data carbon-reports">
+                    <span class="dashboard-report__count" rv-html="data.reports.tonnes_of_carbon_emissions_saved"></span>
+                    <span class="dashboard-report__description">{{ section.settings.c02_emissions }}</span>
+                    <span class="dashboard-report__paragraph">{{ section.settings.carbon_saved }}</span>
+                  </div>
+
+                </div>
+              
+
+              </div>
+            </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+{% comment %} POP Asset Generator {% endcomment %}
+<h2 class="h5">Share your latest POP and Carbon Numbers</h2>
+  <div class="account-section__body">
+    <div id="account-pop-download-box" class="order-history-table account__table">
+      {% include 'account-pop-download' %}
+    </div>
+  </div>
+
+</div>
+
+
+{% schema %}
+  {
+    "name": "Dashboard reports",
+    "class": "dashbaord-reports-section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "no_orders_text",
+        "label": "No orders placed text",
+        "default": "Place your first order to see reports on your dashboard."
+      },
+      {
+        "type": "text",
+        "id": "no_orders_new_platform_text",
+        "label": "No orders placed on new platform text",
+        "default": "Place your first order on our new order platform to see additional reports on your dashboard."
+      },
+      {
+        "type": "text",
+        "id": "pieces_of_plastic",
+        "label": "Pieces of plastic text",
+        "default": "pieces of plastic"
+      },
+      {
+        "type": "text",
+        "id": "out_of_curculation",
+        "label": "Out of circulation text",
+        "default": "have been taken out of circulation by using Innocent Packaging products."
+      },{
+        "type": "text",
+        "id": "c02_emissions",
+        "label": "tc02 text",
+        "default": "Tonnes of Carbon"
+      },
+      {
+        "type": "text",
+        "id": "carbon_saved",
+        "label": "Carbon Saved Text",
+        "default": "has been saved by using Innocent Packaging products."
+      }
+    ]
+  }
+{% endschema %}

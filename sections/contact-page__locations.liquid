@@ -1,0 +1,112 @@
+<div class="container page-width"  data-section-id="{{ section.id }}" data-section-type="location-section">
+    <div class="container">
+        <div class="contact-section__locations">
+            <div class="section-head">
+                <div class="row">
+                    <div class="col-xs-12 col-md-5">
+                        <div class="h1 section-head__ttl">{{ section.settings.title | replace: '  ', '</br>' }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-body">
+                <div class="section-body__list row between-xs">
+
+                    {% for item in section.blocks %}
+                        {% if item.type == 'offices_info' %}
+
+                        {%- assign offset = true -%}
+                        {%- if forloop.first -%}
+                          {%- assign offset = false -%}
+                        {%- endif -%}
+                        {%- assign forloop_index_check = forloop.index | minus: 1 | modulo: 3 -%}
+                        {%- if forloop_index_check == 0  -%}
+                          {%- assign offset = false -%}
+                        {%- endif -%}
+
+                        {%- style %}
+                            .list-item--{{ forloop.index }} .list-item__pic-circle {
+                                background-color: {{ item.settings.background_color }}
+                            }
+                        {% endstyle -%}
+
+                            <div class="list-item list-item--{{ forloop.index }} col-xs-12 col-sm-4 col-lg-3 {% if offset %}col-lg-offset-1{% endif %}">
+                                <div class="list-item__inner">
+                                    <div class="list-item__wrap">
+                                        <div class="list-item__pic">
+                                            {%- include 'icon' with 'world' -%}
+                                            <div class="list-item__pic-circle "></div>
+                                        </div>
+                                        <div class="list-item__ttl">{{ item.settings.title_office }}</div>
+                                        <div class="list-item__txt">{{ item.settings.text_office | replace: '  ', '</br>'  }}</div>
+                                    </div>
+                                    <div class="list-item__link">
+                                        <a href="{{ item.settings.map_office }}" target="_blank">view on maps</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% schema %}
+    {
+        "name": "Contact - locations",
+        "blocks":[
+            {
+                "type": "offices_info",
+                "name": "Team info",
+                "settings": [
+                    {
+                        "type": "text",
+                        "id": "title_office",
+                        "label": "Title Office",
+                        "default": "Auckland Head Office"
+                    },
+                    {
+                        "type": "textarea",
+                        "id": "text_office",
+                        "label": "Text",
+                        "default": "Level 1, 415 Dominion Road, Mount Eden, Auckland, 1024"
+                    },
+                    {
+                        "type": "image_picker",
+                        "id": "office_img",
+                        "label": "Office Image"
+                    },
+                    {
+                        "type": "text",
+                        "id": "map_office",
+                        "label": "Map Link Office",
+                        "default": "#"
+                    },
+                    {
+                      "type": "color",
+                      "id": "background_color",
+                      "label": "Background color"
+                    }
+                ]
+            }
+        ],
+        "settings": [
+            {
+                "type": "text",
+                "id": "title",
+                "label": "Heading",
+                "default": "Where we’re located"
+            },
+            {
+                "type": "textarea",
+                "id": "text",
+                "label": "Text",
+                "default": "This section can contain a call to action, and link to a product or page with the button below. All elements are optional."
+            }
+        ]
+    }
+{% endschema %}

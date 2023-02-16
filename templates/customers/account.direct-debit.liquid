@@ -1,0 +1,5 @@
+{%- capture main %}
+  {%- include 'account-direct-debit' -%}
+{% endcapture -%}
+
+{%- include 'account-view' with main: main -%}

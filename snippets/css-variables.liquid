@@ -1,0 +1,193 @@
+{% style %}
+
+  @import url("https://use.typekit.net/two4lrn.css");
+
+  {%- assign fallback_font_families = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif' -%}
+
+  {%- assign default_theme = 'None' -%}
+
+  {% assign this = null
+    | default: page
+    | default: collection
+    | default: product
+    | default: article
+    | default: blog
+  %}
+
+  {%- assign this_theme_default = 'orange' -%}
+  {%- if template contains 'register' -%}
+    {%- assign this_theme_default = 'blue' -%}
+  {%- endif -%}
+
+  {%- assign this_theme = this.metafields.style.theme
+    | default: this_theme_default
+    | downcase -%}
+
+  {%- assign orange_primary = '#fcaa81' -%}
+  {%- assign orange_secondary = '#ffecde' -%}
+  {%- assign orange_tertiary = '#fff8df' -%}
+
+  {%- assign blue_primary = '#5db5e8' -%}
+  {%- assign blue_secondary = '#b9e2f5' -%}
+  {%- assign blue_tertiary = '#e8f1f8' -%}
+
+  {%- assign yellow_primary = '#fbcc59' -%}
+  {%- assign yellow_secondary = '#fff9e2' -%}
+  {%- assign yellow_tertiary = '#feecdc' -%}
+
+  {%- assign green_primary = '' -%}
+  {%- assign green_secondary = '#e0e2bd' -%}
+  {%- assign green_tertiary = '' -%}
+  
+  {%- assign default_primary = settings.color_primary -%}
+  {%- assign default_secondary = settings.color_secondary -%}
+  {%- assign default_tertiary = settings.color_tertiary -%}
+
+  {%- case this_theme -%}
+    {%- when 'orange' -%}
+      {%- assign color_primary = orange_primary -%}
+      {%- assign color_secondary = orange_secondary -%}
+      {%- assign color_tertiary = orange_tertiary -%}
+    {%- when 'blue' -%}
+      {%- assign color_primary = blue_primary -%}
+      {%- assign color_secondary = blue_secondary -%}
+      {%- assign color_tertiary = blue_tertiary -%}
+    {%- when 'yellow' -%}
+      {%- assign color_primary = yellow_primary -%}
+      {%- assign color_secondary = yellow_secondary -%}
+      {%- assign color_tertiary = yellow_tertiary -%}
+    {%- else -%}
+      {%- assign color_primary = default_primary -%}
+      {%- assign color_secondary = default_secondary -%}
+      {%- assign color_tertiary = default_tertiary -%}
+  {%- endcase %}
+
+  :root {
+    --font-heading: proxima-nova, {{ fallback_font_families }};
+    --font-body: proxima-nova, {{ fallback_font_families }};
+    --font-alternate: proxima-nova, {{ fallback_font_families }};
+    --font-heading-weight: 700;
+    --font-heading-weight-alternate: 800;
+    --font-alternate-weight: 100;
+    --font-body-weight: 100;
+    --font-body-style: normal;
+    --font-body-medium-weight: 300;
+    --font-body-bold-weight: 400;
+    --font-body-extra-bold-weight: 600;
+
+    --color-body: {{ settings.color_body_bg | color_to_rgb }};
+    --color-body-inverse: {{ settings.color_body_bg_inverse | color_to_rgb }};
+    --color-body-text: {{ settings.color_body_text | color_to_rgb }};
+    --color-body-text-hover: {{ settings.color_body_text | color_lighten: 10 }};
+    --color-body-text-inverse: {{ settings.color_body_text_inverse | color_to_rgb }};
+    --color-body-headings: {{ settings.color_heading_text | color_to_rgb }};
+    --color-body-headings-inverse: {{ settings.color_heading_text_inverse | color_to_rgb }};
+    --color-link: {{ settings.color_link_text | color_to_rgb }};
+    --color-link-hover: {{ settings.color_link | color_lighten: 15 }};
+    --color-link-light: {{ settings.color_link | color_lighten: 30 }};
+    --color-border: {{ settings.color_borders | color_to_rgb }};
+    --color-product-sale-text: {{ settings.color_sale_text | color_to_rgb }};
+    --color-input-text: {{ settings.color_input_text | color_to_rgb }};
+    --color-input-text-inverse: {{ settings.color_input_text_inverse | color_to_rgb }};
+    --color-input-background: {{ settings.color_input_bg | color_to_rgb }};
+    --color-header-bg: {{ settings.color_header_bg | color_to_rgb }};
+    --color-header-bg-light: {{ settings.color_header_bg | color_lighten: 5 }};
+    --color-footer-bg: {{ settings.color_footer_bg | color_to_rgb }};
+    --color-footer-bg-light: {{ settings.color_footer_bg | color_lighten: 5 }};
+    --color-header-text: {{ settings.color_header_text | color_to_rgb }};
+
+    --header-theme: 'light';
+    --header-height: 100px;
+    --header-height-mobile: 70px;
+    --color-footer-text: {{ settings.color_body_text | color_to_rgb }};
+    --footer-theme: 'light';
+    --color-notification-badge: #0cbdc9;
+    --color-progress-bar: #000;
+    --pswp-default-skin: url({{ "pswp-default-skin.svg" | asset_url }});
+    --pswp-preloader: url({{ "pswp-preloader.gif" | asset_url }});
+    --ajax-loader: url({{ "ajax-loader.gif" | asset_url }});
+    --svg-select-icon: url({{ "ico-select.svg" | asset_url }});
+    --svg-star-filled-icon: url({{ "ico-star-filled.svg" | asset_url }});
+    --svg-select-icon-white: url({{ "ico-select-white.svg" | asset_url }});
+
+    --color-primary: {{ color_primary | color_to_rgb }};
+    --color-secondary: {{ color_secondary | color_to_rgb }};
+    --color-tertiary: {{ color_tertiary | color_to_rgb }};
+    --color-primary-active: {{ color_primary | color_lighten: 5 }};
+    --color-primary-hover: {{ color_primary | color_lighten: 10 }};
+    --color-primary-light: {{ color_primary | color_lighten: 15 }};
+    --color-secondary-active: {{ color_secondary | color_lighten: 5 }};
+    --color-secondary-hover: {{ color_secondary | color_lighten: 10 }};
+    --color-secondary-light: {{ color_secondary | color_lighten: 15 }};
+    --color-tertiary-active: {{ color_tertiary | color_lighten: 5 }};
+    --color-tertiary-hover: {{ color_tertiary | color_lighten: 10 }};
+    --color-tertiary-light: {{ color_tertiary | color_lighten: 15 }};
+
+    --color-default-primary: {{ default_primary | color_to_rgb }};
+    --color-default-secondary: {{ default_secondary | color_to_rgb }};
+    --color-default-tertiary: {{ default_tertiary | color_to_rgb }};
+    --color-default-primary-active: {{ default_primary | color_lighten: 5 }};
+    --color-default-primary-hover: {{ cdefault_primary | color_lighten: 10 }};
+    --color-default-primary-light: {{ default_primary | color_lighten: 15 }};
+    --color-default-secondary-active: {{ default_secondary | color_lighten: 5 }};
+    --color-default-secondary-hover: {{ default_secondary | color_lighten: 10 }};
+    --color-default-secondary-light: {{ default_secondary | color_lighten: 15 }};
+    --color-default-tertiary-active: {{ default_tertiary | color_lighten: 5 }};
+    --color-default-tertiary-hover: {{ default_tertiary | color_lighten: 10 }};
+    --color-default-tertiary-light: {{ default_tertiary | color_lighten: 15 }};
+
+    --color-orange-primary: {{ orange_primary | color_to_rgb }};
+    --color-orange-secondary: {{ orange_secondary | color_to_rgb }};
+    --color-orange-tertiary: {{ orange_tertiary | color_to_rgb }};
+    --color-orange-primary-active: {{ orange_primary | color_lighten: 5 }};
+    --color-orange-primary-hover: {{ orange_primary | color_lighten: 10 }};
+    --color-orange-primary-light: {{ orange_primary | color_lighten: 15 }};
+    --color-orange-secondary-active: {{ orange_secondary | color_lighten: 5 }};
+    --color-orange-secondary-hover: {{ orange_secondary | color_lighten: 10 }};
+    --color-orange-secondary-light: {{ orange_secondary | color_lighten: 15 }};
+    --color-orange-tertiary-active: {{ orange_tertiary | color_lighten: 5 }};
+    --color-orange-tertiary-hover: {{ orange_tertiary | color_lighten: 10 }};
+    --color-orange-tertiary-light: {{ orange_tertiary | color_lighten: 15 }};
+
+    --color-blue-primary: {{ blue_primary | color_to_rgb }};
+    --color-blue-secondary: {{ blue_secondary | color_to_rgb }};
+    --color-blue-tertiary: {{ blue_tertiary | color_to_rgb }};
+    --color-blue-primary-active: {{ blue_primary | color_lighten: 5 }};
+    --color-blue-primary-hover: {{ blue_primary | color_lighten: 10 }};
+    --color-blue-primary-light: {{ blue_primary | color_lighten: 15 }};
+    --color-blue-secondary-active: {{ blue_secondary | color_lighten: 5 }};
+    --color-blue-secondary-hover: {{ blue_secondary | color_lighten: 10 }};
+    --color-blue-secondary-light: {{ blue_secondary | color_lighten: 15 }};
+    --color-blue-tertiary-active: {{ blue_tertiary | color_lighten: 5 }};
+    --color-blue-tertiary-hover: {{ blue_tertiary | color_lighten: 10 }};
+    --color-blue-tertiary-light: {{ blue_tertiary | color_lighten: 15 }};
+
+    --color-yellow-primary: {{ yellow_primary | color_to_rgb }};
+    --color-yellow-secondary: {{ yellow_secondary | color_to_rgb }};
+    --color-yellow-tertiary: {{ yellow_tertiary | color_to_rgb }};
+    --color-yellow-primary-active: {{ yellow_primary | color_lighten: 5 }};
+    --color-yellow-primary-hover: {{ yellow_primary | color_lighten: 10 }};
+    --color-yellow-primary-light: {{ yellow_primary | color_lighten: 15 }};
+    --color-yellow-secondary-active: {{ yellow_secondary | color_lighten: 5 }};
+    --color-yellow-secondary-hover: {{ yellow_secondary | color_lighten: 10 }};
+    --color-yellow-secondary-light: {{ yellow_secondary | color_lighten: 15 }};
+    --color-yellow-tertiary-active: {{ yellow_tertiary | color_lighten: 5 }};
+    --color-yellow-tertiary-hover: {{ yellow_tertiary | color_lighten: 10 }};
+    --color-yellow-tertiary-light: {{ yellow_tertiary | color_lighten: 15 }};
+
+    --color-green-primary: {{ green_primary | color_to_rgb }};
+    --color-green-secondary: {{ green_secondary | color_to_rgb }};
+    --color-green-tertiary: {{ green_tertiary | color_to_rgb }};
+    --color-green-primary-active: {{ green_primary | color_lighten: 5 }};
+    --color-green-primary-hover: {{ green_primary | color_lighten: 10 }};
+    --color-green-primary-light: {{ green_primary | color_lighten: 15 }};
+    --color-green-secondary-active: {{ green_secondary | color_lighten: 5 }};
+    --color-green-secondary-hover: {{ green_secondary | color_lighten: 10 }};
+    --color-green-secondary-light: {{ green_secondary | color_lighten: 15 }};
+    --color-green-tertiary-active: {{ green_tertiary | color_lighten: 5 }};
+    --color-green-tertiary-hover: {{ green_tertiary | color_lighten: 10 }};
+    --color-green-tertiary-light: {{ green_tertiary | color_lighten: 15 }};
+
+    --accordion-transition-duration: 0.5s;
+  }
+{% endstyle %}

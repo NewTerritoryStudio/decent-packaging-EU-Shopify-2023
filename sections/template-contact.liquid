@@ -1,0 +1,184 @@
+{% comment %}
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-md-10 col-md-offset-1 col-xl-8 col-xl-offset-2">
+      <div class="section-header text-{{ settings.page_header_text_align }}">
+        <h1>{{ page.title }}</h1>
+      </div>
+
+      {%- if page.content.size > 0 -%}
+        <div class="rte">
+          {%- include 'text' with page.content -%}
+        </div>
+      {%- endif -%}
+
+      {%- assign map_embed = '' -%}
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'map_embed' -%}
+            {%- capture map_embed %}
+              {%- if block.settings.map_enabled -%}
+                {%- if block.settings.code != blank -%}
+                  <div class="contact-page__map">
+                    {{ block.settings.code }}
+                  </div>
+                {%- elsif block.settings.map_address != blank -%}
+                  <iframe width="100%" height="{{ block.settings.map_height }}" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q={{ block.settings.map_address | replace: ' ', '+' }}&amp;z={{ block.settings.map_zoom_level }}&amp;output=embed"></iframe>
+                {%- endif -%}
+              {%- endif -%}
+            {% endcapture -%}
+        {%- endcase -%}
+      {%- endfor -%}
+
+      {%- if map_embed != blank -%}
+        {{ map_embed }}
+      {%- endif -%}
+    </div>
+
+    <div class="col-xs-12 col-md-10 col-md-offset-1 col-xl-8 col-xl-offset-2">
+      <div class="contact-form form-vertical">
+
+        <div class="form-heading">
+          <h2>{{ 'contact.form.title' | t }}</h2>
+          <p>{{ 'contact.form.subtitle' | t }}</p>
+        </div>
+
+        <div>
+        {%- form 'contact' -%}
+          {%- if section.settings.redirect_url != blank -%}
+            <input type="hidden" name="return_to" value="{{ section.settings.redirect_url }}" />
+          {%- endif -%}
+
+          {%- if form.posted_successfully? -%}
+            <p class="note form-success">
+              {{ 'contact.form.post_success' | t }}
+            </p>
+          {%- endif -%}
+
+          {{ form.errors | default_errors }}
+          
+          {%- if section.settings.form_uses_both_names -%}
+            <div class="row">
+              <div class="col-xs-12 col-md-6">
+                <label for="ContactFormFirstName">{{ 'contact.form.first_name' | t }}</label>
+                <input type="text" id="ContactFormFirstName" name="contact[first_name]" value="{% if form[first_name] %}{{ form[first_name] }}{% elsif customer %}{{ customer.first_name }}{% endif %}" required>
+              </div>
+              <div class="col-xs-12 col-md-6">
+                <label for="ContactFormLastName">{{ 'contact.form.last_name' | t }}</label>
+                <input type="text" id="ContactFormLastName" name="contact[last_name]" value="{% if form[last_name] %}{{ form[last_name] }}{% elsif customer %}{{ customer.last_name }}{% endif %}" required>
+              </div>
+            </div>
+          {%- else -%}
+            <label for="ContactFormName">{{ 'contact.form.name' | t }}</label>
+            <input type="text" id="ContactFormName" name="contact[name]" value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.first_name }}{% endif %}" required>
+          {%- endif -%}
+
+          <div class="row">
+            <div class="col-xs-12 col-md-6">
+              <label for="ContactFormEnquiryType">{{ 'contact.form.enquiry_type' | t }}</label>
+              <select id="ContactFormEnquiryType" name="contact[EnquiryType]">
+                <option value="Business">Business</option>
+                <option value="Student">Student</option>
+                <option value="Education">Education</option>
+              </select>
+            </div>
+            <div class="col-xs-12 col-md-6">
+              <label for="ContactFormCompany">{{ 'contact.form.company' | t }}</label>
+              <input type="text" id="ContactFormCompany" name="contact[company]" value="{% if form[company] %}{{ form[company] }}{% endif %}">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs">
+              <label for="ContactFormPhone">{{ 'contact.form.phone' | t }}</label>
+              <input type="tel" id="ContactFormPhone" name="contact[phone]" pattern="[0-9\-]*" value="{% if form[phone] %}{{ form[phone] }}{% elsif customer %}{{ customer.phone }}{% endif %}" required>
+            </div>
+            <div class="col-xs">
+              <label for="ContactFormEmail" class="{% if form.errors contains 'email' %}label--error{% endif %}">{{ 'contact.form.email' | t }}</label>
+              <input type="email" id="ContactFormEmail" name="contact[email]" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" class="{% if form.errors contains 'email' %}input--error{% endif %}">
+            </div>
+          </div>
+
+          <label for="ContactFormMessage">{{ 'contact.form.message' | t }}</label>
+          <textarea rows="10" id="ContactFormMessage" name="contact[body]" required>{% if form.body %}{{ form.body }}{% endif %}</textarea>
+
+          <div class="form-vertical__actions">
+            <input type="submit" class="btn btn--large" value="{{ 'contact.form.send' | t }}">
+          </div>
+
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% endcomment %}
+
+{% schema %}
+  {
+    "name": "Contact Page",
+    "class": "contact-page-section",
+    "settings": [
+      {
+        "type": "url",
+        "id": "redirect_url",
+        "label": "Redirect form to"
+      },
+      {
+        "type": "checkbox",
+        "id": "form_uses_both_names",
+        "label": "Use both first & last names",
+        "default": false
+      }
+    ],
+    "blocks": [
+      {
+        "type": "map_embed",
+        "name": "Map",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "map_enabled",
+            "label": "Enable map",
+            "default": false
+          },
+          {
+            "type": "text",
+            "id": "map_address",
+            "label": "Address"
+          },
+          {
+            "type": "range",
+            "id": "map_height",
+            "min": 150,
+            "max": 600,
+            "step": 10,
+            "unit": "px",
+            "label": "Height",
+            "default": 450
+          },
+          {
+            "type": "range",
+            "id": "map_zoom_level",
+            "min": 1,
+            "max": 20,
+            "step": 1,
+            "label": "Zoom level (1-20)",
+            "default": 12
+          },
+          {
+            "type": "textarea",
+            "id": "code",
+            "label": "Map embed code override",
+            "info": "Overrides the settings configured above. New maps can be generated using [this form](https://developers.google.com/maps/documentation/embed/start)."
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

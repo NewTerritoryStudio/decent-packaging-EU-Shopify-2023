@@ -1,0 +1,38 @@
+{% assign layout = layout | default: 'default' %}
+<!-- /snippets/social-sharing.liquid -->
+<div class="social-sharing social-sharing--{{ layout }}">
+
+  {%- if settings.share_facebook or settings.share_twitter or settings.share_pinterest %}
+    <span class="social-sharing__title">
+      {{ 'general.social.share' | t }}
+    </span>
+  {% endif -%}
+
+  {%- if settings.share_facebook %}
+    <a target="_blank" rel="noop noopener" rel="noopener noreferrer" href="//www.facebook.com/sharer.php?u={{ shop.url | append: share_permalink }}" title="{{ 'general.social.alt_text.share_on_facebook' | t }}" class="social-sharing__facebook">
+      <span class="icon-wrap">
+        {% include 'icon-facebook' %}
+      </span>
+      <span aria-hidden="true" class="social-sharing__descriptor">{{ 'general.social.share_on_facebook' | t }}</span>
+    </a>
+  {% endif -%}
+
+  {%- if settings.share_twitter %}
+    <a target="_blank" rel="noop noopener" rel="noopener noreferrer" href="//twitter.com/share?text={{ share_title | url_param_escape }}&amp;url={{ shop.url | append: share_permalink }}" title="{{ 'general.social.alt_text.share_on_twitter' | t }}" class="social-sharing__twitter">
+      <span class="icon-wrap">
+        {% include 'icon-twitter' %}
+      </span>
+      <span aria-hidden="true" class="social-sharing__descriptor">{{ 'general.social.share_on_twitter' | t }}</span>
+    </a>
+  {% endif -%}
+
+  {%- if settings.share_pinterest %}
+    <a target="_blank" rel="noop noopener" rel="noopener noreferrer" href="//pinterest.com/pin/create/button/?url={{ shop.url | append: share_permalink }}&amp;media={{ share_image | img_url: '1024x1024' }}&amp;description={{ share_title | url_param_escape }}" title="{{ 'general.social.alt_text.share_on_pinterest' | t }}" class="social-sharing__pinterest">
+      <span class="icon-wrap">
+        {% include 'icon-pinterest' %}
+      </span>
+      <span aria-hidden="true" class="social-sharing__descriptor">{{ 'general.social.share_on_pinterest' | t }}</span>
+    </a>
+  {% endif -%}
+
+</div>

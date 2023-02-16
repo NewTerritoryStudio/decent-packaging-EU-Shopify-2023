@@ -1,0 +1,64 @@
+<div class="four-oh-four container text-center">
+
+  <div class="four-oh-four__graphic h1">
+    {%- if section.settings.video_url != blank -%}
+      <div class="four-oh-four__graphic-video-wrapper">
+        <video class="video" loop autoplay muted>
+          <source src="{{ section.settings.video_url }}" type="video/mp4">
+            <span>4</span>
+            <span>0</span>
+            <span>4</span>
+        </video>
+      </div>
+    {% else %}
+      <span>4</span>
+      <span>0</span>
+      <span>4</span>
+    {%- endif -%}
+  </div>
+  <h1 class="four-oh-four__title h5">
+    {{ 'general.404.title' | t }}
+  </h1>
+  <p  class="four-oh-four__text">{{ 'general.404.subtext' | t }}</p>
+
+  <div class="four-oh-four__buttons">
+    {%- for block in section.blocks -%}
+      {%- if block.type != 'button' -%}
+        {%- continue -%}
+      {%- endif -%}
+      <a href="{{ block.settings.button_url }}" class="btn btn--large btn-black-o">{{ block.settings.button_text }}</a>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "404",
+    "settings": [
+      {
+        "type": "url",
+        "id": "video_url",
+        "label": "Video URL",
+        "info": "Copy and paste this URL from the Shopify Files section"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "Button",
+        "type": "button",
+        "settings": [
+          {
+            "type": "text",
+            "id": "button_text",
+            "label": "Button text"
+          },
+          {
+            "type": "url",
+            "id": "button_url",
+            "label": "Button URL"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,147 @@
+<div class="edit-account">
+  <div class="row account-cards">
+    <div class="col-xs-12 col-md-6">
+      <div class="account-card">
+        <div class="account-card__title">
+          <p class="h5">{{ 'customer.account.personal_information' | t }}</p>
+        </div>
+
+          {%- capture fields %}
+
+            <div class="form-group">
+              <div class="row middle-xs form-control__wrap">
+                  <div class="col-xs-12 col-sm-6 form-control__col">
+                      <div class="form-control">
+                        {% comment %} <p>{{ 'customer.addresses.first_name' | t}}</p> {% endcomment %}
+                          <input type="text" name="customer[first_name]" placeholder="{{ 'customer.addresses.first_name' | t}}" id="FirstName" {% if form.first_name %}value="{{ form.first_name }}"{% endif %}>
+                      </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 form-control__col">
+                      <div class="form-control">
+                          <input type="text" name="customer[last_name]" placeholder="{{ 'customer.addresses.last_name' | t}}" id="LastName" {% if form.last_name %}value="{{ form.last_name }}"{% endif %}>
+                      </div>
+                  </div>
+              </div>
+              <div class="form-control">
+                <input type="tel" placeholder="Contact Phone" name="customer[addresses][][phone]">
+              </div>
+
+              <div class="form-control">
+                  <input type="email" placeholder="Orders Email Address" name="customer[email]" id="Email" class="{% if form.errors contains 'email' %} input--error{% endif %}" {% if form.email %} value="{{ form.email }}"{% endif %} autocorrect="off" autocapitalize="off" required>
+              </div>
+
+              <div class="form-control">
+                  <input type="email" placeholder="Accounts Email Address" name="customer[Secondary Email]">
+              </div>
+            </div>
+          {% endcapture -%}
+
+          <div id="customer-fields" {% unless customer %}data-registration="true"{% endunless %} class="{{ form_class }}">
+            {% form 'create_customer' %}
+
+              <div class="account-card__content">
+              <input type="hidden" name="shop" value="{{ shop.permanent_domain }}">
+
+              {%- if fields != blank -%}
+                <div class="custom-fields">
+                  {{ fields }}
+                </div>
+              {%- endif -%}
+
+              <div class="form-footer"></div>
+              
+              <script>
+                var Customr = {
+                  baseUrl: "https://customr.heliumdev.com",
+                  {% if customer %}
+                    shopifyCustomer: {
+                      id: {{ customer.id }},
+                      token: {{ customer.metafields.customr_auth.token | json }}
+                    },
+                  {% endif %}
+
+                  ready: function() {
+                    var css = document.querySelector('link[href="https://customr.heliumdev.com/assets/v2/embed.css"]');
+                    css.parentElement.removeChild(css);
+                  },
+
+                  beforeValidate: function() {
+                    $('#customer-fields [type="submit"]').addClass('loading');
+                  },
+                  afterSaveError: function(errors) {
+                    $('#customer-fields [type="submit"]').removeClass('loading');
+                  },
+                  afterSaveSuccess: function(customer) {
+                    window.location.href = "/account";
+                  },
+                };
+              </script>
+              <script src="https://cdn-customr.heliumdev.com/assets/v2/embed.js"></script>
+              </div>
+              <div class="account-card__footer">
+                <button type="submit" class="btn btn-black btn--wide">{{ 'customer.account.save_changes' | t }}</button>
+              </div>
+            {% endform %}
+          </div>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-md-6">
+      <div class="account-card">
+
+        <div class="account-card__title">
+          <p class="h5">{{ 'customer.recover_password.title' | t }}</p>
+          <p>{{ 'customer.recover_password.subtext' | t }}</p>
+        </div>
+
+        {% form 'recover_customer_password', class: 'form-vertical' %}
+
+            <div class="account-card__content">
+
+              {{ form.errors | default_errors }}
+
+              {% if form.posted_successfully? %}
+                <span class="hide reset-password-success"></span>
+              {% endif %}
+
+              <label for="RecoverEmail"{% if hide_labels %} class="label-hidden"{% endif %}>
+                  {{ 'customer.recover_password.email' | t }}
+              </label>
+              <input type="email"
+                     name="email"
+                     id="RecoverEmail"
+                     spellcheck="false"
+                     autocomplete="off"
+                     autocapitalize="off"
+                     value="{{ customer.email }}">
+            </div>
+
+            <div class="account-card__footer">
+              <button type="submit" class="btn btn-black btn--wide">{{ 'customer.recover_password.submit' | t }}</button>
+            </div>
+
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,62 @@
+<div data-section-id="{{ section.id }}" data-section-type="dashboard-welcome-banner">
+  <div class="dashboard-welcome-banner" style="background-color:{{ section.settings.background_color }}">
+
+    <div class="dashboard-welcome-banner__arrow">
+      {%- include 'icon' with 'drawn-arrow' -%}
+    </div>
+    <div class="dashboard-welcome-banner__text">
+      <p class="h2">{{ section.settings.title | replace: '[store_name]', shop.name | replace: '  ', '<br>' }}</p>
+      <div class="rte hidden-lg hidden-xl">
+        {{ section.settings.content | replace: '[button_position]', section.settings.button_position_mobile }}
+      </div>
+      <div class="rte hidden-md hidden-xs hidden-sm">
+        {{ section.settings.content | replace: '[button_position]', section.settings.button_position_desktop }}
+      </div>
+    </div>
+    <div class="dashboard-welcome-banner__image dashboard-welcome-banner__image">
+      {%- include 'icon' with 'hand-and-cup' -%}
+    </div>
+
+  </div>
+
+</div>
+
+
+{% schema %}
+{
+  "name": "Welcome Banner",
+  "class": "welcome-banner",
+  "settings":[
+    {
+     "type": "color",
+     "id": "background_color",
+     "label": "Background color",
+     "default": "#f9cb3f"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Welcome to  [store_name]."
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Paragraph",
+      "default": "<p>To get started and place your first order click 'Place Order' [button_position].<\/p>\n<p><\/p>\n<p>We accept all major credit card and debit cards.<\/p>"
+    },
+    {
+      "type": "text",
+      "id": "button_position_mobile",
+      "label": "Button position mobile",
+      "default": "above in the tab"
+    },
+    {
+      "type": "text",
+      "id": "button_position_desktop",
+      "label": "Button position desktop",
+      "default": "on the left"
+    }
+  ]
+}
+{% endschema %}

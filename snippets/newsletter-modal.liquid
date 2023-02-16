@@ -1,0 +1,69 @@
+{%- if settings.newsletter_modal_enable -%}
+  
+  {%- assign hide_labels = true -%}
+  {%- assign label_class = '' -%}
+  {%- if hide_labels -%}
+    {%- assign label_class = 'label-hidden' -%}
+  {%- endif -%}
+
+  {%- capture contact_full_name -%}
+    <label for="ContactFormName" class="{{ label_class }}">{{ 'general.newsletter.name_placeholder' | t }}</label>
+    <input type="text" id="ContactFormName" name="contact[name]" value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.first_name }}{% endif %}" required {% if hide_labels %} placeholder="{{ 'general.newsletter.name_placeholder' | t }}"{% endif %}>
+  {%- endcapture -%}
+
+  {%- capture contact_email -%}
+    <label for="ContactFormEmail" class="{{ label_class }} {% if form.errors contains 'email' %}label--error{% endif %}">{{ 'general.newsletter.email' | t }}</label>
+    <input type="email" id="ContactFormEmail" name="contact[email]" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" class="{% if form.errors contains 'email' %}input--error{% endif %}" {% if hide_labels %} placeholder="{{ 'contact.form.email' | t }}"{% endif %}>
+  {%- endcapture -%}
+
+  {%- assign delay = settings.newsletter_modal_delay | times: 1000 | default: 5000 -%}
+  {%- assign expiry = settings.newsletter_modal_expiry | times: 7 | default: 7  -%}
+  {%- assign force_modal = settings.newsletter_modal_developer_mode | default: false  -%}
+
+  <div class="hidden">
+    <div id="newsletter-modal" class="newsletter-modal" data-force-popup="{{ force_modal }}" data-delay="{{ delay }}" data-expiry="{{ expiry }}">
+      <div class="newsletter-modal__inner">
+        <div class="row">
+          <div class="col-xs-12 col-md-6">
+            <div class="newsletter-modal__image">
+              {%- include 'img' with settings.newsletter_modal_image, placeholder: false -%}
+            </div>
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <div class="newsletter-modal__content">
+              <h2 class="newsletter-modal__title">
+                {{ 'general.newsletter.title' | t }}
+              </h2>
+              <div class="newsletter-modal__description">
+                {{ 'general.newsletter.description' | t }}
+              </div>
+              <div class="newsletter-modal__form form-vertical">
+                {%- form 'contact' -%}
+                  {%- if settings.newsletter_modal_redirect_url != blank -%}
+                    <input type="hidden" name="return_to" value="{{ settings.newsletter_modal_redirect_url }}" />
+                  {%- endif -%}
+
+                  {%- if form.posted_successfully? -%}
+                    <p class="note form-success">
+                      {{ 'general.newsletter.post_success' | t }}
+                    </p>
+                  {%- endif -%}
+
+                  {{ form.errors | default_errors }}
+                  
+                  {{ contact_full_name }}
+                  {{ contact_email }}
+                  
+                  <div class="form-vertical__actions">
+                    <input type="submit" class="btn btn--large btn-primary btn--wide" value="{{ 'general.newsletter.submit' | t }}">
+                  </div>
+                {%- endform -%}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{%- endif -%}

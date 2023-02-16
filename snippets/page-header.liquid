@@ -1,0 +1,214 @@
+{%- assign title = title
+  | default: section.settings.title
+  | default: page.title
+  | default: article.title
+  | default: blog.title
+  | default: collection.title
+  -%}
+
+{%- assign content = content
+  | default: section.settings.content
+  | default: page.content
+  | default: blog.metafields.global.description_tag
+  | default: collection.description
+  -%}
+
+{%- assign icon = icon 
+  | default: section.settings.icon
+  | default: blank
+  -%}
+
+{%- assign hide_titles = section.settings.hide_titles | default: false -%}
+{%- assign hide_breadcrumbs = section.settings.hide_breadcrumbs | default: false -%}
+{%- assign show_border_bottom = section.settings.show_border_bottom | default: false -%}
+{%- assign condense_titles = section.settings.condense_titles | default: false -%}
+
+
+{% comment %}
+If condense_titles is true blocks and buttons will be disabled
+{% endcomment %}
+
+{%- if section.blocks.size > 0 and condense_titles != true -%}
+  {%- for block in section.blocks -%}
+    {%- assign feature_block = block -%}
+    {%- break -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{%- capture buttons %}
+  {%- for i in (1..2) -%}
+    {%- assign button_text_field = 'button_text_' | append: i -%}
+    {%- assign button_url_field = 'button_url_' | append: i -%}
+    {%- assign button_text = section.settings[button_text_field] -%}
+    {%- assign button_url = section.settings[button_url_field] -%}
+    {%- if button_text != blank and button_url != blank -%}
+      <a href="{{ button_url }}" class="btn btn-black-o">{{ button_text }}</a> 
+    {%- endif -%}
+  {%- endfor -%}
+{% endcapture -%}
+
+
+<div class="page-header under-header
+  {% if feature_block != blank %}page-header--with-feature{% endif %}
+  {% if condense_titles == true %}page-header--condensed-titles{% endif %}
+  {% if show_border_bottom != false %}page-header--with-border-bottom{% endif %}"
+  {% if section.settings.background_color != blank %}style="background-color: {{ section.settings.background_color }}"{% endif %}
+>
+
+  <div class="container page-width">
+
+    {%- if hide_breadcrumbs != true -%}
+      {%- include 'breadcrumbs' -%}
+    {%- endif -%}
+    
+    <div class="page-header__container container">
+
+      <div class="page-header__text">
+
+        {% if icon and icon != 'none' and hide_titles != true %}
+          <div class="page-header__icon">
+            {%- include 'icon' with icon -%}
+          </div>
+        {% endif %}
+
+        {% if title and hide_titles != true %}
+          <h1 class="page-header__title">
+            {{ title | replace: '  ', '</br>' }}
+          </h1>
+        {% endif %}
+
+        {%- if content != blank and hide_titles != true -%}
+          <div class="page-header__content rte">
+            {%- if content contains '</p>' -%}
+              {%- include 'text' with content -%}
+            {%- else -%}
+              <p>{%- include 'text' with content -%}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if template contains 'contact' -%}
+          {%- include 'store-contact' with paragraph: false -%}
+        {%- endif -%}
+
+        {%- if buttons != blank and hide_titles != true and condense_titles != true -%}
+          <div class="page-header__buttons">
+            {{ buttons }}
+          </div>
+        {%- endif -%}
+
+      </div>
+    </div>
+  </div>
+
+  {%- if feature_block != blank -%}
+    {%- assign feature_block_type = feature_block.type -%}
+    {%- case feature_block_type -%}
+      {%- when 'image' -%}
+
+      {%- assign image = null
+        | default: feature_block.settings.image
+        | default: article.image
+        | default: collection.image
+      -%}
+
+        <div class="page-header__feature page-header__feature--image">
+          {%- if feature_block.settings.container == true -%}
+            <div class="container">
+          {%- endif -%}
+            {%- include 'img' with image, fit: feature_block.settings.image_size, position: feature_block.settings.image_gravity -%}
+          {%- if feature_block.settings.container == true -%}
+            </div>
+          {%- endif -%}
+        </div>
+
+
+      {%- when 'contact-form' -%}
+
+          <div class="page-header__feature page-header__feature--contact-form">
+
+            <div class="contact-form-wrapper">
+              <div class="contact-form">
+                <div class="container">
+
+                  {%- form 'contact' , class: '' -%}
+
+                    {%- if form.posted_successfully? -%}
+                      <p class="note form-success">
+                        {{ 'contact.form.post_success' | t }}
+                      </p>
+                    {% else %}
+
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-xs-12 col-sm-6 _custom-pr">
+                            <div class="form-control _custom-mt-9">
+                              <input type="text" placeholder="Name" id="name" name="contact[name]" value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.first_name }}{% endif %}" required />
+                            </div>
+                          </div>
+                          <div class="col-xs-12 col-sm-6 _custom-pl">
+                            <div class="form-control _custom-mt-9">
+                              <input type="tel"
+                                     name="contact[tel]"
+                                     id="CustomerNumber"
+                                     class="{% if form.errors contains 'tel' %}input-error{% endif %}"
+                                     placeholder="Phone Number (optional)"
+                                     spellcheck="false"
+                                     autocapitalize="off"
+                                     autofocus>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <div class="form-control _custom-mt-9">
+                              <input type="email"
+                                     name="contact[email]"
+                                     id="CustomerEmail"
+                                     class="{% if form.errors contains 'email' %}input-error{% endif %}"
+                                     placeholder="{{ 'customer.login.email' | t }}"
+                                      {% if hide_labels %}{% endif %}
+                                     required
+                                     spellcheck="false"
+                                     autocapitalize="off">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-xs-12 _custom-mt-9">
+                            <div class="form-control">
+                              <textarea id="message" placeholder="Message" name="contact[message]" required>{% if form.message %}{{ form.body }}{% endif %}</textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-vertical__actions _custom-mt-9">
+                        <input type="submit" value="{{ 'contact.form.send' | t }}" class="btn btn-black btn--wide">
+                      </div>
+
+                    {%- endif -%}
+
+                    {{ form.errors | default_errors }}
+
+
+
+                  {%- endform -%}
+                  
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+      {%- else -%}
+        <pre>Type not found</pre>
+    {%- endcase -%}
+  {%- endif -%}
+
+</div>
+
+
+{%- assign title = null -%}
+{%- assign content = null -%}
+{%- assign feature_block = null -%}
+{%- assign icon = null -%}

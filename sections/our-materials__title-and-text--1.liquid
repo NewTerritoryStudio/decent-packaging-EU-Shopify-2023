@@ -1,0 +1,32 @@
+{%- if section.settings.anchor -%}
+  {%- include 'scroll-anchor' with section.settings.anchor -%}
+{%- endif -%}
+
+{%- if section.settings.title and section.settings.text -%}
+  {%- include 'title-and-text' -%}
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Title and text",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "We want you to stand out"
+      },
+      {
+        "type": "textarea",
+        "id": "text",
+        "label": "Text",
+        "default": "At Innocent we want your brand to stand out. We pride ourselves on good design and a high quality product. We'll make sure your food and drinks are walking out the door looking hot, staying hot... or cold, depending on what they are and what they're in... you get the point."
+      },
+      {
+        "type": "text",
+        "id": "anchor",
+        "label": "Anchor (ADVANCED)"
+      }
+    ]
+  }
+{% endschema %}

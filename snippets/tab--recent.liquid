@@ -1,0 +1,68 @@
+{%- assign cols = blank -%}
+{%- include 'collection-grid-items-cols' -%}
+
+{%- assign rendered_products_count = 0 -%}
+{%- assign product_handles_rendered = '' -%}
+
+{%- assign limit = 30 -%}
+
+<div class="row">
+
+  {%- for order in customer.orders -%}
+    {%- for line_item in order.line_items -%}
+
+      {%- assign product = line_item.product -%}
+
+      {%- unless product.handle -%}
+        {%- continue -%}
+      {%- endunless -%}
+
+      {%- if product_handles_rendered contains product.handle -%}
+        {%- continue -%}
+      {%- endif -%}
+
+      {%- include 'user-can-view-product' -%}
+      {%- include 'if-customer-and-geotagged' -%}
+
+      {% assign geo-ni-prod = "" %}
+      {% assign geo-si-prod = "" %}
+
+      {%- if product.metafields.accentuate.out_of_stock contains 'out of stock: north-island' -%}
+        {% assign geo-ni-prod = "os-ni" %}
+        {% capture geo-ni-prod %}{{- geo-ni-prod -}}{% endcapture %}
+      {%- elsif product.metafields.accentuate.out_of_stock contains 'out of stock: south-island' -%}
+        {% assign geo-si-prod = "os-si" %}
+        {% capture geo-si-prod %}{{- geo-si-prod -}}{% endcapture %}
+      {%- endif -%}
+
+      {% capture prod_grid_item %}
+        <div class="{{ cols }}" data-geo-tagged-south="{{geo-si-prod}}" data-geo-tagged-north="{{geo-ni-prod}}"> {% include 'product-grid-item' with order_form: true %} </div>
+      {% endcapture %}
+
+      {%- if user_can_view_product -%}
+        {%- if is_geotagged_customer_login == false -%}
+          {{ prod_grid_item }}
+        {%- elsif is_geotagged_location_north -%}
+          {{ prod_grid_item }}
+        {%- elsif is_geotagged_location_south -%}
+          {{ prod_grid_item }}
+        {%- endif -%}
+      {%- endif -%}
+
+      {%- assign product_handles_rendered = product_handles_rendered | append: '-line_item.product.handle' -%}
+      {%- assign rendered_products_count = rendered_products_count | plus: 1 -%}
+
+      {%- if rendered_products_count >= limit -%}
+        {%- break -%}
+      {%- endif -%}
+
+    {%- endfor -%}
+
+    {%- if rendered_products_count >= limit -%}
+      {%- break -%}
+    {%- endif -%}
+
+  {%- endfor -%}
+
+</div>
+

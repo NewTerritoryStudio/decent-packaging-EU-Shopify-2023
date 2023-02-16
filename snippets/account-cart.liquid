@@ -1,0 +1,23 @@
+<div class="account__view-title">
+  <h1 class="h2">{{ 'cart.general.title' | t }}</h2>
+</div>
+
+<div class="account__view-description">
+  <p>{{ 'cart.general.description' | t }}</p>
+</div>
+
+{% comment %} PLACE ORDER {% endcomment %}
+<div class="account-section">
+  <div class="account-section__body">
+    {%- section 'account-place-order-tabs' -%}
+  </div>
+</div>
+
+{% comment %} YOU MAY ALSO LIKE {% endcomment %}
+{% comment %}
+<div class="account-section">
+  <div class="account-section__body">
+    <p>You may also like goes here</p>
+  </div>
+</div>
+{% endcomment %}

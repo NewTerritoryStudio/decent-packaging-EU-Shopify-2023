@@ -1,0 +1,64 @@
+{%- include 'globals' -%}
+
+<div data-section-id="{{ section.id }}" data-section-type="dashboard-dynamic-welcome">
+  <div data-dynamic-welcome-title class="account__view-title">
+    <h1 class="h2"><span data-dynamic-welcome>Hello there</span>, {{ customer_name }}</h1>
+  </div>
+</div>
+
+<script id="dynamic-welcome-data" type="application/json">
+  {{ section.settings | json }}
+</script>
+
+{%- assign icons = 'morning|afternoon|evening|night|early_morning' | split: '|' -%}
+{%- for icon in icons -%}
+
+  <template class="js-template" data-template-for="dynamic-welcome-icon-{{ icon }}" tabindex="-1" aria-hidden="true">
+    {%- assign icon_name = icon | prepend: 'welcome-' -%}
+    {%- include 'icon' with icon_name, color: true -%}
+  </template>
+
+{%- endfor -%}
+{% schema %}
+  {
+    "name": "Dynamic Welcome",
+    "class": "dynamic-welcome-section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "morning",
+        "label": "Morning",
+        "default": "Good morning",
+        "info": "4am to 12pm"
+      },
+      {
+        "type": "text",
+        "id": "afternoon",
+        "label": "Afternoon",
+        "default": "Good afternoon",
+        "info": "12pm to 5pm"
+      },
+      {
+        "type": "text",
+        "id": "evening",
+        "label": "Evening",
+        "default": "Good evening",
+        "info": "5pm to 6pm"
+      },
+      {
+        "type": "text",
+        "id": "night",
+        "label": "Night",
+        "default": "Good night",
+        "info": "6pm to 12am"
+      },
+      {
+        "type": "text",
+        "id": "early_morning",
+        "label": "Early morning",
+        "default": "Go to bed",
+        "info": "12am to 4am"
+      }
+    ]
+  }
+{% endschema %}

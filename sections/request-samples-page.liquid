@@ -1,0 +1,218 @@
+{%- assign s_set = section.settings -%}
+{% if s_set.enable_popup == true %}
+    <div data-section-id="{{ section.id }}" data-section-type="request-popup">
+        <div class="request-popup-wrapper" {% if s_set.popup_hash != blank %}data-popup-hash="{{s_set.popup_hash}}"{% endif %}>
+            <div class="request-popup-block">
+                <button class="popup-close-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 512.001 512.001" style="enable-background:new 0 0 512.001 512.001;" xml:space="preserve"><path d="M284.286,256.002L506.143,34.144c7.811-7.811,7.811-20.475,0-28.285c-7.811-7.81-20.475-7.811-28.285,0L256,227.717    L34.143,5.859c-7.811-7.811-20.475-7.811-28.285,0c-7.81,7.811-7.811,20.475,0,28.285l221.857,221.857L5.858,477.859    c-7.811,7.811-7.811,20.475,0,28.285c3.905,3.905,9.024,5.857,14.143,5.857c5.119,0,10.237-1.952,14.143-5.857L256,284.287    l221.857,221.857c3.905,3.905,9.024,5.857,14.143,5.857s10.237-1.952,14.143-5.857c7.811-7.811,7.811-20.475,0-28.285    L284.286,256.002z"/></svg>
+                </button>
+                {% if s_set.image != blank %}
+                {%- include 'img' with s_set.image -%}
+                {% endif %}
+
+                {% if s_set.title != blank %}
+                    <h4>{{s_set.title}}</h4>
+                {% endif %}
+                {% if s_set.text != blank %}
+                    <p>{{s_set.text}}</p>
+                {% endif %}
+
+                {%- form 'contact' , class: '' -%}
+                    <div class="form-group">
+                        {% for block in section.blocks %}
+                            {%- assign b_set = block.settings -%}
+                            {%- if block.type == 'text_input' -%}
+                                <div class="col-xs-12 {% if b_set.half_input %}col-md-6{% endif %} form-control">
+                                    <input type="{{s_set.field_type}}" placeholder="{{ b_set.placeholder }}" name="contact[{{ b_set.name }}]" {% if b_set.is_required %}required{% endif %} />
+                                </div>
+                            {%- elsif block.type == 'text_textarea' -%}
+                                <div class="col-xs-12 {% if b_set.half_input %}col-md-6{% endif %} form-control">
+                                    <textarea rows="5" name="contact[body]" placeholder="{{b_set.placeholder}}" {% if b_set.is_required %}required{% endif %}></textarea>
+                                </div>
+                            {%- elsif block.type == 'text_dropdown' -%}
+                                {% if b_set.options != blank %}
+                                    {%- assign options = b_set.options | split: '##' -%}
+                                    <div class="col-xs-12 {% if b_set.half_input %}col-md-6{% endif %} form-control">
+                                        <style>
+                                            select:invalid { color: gray; }
+                                            option[value=""][disabled] {
+                                                display: none;
+                                            }
+                                            </style>
+                                        <select name="contact[{{b_set.name}}]">
+                                            {%- for option in options -%}
+                                                <option {% if forloop.first %}value="" disabled selected {% else %} value="{{option}}" {% endif %}>
+                                                    {{option}}
+                                                </option>
+                                            {%- endfor -%}
+                                        </select>
+                                    </div>
+                                {% endif %}
+                            {%- endif -%}
+                        {% endfor %}
+                        {% if s_set.show_accepts_marketing %}
+                            <div class="form-control col-xs-12">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" checked name="contact[accepts_marketing]" id="popupFormSubscribe">
+                                    <label class="form-check-label" for="popupFormSubscribe">
+                                        {{s_set.accepts_marketing_text}}
+                                    </label>
+                                </div>
+                                <label>
+                                </label>
+                            </div>
+                            <div class="form-control col-xs-12">
+                                <button type="submit" class="btn btn-black input-group__btn newsletter__submit" name="commit">
+                                    <span class="newsletter__submit-text">{{ s_set.submit_text }}</span>
+                                </button>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endform %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% schema %}
+{
+    "name": "Pop up form",
+    "settings": [
+        {
+            "type": "checkbox",
+            "id": "enable_popup",
+            "label": "Enable Popup",
+            "default": true
+        },
+        {
+            "type": "text",
+            "id": "popup_hash",
+            "label": "Popup hash (for URL)",
+            "default": "request-samples"
+        },
+        {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+        },
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Popup title",
+            "default": "Go on, give us a test drive"
+        },
+        {
+            "type": "text",
+            "id": "text",
+            "label": "Popup text",
+            "default": "Complete the form below and in your message let us know what samples you would like by referencing product codes. Please note, we are unable to deliver to rural addresses or PO boxes."
+        },
+        {
+            "type": "checkbox",
+            "id": "show_accepts_marketing",
+            "label": "Show Accepts Marketing",
+            "default": true
+        },
+        {
+            "type": "text",
+            "id": "accepts_marketing_text",
+            "label": "Accepts Marketing Text",
+            "default": "Yes, I would like to receive email updates from Innocent."
+        },
+        {
+            "type": "text",
+            "id": "submit_text",
+            "label": "Submit Text",
+            "default": "Request Samples"
+        }
+    ],
+    "blocks": [
+        {
+            "name": "Text Input",
+            "type": "text_input",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "placeholder",
+                    "label": "Placeholder"
+                },
+                {
+                    "type": "text",
+                    "id": "name",
+                    "label": "Input Name"
+                },
+                {
+                    "type": "select",
+                    "id": "field_type",
+                    "options": [
+                      { "value": "text", "label": "Text"},
+                      { "value": "email", "label": "Email"},
+                      { "value": "company", "label": "Company"}
+                    ],
+                    "label": "Field type",
+                    "default": "text"
+                  },
+                {
+                    "type": "checkbox",
+                    "id": "is_required",
+                    "label": "Required",
+                    "default": true
+                },
+                {
+                    "type": "checkbox",
+                    "id": "half_input",
+                    "label": "1/2 width",
+                    "default": false
+                }
+            ]
+        },
+        {
+            "name": "Textarea",
+            "type": "text_textarea",
+            "limit": 1,
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "placeholder",
+                    "label": "Placeholder"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "is_required",
+                    "label": "Required",
+                    "default": true
+                }
+            ]
+        },
+        {
+          "name": "Dropdown",
+          "type": "text_dropdown",
+          "settings": [
+            {
+                "type": "textarea",
+                "id": "options",
+                "label": "Dropdown Options",
+                "info":"A '##' sepeated list of options for the dropdown. First option will be use instead of plaseholder"
+            },
+            {
+                "type": "text",
+                "id": "name",
+                "label": "Dropdown Name"
+            },
+            {
+                "type": "checkbox",
+                "id": "is_required",
+                "label": "Required",
+                "default": true
+            },
+            {
+                "type": "checkbox",
+                "id": "half_input",
+                "label": "1/2 width",
+                "default": false
+            }
+          ]
+        }
+    ]
+}
+{% endschema %}

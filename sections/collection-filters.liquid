@@ -1,0 +1,253 @@
+{% comment %}
+Future reference:
+
+collection.all_types
+collection.all_vendors
+
+{{ collection.current_type | url_for_vendor }}
+{{ collection.title | url_for_vendor  }}
+{{ collection.current_type | url_for_type }}
+{{ collection.title | url_for_type }}
+{{ collection.current_type | url_for_type | sort_by: collection.sort_by }}
+
+/collections/vendors?q=
+/collections/vendors?q=Waxing
+/collections/types?q=
+/collections/types?q=Waxing
+/collections/types?q=&amp;sort_by=title-ascending
+{% endcomment %}
+<div data-section-id="{{ section.id }}" data-section-type="collection-filters" style="display: none;">
+  {%- assign mobile_filters = '' -%}
+  {%- assign desktop_filters = '' -%}
+  {%- for block in section.blocks -%}
+    {%- assign desktop_filter_items = '' -%}
+    {%- assign mobile_filter_items = '' -%}
+
+    {% if block.type == 'filter_brand' %}
+
+      {%- for vendor in shop.vendors -%}
+        {%- capture desktop_filter_item -%}
+          {% if collection.current_vendor == vendor %}
+            <li class="collection-filters__item active">
+              <a href="{{ collection.url }}">{{ vendor }}</a>
+            </li>
+          {% else %}
+            <li class="collection-filters__item">
+              <a href="{{ vendor | url_for_vendor }}">{{ vendor }}</a>
+            </li>
+          {% endif %}
+        {%- endcapture -%}
+        {%- assign desktop_filter_items = desktop_filter_items | append: desktop_filter_item -%}
+
+        {%- capture mobile_filter_item -%}
+          <option class="collection-filters__item" value="{{ vendor | url_for_vendor }}"{% if collection.current_vendor == vendor %} selected{% endif %}>
+            {{ vendor }}
+          </option>
+        {%- endcapture -%}
+        {%- assign mobile_filter_items = mobile_filter_items | append: mobile_filter_item -%}
+      {%- endfor -%}
+
+    {% elsif block.type == 'filter_type' %}
+
+      {%- for type in shop.types -%}
+        {%- capture desktop_filter_item -%}
+          {% if collection.current_type == type %}
+            <li class="collection-filters__item active">
+              <a href="{{ collection.url }}">{{ type }}</a>
+            </li>
+          {% else %}
+            <li class="collection-filters__item">
+              <a href="{{ type | url_for_type }}">{{ type }}</a>
+            </li>
+          {% endif %}
+        {%- endcapture -%}
+        {%- assign desktop_filter_items = desktop_filter_items | append: desktop_filter_item -%}
+
+        {%- capture mobile_filter_item -%}
+          <option class="collection-filters__item" value="{{ type | url_for_type }}"{% if collection.current_type == type %} selected{% endif %}>
+            {{ type }}
+          </option>
+        {%- endcapture -%}
+        {%- assign mobile_filter_items = mobile_filter_items | append: mobile_filter_item -%}
+      {%- endfor -%}
+
+    {% elsif block.type == 'filter_tag' %}
+      {%- assign filter_items = block.settings.tags | split: ',' -%}
+
+      {%- for item in filter_items -%}
+        {%- if item contains ':' -%}
+          {%- assign item_parts = item | split: ':' -%}
+          {%- assign title = item_parts | first -%}
+          {%- assign tag = item_parts | last -%}
+        {%- else -%}
+          {%- assign title = item | capitalize -%}
+          {%- assign tag = item -%}
+        {%- endif -%}
+
+        {%- if collection.all_tags contains tag -%}
+          {%- capture desktop_filter_item -%}
+            {% if current_tags contains tag %}
+              <li class="collection-filters__item active">
+                {{ title | link_to_remove_tag: tag }}
+              </li>
+            {% else %}
+              <li class="collection-filters__item">
+                {{ title | link_to_tag: tag }}
+              </li>
+            {% endif %}
+          {%- endcapture -%}
+          {%- assign desktop_filter_items = desktop_filter_items | append: desktop_filter_item -%}
+
+          {%- capture mobile_filter_item -%}
+            <option class="collection-filters__item" value="{{ collection.url }}/{{ tag }}"{% if current_tags contains tag %} selected{% endif %}>
+              {{ title }}
+            </option>
+          {%- endcapture -%}
+          {%- assign mobile_filter_items = mobile_filter_items | append: mobile_filter_item -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {% endif %}
+
+    {%- capture desktop_filter -%}
+      {%- if desktop_filter_items != blank -%}
+        <h4 class="collection-filters__title">{{ block.settings.title }}</h4>
+        <ul>
+          {{ desktop_filter_items }}
+        </ul>
+      {%- endif -%}
+    {%- endcapture -%}
+
+    {%- capture mobile_filter -%}
+      {%- if mobile_filter_items != blank -%}
+        <div class="collection-filter visible-xs visible-sm">
+          <select class="collection-filters__dropdown collection-filters__dropdown--filter">
+            <option class="collection-filters__item" value="">
+              {{ block.settings.title }}
+            </option>
+            {{ mobile_filter_items }}
+          </select>
+        </div>
+      {%- endif -%}
+    {%- endcapture -%}
+
+    {%- assign desktop_filters = desktop_filters | append: desktop_filter -%}
+    {%- assign mobile_filters = mobile_filters | append: mobile_filter -%}
+  {%- endfor -%}
+
+  <div class="collection-filters-content--mobile">
+    {% comment %}<div class="col-xs-12 collection-filters collection-filters--mobile">{% endcomment %}
+      {%- if mobile_filters != blank -%}
+        {% comment %}<div class="collection-filters__inner">{% endcomment %}
+          {{ mobile_filters }}
+        {% comment %}</div>{% endcomment %}
+      {%- endif -%}
+    {% comment %}</div>{% endcomment %}
+  </div>
+
+  <div class="collection-filters-content--desktop">
+    <div class="col-xs-12 col-md-3 col-lg-2 collection-filters collection-filters--desktop hidden-xs hidden-sm">
+      {%- if desktop_filters != blank -%}
+        <div class="collection-filters__inner">
+          {{ desktop_filters }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Filters",
+    "class": "collection-filters",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Collection Filters"
+      },
+      {
+        "type": "paragraph",
+        "content": "Collection filters can be added below. All possible filters should be added. Each collection will automatically show any that match one of it's product's tags."
+      }
+    ],
+    "blocks": [
+      {
+        "type": "filter_tag",
+        "name": "Filter by Tag",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Category"
+          },
+          {
+            "type": "textarea",
+            "id": "tags",
+            "label": "Tags"
+          },
+          {
+            "type": "paragraph",
+            "content": "Tags must be separated by commas."
+          },
+          {
+            "type": "paragraph",
+            "content": "Titles can be set by adding text before the tag, followed by a colon."
+          },
+          {
+            "type": "paragraph",
+            "content": "Any tags that don't have a title set will have dashes and underscores removed, and their first letter capitalised."
+          },
+          {
+            "type": "paragraph",
+            "content": "Example:"
+          },
+          {
+            "type": "paragraph",
+            "content": "first-tag,Second Title:second-tag,third_tag"
+          },
+          {
+            "type": "paragraph",
+            "content": "would output as:"
+          },
+          {
+            "type": "paragraph",
+            "content": "First tag  Second Title  Third tag"
+          }
+        ]
+      },
+      {
+        "type": "filter_brand",
+        "name": "Filter by Brand",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "textarea",
+            "id": "excludes",
+            "label": "Exclude brands",
+            "info": "Brands to exclude, separated by commas"
+          }
+        ]
+      },
+      {
+        "type": "filter_type",
+        "name": "Filter by Type",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "textarea",
+            "id": "excludes",
+            "label": "Exclude product types",
+            "info": "Types to exclude, separated by commas"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

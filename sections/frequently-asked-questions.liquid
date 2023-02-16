@@ -1,0 +1,79 @@
+<div class="container faq">
+  <div class="row">
+
+    <div class="col-xs-12 col-md-7 col-lg-8 col-xl-9">
+      <div class="container faq__accordion" data-simple-accordion>
+
+        {% include 'block_categoriser' with block_type: 'question' %}
+        {%- assign faq_categories = block_categoriser -%}
+
+        {% for category in faq_categories %}
+          {% assign category_split = category | split: '#-#' %}
+          {% assign category_title = category_split.first %}
+          {% assign category_content = category_split.last | split: '==' %}
+
+          <h2 class="faq__category-title">{{ category_title }}</h2>
+
+          {% for index in category_content %}
+            {% assign index_loop = index | plus: 0 %}
+            {% for block in section.blocks offset: index_loop %}
+
+              <div class="faq__question">
+                <div class="h5 faq__question-title simple-accordion__title">
+                  {{ block.settings.title }}
+                </div>
+
+                <div>
+                  <div class="faq__question-answer rte">
+                    {{ block.settings.description }}
+                  </div>
+                </div>
+              </div>
+
+              {% break %}
+            {% endfor %}
+          {% endfor %}
+
+        {%- endfor -%}
+
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-md-5 col-lg-4 col-xl-3">
+      <div class="container faq__side-bar">
+        {%- include 'store-contact' with in_sidebar: true -%}
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{% schema %}
+  {
+    "settings": [],
+    "blocks": [
+      {
+        "name": "Question",
+        "type": "question",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Question",
+            "default": "Title"
+          },
+          {
+            "type": "textarea",
+            "id": "description",
+            "label": "Answer"
+          },
+          {
+            "type": "text",
+            "id": "category",
+            "label": "Category"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

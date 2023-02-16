@@ -1,0 +1,81 @@
+.cart-drawer-item {
+    flex-wrap: wrap;
+}
+
+.cart-drawer-item__cross_sell {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    margin: auto;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.cart-drawer-item__add-to-order {
+    width: 100%;
+    margin: 10px 0;
+    font-size: 1rem;
+    display: block;
+    line-height: 1.125rem;
+    font-weight: var(--font-body-extra-bold-weight);
+}
+
+.cart-drawer-item__cross_sell_product {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-width: 400px;
+    justify-content: space-between;
+}
+
+.cart-drawer-item__cross_sell_product img {
+    aspect-ratio: 1/1;
+    width: 20%;
+}
+
+.cart-drawer-item__cross_sell_product_details {
+    width: 75%;
+    display: flex;
+    flex-direction:column;
+}
+
+.cart-drawer-item__cross_sell_product_details_info {
+    border: 1px solid rgb(218, 218, 218);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2px 4px;
+    position: relative;
+}
+
+.cross_sell_handle {
+    font-size: .875rem;
+    display: block;
+    line-height: 1.125rem;
+    margin-bottom: 5px;
+    font-weight: var(--font-body-extra-bold-weight);
+}
+
+.cross_sell_price {
+    font-size: .875rem;
+    margin-bottom: 0.5rem;
+    line-height: .7rem;
+    font-weight: var(--font-body-bold-weight);
+}
+
+.cart-drawer-item__cross_sell_product_details_info button {
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    height: 100%;
+    background-color: #000;
+    border-color: #000;
+    color: var(--color-body);
+    border-radius: 0;;
+}
+
+.cart-drawer-item__cross_sell_product_details_info button:hover {
+    background-color: #000000b3;
+    border-color: #000000b3;
+}

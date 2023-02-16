@@ -1,0 +1,24 @@
+{%- section 'custom-colors--product' -%}
+
+{%- include 'user-can-view-product' -%}
+
+{%- if user_can_view_product -%}
+
+  {% section 'product' %}
+
+  {% section 'product__related-products' %}
+
+  {% section 'product__recycling' %}
+
+  {% section 'product__plastic-count' %}
+
+  {% section 'product__reviews' %}
+
+  {% section 'product__user-content' %}
+
+{% else %}
+
+  {%- section '404' -%}
+
+{%- endif -%}
+

@@ -1,0 +1,97 @@
+<div class="row account-cards">
+
+  <div class="col-xs-12 col-md-6">
+    <div class="account-card">
+
+      <div class="account-card__title">
+        <p class="h5">{{ 'customer.addresses.title' | t }}</p>
+      </div>
+      <div class="account-card__content">
+
+        <div class="account__table">
+
+          <table class="">
+            <thead class="hidden-xs hidden-sm">
+              <tr>
+                <th>Address</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {%- for address in customer.addresses -%}
+
+                {%- assign customer_street_address = '' -%}
+                {%- if address.street != blank -%}
+                  {%- assign customer_street_address = customer_street_address | append:address.street -%}
+                {%- endif -%}
+
+                {%- if address.city != blank -%}
+                  {%- assign customer_street_address = customer_street_address | append: ', ' | append: address.city -%}
+                {%- endif -%}
+
+                {%- if address.province != blank -%}
+                  {%- assign customer_street_address = customer_street_address | append: ', ' | append: address.province -%}
+                {%- endif -%}
+
+                {%- capture address_form %}
+                  {%- form 'customer_address', address -%}
+                    {%- assign form_id = form.id -%}
+                  {%- endform -%}
+                {% endcapture -%}
+
+                <tr>
+                  <td>{{ customer_street_address }}</td>
+                  <td><a href="/account/addresses?view=edit&page={{ forloop.index }}">{{ 'customer.addresses.edit' | t }}</a></td>
+                  <td><a href="#" data-form-id="{{ form_id }}" class="address-delete">{{ 'customer.addresses.delete' | t }}</a></td>
+                </tr>
+
+              {%- endfor -%}
+
+            </tbody>
+          </table>
+
+        </div>
+
+      </div>
+
+
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-md-6">
+    <div class="account-card">
+
+      <div class="account-card__title">
+        <p class="h5">{{ 'customer.addresses.new_company_address' | t }}</p>
+      </div>
+      <div class="account-card__footer">
+        <a href="/account/addresses?view=new" class="btn btn-black btn--wide">{{ 'customer.addresses.add' | t }}</a>
+      </div>
+
+
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

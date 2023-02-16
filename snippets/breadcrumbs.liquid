@@ -1,0 +1,74 @@
+{%- unless template == 'index' or template == 'cart' or template == 'list-collections' -%}
+  {%- assign breadcrumb_home_icon = false -%}
+  {%- assign show_current = show_current | default: true -%}
+  {%- assign separator_character = 'general.breadcrumbs.separator' | t -%}
+  {%- capture separator %} <span class="sep" aria-hidden="true">{{ separator_character }}</span> {% endcapture -%}
+
+  <nav class="breadcrumb" role="navigation" aria-label="breadcrumbs">
+    <a href="/" title="Home">
+      {% if breadcrumb_home_icon %}{% include 'icon-home' %}{% endif %}
+      <span>{{ 'general.breadcrumbs.home' | t }}</span>
+    </a>
+
+    {%- if parent_title and parent_link -%}
+      {{ separator }} <a href="{{ parent_link }}"><span>{{ parent_title }}</span></a>
+    {%- endif -%}
+
+    {%- if template contains 'page' -%}
+      {%- assign current_page = page.title -%}
+    {%- elsif template contains 'product' -%}
+      {%- assign breadcrumb_collection = collection -%}
+      {%- unless collection -%}
+        {%- assign related_collections = '' -%}
+        {%- assign restricted_collections = 'frontpage,featured,home,sale,best-sellers,promo' | split: ',' -%}
+        {%- for related_collection in product.collections -%}
+          {%- unless restricted_collections contains related_collection.handle -%}
+            {%- unless breadcrumb_collection != blank -%}
+              {%- assign breadcrumb_collection = related_collection -%}
+            {%- endunless -%}
+            {%- if related_collections != blank -%}
+              {%- assign related_collections = related_collections | append: ',' -%}
+            {%- endif -%}
+            {%- assign related_collections = related_collections | append: '"' | append: related_collection.handle | append: '"' | append: ':' | append: '{"title":"' | append: related_collection.title | append: '"}' -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      {%- endunless -%}
+
+      {%- if breadcrumb_collection.url -%}
+        {{ separator }}
+        <span data-last-viewed="collection" data-related-collections='{ {{ related_collections }} }'>
+          {{ breadcrumb_collection.title | link_to: breadcrumb_collection.url }}
+        </span>
+      {%- endif -%}
+      {%- assign current_page = product.title -%}
+    {%- elsif template contains 'collection' and collection.handle -%}
+      {%- if current_tags -%}
+        {%- capture url %}/collections/{{ collection.handle }}{% endcapture -%}
+        {%- assign parent_page = collection.title | link_to: url -%}
+        {%- assign current_page = current_tags | join: " + " | replace: '_', ' ' | replace: '-', ' ' | capitalize -%}
+      {%- else -%}
+        {%- assign current_page = collection.title -%}
+      {%- endif -%}
+    {%- elsif template == 'blog' or template.prefix == 'blog' -%}
+      {%- if current_tags -%}
+        {%- assign parent_page = blog.title | link_to: blog.url -%}
+        {%- assign current_page = current_tags | join: ' + ' -%}
+      {%- else -%}
+        {%- assign current_page = blog.title -%}
+      {%- endif -%}
+    {%- elsif template == 'article' or template.prefix == 'article' -%}
+      {%- assign parent_page = blog.title | link_to: blog.url -%}
+      {%- assign current_page = article.title -%}
+    {%- else -%}
+      {%- assign current_page = page_title -%}
+    {%- endif -%}
+
+    {%- if parent_page != blank -%}
+      {{ separator }} <span>{{ parent_page }}</span>
+    {%- endif -%}
+    
+    {%- if show_current -%}
+      {{ separator }} <span>{{ current_page }}</span>
+    {%- endif -%}
+  </nav>
+{%- endunless -%}
