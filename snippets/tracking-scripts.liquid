@@ -2,48 +2,50 @@
 {%- include 'globals' -%}
 
 {%- case view -%}
-  {%- when 'head' -%} {% comment %} SCRIPTS FOR HEAD {% endcomment %}
+  {%- when 'head' -%}
+    {% comment %} SCRIPTS FOR HEAD {% endcomment %}
 
     {%- case active_country_code -%}
-      {%- when 'NZ' -%}
-
-        {% comment %}Google Tag Manager{% endcomment %}
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-NNVDPW');</script>
-        {% comment %}End Google Tag Manager{% endcomment %}
-
       {%- when 'UK' -%}
-
         {% comment %}Google Tag Manager{% endcomment %}
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-WZ8ZQS2');</script>
+        <script>
+          (function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+            var f = d.getElementsByTagName(s)[0],
+              j = d.createElement(s),
+              dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+          })(window, document, 'script', 'dataLayer', 'GTM-KS3NFHG');
+        </script>
         {% comment %}End Google Tag Manager{% endcomment %}
 
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-G9G97KZ5BX"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag()
+          gtag('js', new Date());
+          gtag('config', 'G-G9G97KZ5BX');
+        </script>
     {%- endcase -%}
-    
-  {%- when 'body' -%} {% comment %} SCRIPTS FOR BODY {% endcomment %}
+
+  {%- when 'body' -%}
+    {% comment %} SCRIPTS FOR BODY {% endcomment %}
 
     {%- case active_country_code -%}
-      {%- when 'NZ' -%}
-
-        {% comment %}Google Tag Manager (noscript){% endcomment %}
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NNVDPW"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-        {% comment %}End Google Tag Manager (noscript){% endcomment %}
-
       {%- when 'UK' -%}
-
         {% comment %}Google Tag Manager (noscript){% endcomment %}
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WZ8ZQS2"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <noscript
+          ><iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-KS3NFHG"
+            height="0"
+            width="0"
+            style="display:none;visibility:hidden"
+          ></iframe
+        ></noscript>
         {% comment %}End Google Tag Manager (noscript){% endcomment %}
-
     {%- endcase -%}
-
 {%- endcase -%}

@@ -252,9 +252,11 @@
     
     {%- if section.settings.notice_bar_text != blank -%}
       <div class="site-header__notice-bar" style="color: {{ section.settings.notice_bar_text_color }}; background-color: {{ section.settings.notice_bar_bg_color }};">
-        <div class="container text-center">
-          {% include 'text' with section.settings.notice_bar_text %}
-        </div>
+        {% if section.settings.notice_bar_url != blank %}
+          <a href="{{- section.settings.notice_bar_url -}}" aria-label="{{ section.settings.notice_bar_text }}">{{- section.settings.notice_bar_text -}}</p>
+        {% else %}
+          <p>{{- section.settings.notice_bar_text -}}</p>
+        {% endif %}
       </div>
     {%- endif -%}
 
@@ -275,7 +277,7 @@
 
     {%- endcomment -%}
 
-    <div class="container page-width site-header__main">
+    <div class="container page-width site-header__main {% unless section.settings.notice_bar_text != blank %}spread{% endunless %}">
 
       <div class="site-header__section site-header__section--links site-header__links site-header__links--left {{ class_flex_on_small }}">
         {{ header_nav_toggle_mobile }}
@@ -296,7 +298,7 @@
                 {% assign locationsUrl = block.settings.locations_url | split: ", " %}
                 
                 <details>
-                  <summary><p><span class="site-header__desk">Location: </span>🇬🇧 UK</p></summary>
+                  <summary><p><span class="site-header__desk">Location: </span>🇪🇺 EU</p></summary>
                   {% if locations != blank and locationsUrl != blank %}
                     <ul class="tippy-tooltip light-theme">
                       {% for l in locations %}
@@ -403,19 +405,25 @@
       {
         "type": "text",
         "id": "notice_bar_text",
-        "label": "Text",
-        "default": "Free Regular Shipping with all orders over $150"
+        "label": "Bar Text",
+        "default": "Free Regular Shipping with all orders over $150",
+        "info": "Leave empty to hide."
+      },
+      {
+        "type": "url",
+        "id": "notice_bar_url",
+        "label": "Bar URL"
       },
       {
         "type": "color",
         "id": "notice_bar_text_color",
-        "label": "Text color",
+        "label": "Bar Text Color",
         "default": "#fff"
       },
       {
         "type": "color",
         "id": "notice_bar_bg_color",
-        "label": "Background color",
+        "label": "Bar Background Color",
         "default": "#343e50"
       }
     ],

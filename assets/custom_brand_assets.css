@@ -26,6 +26,7 @@ div#product-upload--popup, .product-upload--popup  {
   overflow: hidden;
   z-index: -1;
   opacity: 0;
+  visibility: hidden;
   transition: 0.3s ease-in-out;
 }
 
@@ -48,6 +49,7 @@ div#product-upload--popup.open, .product-upload--popup.open {
   opacity: 1;
   height: 100%;
   overflow: unset;
+  visibility: visible;
 }
 
 .custom_branded--form {

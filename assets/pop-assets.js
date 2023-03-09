@@ -229,7 +229,7 @@ function init () {
      
      let CARBON_backgroundA2 = new Image();
      CARBON_backgroundA2.crossOrigin = "anonymous"
-     CARBON_backgroundA2.src = "https://cdn.shopify.com/s/files/1/0110/2037/0020/files/1080x1080_POPdownloadableassets-decent-01_8be819ad-15ee-47dc-86e3-afc13e21a76e.jpg?v=1627624456";
+     CARBON_backgroundA2.src = "https://cdn.shopify.com/s/files/1/0110/2037/0020/files/carbon-2022-a2.png?v=1676936417";
      
      // Image smoothing
      CARBON_ctxA2.imageSmoothingEnabled = true;
@@ -243,15 +243,16 @@ function init () {
              CARBON_ctxA2.drawImage(CARBON_backgroundA2,0,0,CARBON_popCanvasA2.width, CARBON_popCanvasA2.height);   
              
              // Text Font & size styling
-             CARBON_ctxA2.font = '700 180px proxima-nova';
+             CARBON_ctxA2.font = '800 239px proxima-nova';
+             CARBON_ctxA2.fillStyle = 'white';
              
              // Text Alignment
-             CARBON_ctxA2.textBaseline = 'middle'; 
-             CARBON_ctxA2.textAlign = 'center'; 
+             CARBON_ctxA2.textBaseline = 'top'; 
+             CARBON_ctxA2.textAlign = 'left'; 
+             
  
              // Add Text
-             CARBON_ctxA2.fillText(CARBON_popTextA2, CARBON_popCanvasA2.width/2, CARBON_popCanvasA2.height/2 + 40);
-         
+             CARBON_ctxA2.fillText(CARBON_popTextA2, 155, 615);
          }
 
 

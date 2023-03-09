@@ -29,32 +29,6 @@
   {%- endif -%}
 {%- endfor -%}
 
-{% comment %} New Zealand SPECIFIC NOTICES {% endcomment %}
-{%- if active_country_code == 'NZ' -%}
-
-  {% comment %} 'Charge to Account' notices {% endcomment %}
-    {% comment %}
-
-    THIS HAS BEEN DISABLED UNTIL POST-LAUNCH
-
-    {%- unless direct_debit_approved -%}
-    {%- if direct_debit_pending -%}
-      {%- assign notice_title = "We're reviewing your request" -%}
-      {%- assign notice_paragraph = "We're currently reviewing your request for 'Charge to Account'. We'll be in touch when the process is complete." -%}
-      {%- assign notices = notices | append: '||' | append: notice_title | append: '##' | append: notice_paragraph -%}
-    {% else %}
-      {%- assign notice_title = "Request a 'Charge to Account'" -%}
-      {%- assign notice_paragraph = 'Request a payment account to charge orders to your [store_name] account.' | replace: '[store_name]', shop.name -%}
-      {%- assign notice_link_url = '?view=direct-debit' -%}
-      {%- assign notice_link_text = 'Set up now' -%}
-      {%- assign notices = notices | append: '||' | append: notice_title | append: '##' | append: notice_paragraph | append: '##' | append: notice_link_url | append: '##' | append: notice_link_text -%}
-    {%- endif -%}
-  {%- endunless -%}{% endcomment %}
-  
-
-{%- endif -%}
-
-
 
 {%- assign notices = notices | split: '||'  -%}
 <div class="row account-cards" data-notice-count="{{ notices.size }}">

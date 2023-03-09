@@ -1,5 +1,3 @@
-{%- assign user_has_access_to_smartass = true -%}
-
 {%- assign user_has_custom_products = false -%}
 
 {%- for tag in customer.tags -%}
@@ -51,10 +49,6 @@
   {% else %}
     {%- assign tabs = tabs | append: ',search#Search' -%}
   {%- endif -%}
-
-  {%- if user_has_access_to_smartass -%}
-    {%- assign tabs = tabs | append: ',smartass#smartass' -%}
-  {%- endif -%}
   
   {%- assign tabs = tabs | replace_first: ',', '' | split: ',' -%}
 
@@ -77,11 +71,6 @@
             {%- when 'custom' -%}
 
               {%- assign collection = collections['custom'] -%}
-              {%- include 'tab--collection' with collection: collection -%}
-
-            {%- when 'smartass' -%}
-
-              {%- assign collection = collections['smartass'] -%}
               {%- include 'tab--collection' with collection: collection -%}
 
             {%- when 'popular' -%}

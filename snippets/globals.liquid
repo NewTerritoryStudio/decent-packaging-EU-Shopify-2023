@@ -90,12 +90,8 @@
 {% else %}
 
   {% comment %} STORE DETAILS {% endcomment %}
-  {%- assign active_country_name = 'New Zealand' -%}
-  {%- assign active_country_code = 'NZ' -%}
-  {%- if shop.permanent_domain contains 'innocentp-uk' -%}
-    {%- assign active_country_name = 'United Kingdom' -%}
-    {%- assign active_country_code = 'UK' -%}
-  {%- endif -%}
+  {%- assign active_country_name = 'European Union' -%}
+  {%- assign active_country_code = 'EU' -%}
 
   {% comment %} CUSTOMER DETAILS {% endcomment %}
   {%- if customer -%}

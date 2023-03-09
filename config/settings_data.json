@@ -143,7 +143,7 @@
             "settings": {
               "title": "The Full Package",
               "link_text": "Learn more",
-              "link_url": "https:\/\/decentpackaging.co.uk\/blogs\/journal\/the-full-package",
+              "link_url": "https:\/\/decentpackaging.eu\/blogs\/journal\/the-full-package",
               "color": "#ffffff",
               "bg_color": "#ffffff",
               "image": "shopify:\/\/shop_images\/Full-Package_Illustrated-Bin_Yellow_w1.png"
@@ -170,7 +170,8 @@
           "contact_page": "",
           "contact_link_title": "",
           "contact_link_icon": false,
-          "notice_bar_text": "",
+          "notice_bar_text": "See our new collection",
+          "notice_bar_url": "shopify:\/\/collections\/bags",
           "notice_bar_text_color": "#ffffff",
           "notice_bar_bg_color": "#000000"
         }
@@ -330,7 +331,7 @@
           "title": "",
           "content": "The essential concept at the heart of decent packaging is to ensure we can unmake everything we make.",
           "button_text_1": "The Full Package",
-          "button_url_1": "https:\/\/decentpackaging.co.uk\/pages\/the-full-package",
+          "button_url_1": "https:\/\/decentpackaging.eu\/pages\/the-full-package",
           "button_text_2": "",
           "hide_titles": false,
           "condense_titles": false,
@@ -644,7 +645,7 @@
           "cta_text": "Open an account and start ordering straight away. Get next business day delivery on all orders placed before 2pm.",
           "cta_text_customer": "Open an account and start ordering straight away. Get next business day delivery on all orders placed before 2pm.",
           "btn_one_text": "Get Started",
-          "btn_one_url": "https:\/\/decentpackaging.co.uk\/account\/register",
+          "btn_one_url": "https:\/\/decentpackaging.eu\/account\/register",
           "btn_two_text": "",
           "btn_two_url": "\/account\/register",
           "btn_one_text_customer": "",
@@ -722,11 +723,11 @@
           "text_customer": "We'd love to hear from you.",
           "icon": "shopify:\/\/shop_images\/Globe-icon.png",
           "btn_one_text": "Get in touch",
-          "btn_one_url": "https:\/\/decentpackaging.co.uk\/pages\/contact-us",
+          "btn_one_url": "https:\/\/decentpackaging.eu\/pages\/contact-us",
           "btn_two_text": "",
           "btn_two_url": "",
           "btn_one_text_customer": "Get in touch",
-          "btn_one_url_customer": "https:\/\/decentpackaging.co.uk\/pages\/custom-branding\/#request-samples",
+          "btn_one_url_customer": "https:\/\/decentpackaging.eu\/pages\/custom-branding\/#request-samples",
           "btn_two_text_customer": "",
           "btn_two_url_customer": "",
           "background_color": "white",
@@ -953,7 +954,7 @@
             "settings": {
               "title": "Decent Club",
               "description_preview": "Need packaging on the regular?",
-              "description": "<p>If you're a cafe, coffee roaster, or just need a&nbsp;simple way to order packaging on the regular.<\/p>\n<p>Give us an email: hello@decentpackaging.co.uk<\/p>\n<p>We'd love to hear from you.<\/p>"
+              "description": "<p>If you're a cafe, coffee roaster, or just need a&nbsp;simple way to order packaging on the regular.<\/p>\n<p>Give us an email: hello@decentpackaging.eu<\/p>\n<p>We'd love to hear from you.<\/p>"
             }
           },
           "4867318c-7353-4ed4-bcd8-8bd4276c98b7": {
@@ -1514,6 +1515,14 @@
               "person_image": "shopify:\/\/shop_images\/Emily-Denham-DEC-2022_277a0d10-fc40-4cc7-806a-2ebe4f5b7f27.jpg"
             }
           },
+          "28bde3de-5085-405f-8c30-5b1bc170c649": {
+            "type": "team_info",
+            "settings": {
+              "person_name": "Ellen Gunn",
+              "person_description": "Business Development Manager",
+              "person_image": "shopify:\/\/shop_images\/Ellen-Gunn-JAN-2023.jpg"
+            }
+          },
           "1548896881662": {
             "type": "team_info",
             "settings": {
@@ -1555,6 +1564,7 @@
           "1559266233898",
           "da09ec7d-63d0-4da7-9488-f8f099b9e1bc",
           "df9b85ec-f3d7-43ca-8224-653c3a8827e6",
+          "28bde3de-5085-405f-8c30-5b1bc170c649",
           "1548896881662",
           "5551c345-b90a-4def-aa5e-2097ea05a97a",
           "366467fb-835a-4c93-b840-ee0ace884ee5"
@@ -1681,7 +1691,7 @@
         "settings": {
           "title": "Ordering  made simple",
           "link_text": "Get Started",
-          "link_url": "https:\/\/decentpackaging.co.uk\/account\/register"
+          "link_url": "https:\/\/decentpackaging.eu\/account\/register"
         }
       },
       "1549002992701": {
@@ -2270,7 +2280,7 @@
               "title": "FSC grown or Recycled Paper",
               "image": "shopify:\/\/shop_images\/EDIT_DECENT-NEW_CUPS-SMALL-0945.jpg",
               "description": "Paper is fantastic, but not all trees are grown equal! The Forest Stewardship Council ensures forests are responsibly grown, leaving positive environmental and social impacts. We only use FSC or recycled paper, this paper can then be recycled again and again or composted too.",
-              "url": "https:\/\/decentpackaging.co.uk\/collections\/paper-cardboard-range",
+              "url": "https:\/\/decentpackaging.eu\/collections\/paper-cardboard-range",
               "link_text": "Shop Paper & Cardboard Range",
               "anchor": "FSC grown or Recycled Paper"
             }
@@ -2281,7 +2291,7 @@
               "title": "Bagasse",
               "image": "shopify:\/\/shop_images\/Innocent-Packaging---March-2019-_Final-Selects_-10-1800px.png",
               "description": "Officially the waste from sugarcane production, the result is a diverse and easily malleable plant material that we can mould into loads of fantastic products. Using only heat and water in production, these materials are super sustainable, perfect for hot and cold foods and certified home compostable.",
-              "url": "https:\/\/decentpackaging.co.uk\/collections\/bagasse-range",
+              "url": "https:\/\/decentpackaging.eu\/collections\/bagasse-range",
               "link_text": "Shop Bagasse Range",
               "anchor": "Wheatstraw and Bagasse"
             }
@@ -2583,7 +2593,7 @@
           "aafb5159-3625-462c-a827-d82eef09ff09": {
             "type": "product-range",
             "settings": {
-              "url": "shopify:\/\/products\/single-walled-light-sand",
+              "url": "https:\/\/decentpackaging.eu\/products\/single-walled-hot-cup-white",
               "title": "Single Walled Hot Cup - White",
               "subtitle": "3 sizes available",
               "price_range": "From £59.90",
@@ -2592,6 +2602,7 @@
           },
           "077f6c7b-02d2-41d4-aa85-48a1bb7f3e7e": {
             "type": "product-range",
+            "disabled": true,
             "settings": {
               "url": "shopify:\/\/products\/lunch-box",
               "title": "Lunch Box",
@@ -2629,6 +2640,56 @@
               "price_range": "£45.00",
               "image": "shopify:\/\/shop_images\/web_2plyDinnerNapkinBrown_v2.png"
             }
+          },
+          "796e4f57-0bdd-4c90-ac2f-bc7a085a98e0": {
+            "type": "product-range",
+            "settings": {
+              "url": "\/",
+              "title": "Grease Proof Paper",
+              "subtitle": "Multiple options available",
+              "price_range": "50 cartons min order",
+              "image": "shopify:\/\/shop_images\/Web_Plain_GreaseproofPaper_Small_7879d12c-704f-4eea-8023-59cb23c8baac.png"
+            }
+          },
+          "db9d0df9-80d8-4829-aefb-f794323e3424": {
+            "type": "product-range",
+            "settings": {
+              "url": "\/",
+              "title": "Cardboard Clams",
+              "subtitle": "3 sizes available",
+              "price_range": "50 cartons min order",
+              "image": "shopify:\/\/shop_images\/Cardboard-Burgerbox.png"
+            }
+          },
+          "c6c1364b-d13b-499d-bc5c-99bcc3815e87": {
+            "type": "product-range",
+            "settings": {
+              "url": "\/",
+              "title": "Paper Bags",
+              "subtitle": "Multiple options available",
+              "price_range": "200 cartons min order",
+              "image": "shopify:\/\/shop_images\/web_handle-bag_Front.png"
+            }
+          },
+          "33a299da-d710-4fe7-9fd0-f32af5397c8e": {
+            "type": "product-range",
+            "settings": {
+              "url": "\/",
+              "title": "Hot Cups Sleeves",
+              "subtitle": "2 sizes available",
+              "price_range": "25 cartons min order",
+              "image": "shopify:\/\/shop_images\/web_sleeve_w1.png"
+            }
+          },
+          "228b8bb7-94d2-43d9-aaae-f19056abeb49": {
+            "type": "product-range",
+            "settings": {
+              "url": "\/",
+              "title": "Paper Bowl",
+              "subtitle": "4 sizes available",
+              "price_range": "100 cartons min order",
+              "image": "shopify:\/\/shop_images\/web_kraftbowl-8oz-BEST.png"
+            }
           }
         },
         "block_order": [
@@ -2636,7 +2697,12 @@
           "077f6c7b-02d2-41d4-aa85-48a1bb7f3e7e",
           "72afecbe-0a27-4cc0-86f3-5efbb8e077cc",
           "637fce5e-df13-45e3-9a0f-94a696f5361c",
-          "8b8617db-f280-428a-9255-4024b88a8e51"
+          "8b8617db-f280-428a-9255-4024b88a8e51",
+          "796e4f57-0bdd-4c90-ac2f-bc7a085a98e0",
+          "db9d0df9-80d8-4829-aefb-f794323e3424",
+          "c6c1364b-d13b-499d-bc5c-99bcc3815e87",
+          "33a299da-d710-4fe7-9fd0-f32af5397c8e",
+          "228b8bb7-94d2-43d9-aaae-f19056abeb49"
         ],
         "settings": {
           "title": "",
@@ -2650,7 +2716,7 @@
           "title": "Compostable Stickers",
           "description": "Have commitment issues? We've got you! We understand you may not want to commit to our minimum order quantity for custom branding so, we can also create compostable stickers as an alternative.",
           "get_in_touch_label": "Get in touch",
-          "get_in_touch_url": "https:\/\/decentpackaging.co.uk\/pages\/contact-us",
+          "get_in_touch_url": "https:\/\/decentpackaging.eu\/pages\/contact-us",
           "icon_bg_color": "#a3ac84",
           "icon": "logistics"
         }
@@ -2703,21 +2769,21 @@
             "type": "text",
             "settings": {
               "image": "shopify:\/\/shop_images\/DP-HeroSection-Sage-and-light-blue_Mobile.jpg",
-              "text": "<p><strong>East Coast<\/strong><\/p><p>We're currently distributing directly to customers on the East Coast of the United States. Get in touch with us about your packaging needs at:<\/p><p><a href=\"mailto:hello@decentpackaging.co.uk\" target=\"_blank\" title=\"mailto:hello@decentpackaging.co.uk\">hello@decentpackaging.co.uk<\/a><\/p>"
+              "text": "<p><strong>East Coast<\/strong><\/p><p>We're currently distributing directly to customers on the East Coast of the United States. Get in touch with us about your packaging needs at:<\/p><p><a href=\"mailto:hello@decentpackaging.eu\" target=\"_blank\" title=\"mailto:hello@decentpackaging.eu\">hello@decentpackaging.eu<\/a><\/p>"
             }
           },
           "0c0bbe07-3980-4d30-9e3d-4402ff9737a1": {
             "type": "text",
             "settings": {
               "image": "shopify:\/\/shop_images\/DP-HeroSection-Lois_V1_Mobile.jpg",
-              "text": "<p><strong>West Coast<\/strong><\/p><p>We're currently on the hunt for a distribution parter for the West Coast of the United States. Get in touch with us at:<\/p><p><a href=\"mailto:hello@decentpackaging.co.uk\" target=\"_blank\" title=\"mailto:hello@decentpackaging.co.uk\">hello@decentpackaging.co.uk<\/a><\/p>"
+              "text": "<p><strong>West Coast<\/strong><\/p><p>We're currently on the hunt for a distribution parter for the West Coast of the United States. Get in touch with us at:<\/p><p><a href=\"mailto:hello@decentpackaging.eu\" target=\"_blank\" title=\"mailto:hello@decentpackaging.eu\">hello@decentpackaging.eu<\/a><\/p>"
             }
           },
           "045ba357-ac86-412c-9d41-74da1b7e5ce0": {
             "type": "text",
             "settings": {
               "image": "shopify:\/\/shop_images\/DP-HeroSection-Flagship-_Mobile.jpg",
-              "text": "<p><strong>Middle & South <\/strong><\/p><p>We're currently on the hunt for a distribution parter for the Middle and South of the United States. Get in touch with us at:<\/p><p><a href=\"mailto:hello@decentpackaging.co.uk\" target=\"_blank\" title=\"mailto:hello@decentpackaging.co.uk\">hello@decentpackaging.co.uk<\/a><\/p>"
+              "text": "<p><strong>Middle & South <\/strong><\/p><p>We're currently on the hunt for a distribution parter for the Middle and South of the United States. Get in touch with us at:<\/p><p><a href=\"mailto:hello@decentpackaging.eu\" target=\"_blank\" title=\"mailto:hello@decentpackaging.eu\">hello@decentpackaging.eu<\/a><\/p>"
             }
           }
         },
@@ -2831,6 +2897,19 @@
         "type": "shopify:\/\/apps\/klaviyo-email-marketing-sms\/blocks\/klaviyo-onsite-embed\/2632fe16-c075-4321-a88b-50b567f42507",
         "disabled": false,
         "settings": {
+        }
+      },
+      "9776720720251544092": {
+        "type": "shopify:\/\/apps\/helium-customer-fields\/blocks\/app-embed\/bab58598-3e6a-4377-aaaa-97189b15f131",
+        "disabled": false,
+        "settings": {
+          "registration_form_id": "j2tn8O",
+          "edit_account_form_id": "j2tn8O",
+          "edit_account_link_text": "Edit account",
+          "edit_account_heading": "Edit account",
+          "edit_account_back_link_text": "Back to account",
+          "enable_js_api": false,
+          "js_api_version": ""
         }
       }
     }

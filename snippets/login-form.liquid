@@ -24,24 +24,7 @@
         {%- endif -%}
       </div>
     </div>
-
-    {%- if active_country_code == 'NZ' -%}
-      <div class="part-description__txt">
-        <div class="section-header template__main-title text-{{ settings.page_header_text_align }}">
-
-          <a href="#" id="NewCustomer">
-            <b>{{'customer.login.site_upgrade_please_note' | t }}</b>
-
-            {%- assign text_content = 'customer.login.site_upgrade_message' | t -%}
-            {%- if text_content != blank -%}
-            {%- include 'text' with text_content -%}
-            {%- endif -%}
-          </a>
-
-        </div>
-      </div>
-    {%- endif -%}
-
+    
     {%- include 'customer-login-form' -%}
 
   </div>

@@ -10,14 +10,14 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="product-range-grid">
 
       {%- for block in section.blocks -%}
         {%- if block.type != 'product-range' -%}
           {%- continue -%}
         {%- endif -%}
 
-        <div class="col-xs-6 col-md-4 col-lg">
+        <div>
           <a class="product-range-grid-item" href="{{ block.settings.url }}">
             <span class="product-range-grid-item__image">
 

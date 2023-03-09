@@ -252,8 +252,6 @@
                 {%- for variant in product.variants -%}
                   {% if variant.available %}
                     <span data-variant-id="{{ variant.id }}" rv-class-active="active.variant.id | eq {{ variant.id }}" rv-on-click="methods.updateActiveVariant">{{ variant.title }}</span>
-                  {% else %}
-                    <span data-variant-id="{{ variant.id }}" class="variant-not-available">{{ variant.title }}</span>
                   {% endif %}
                 {%- endfor -%}
               </div>

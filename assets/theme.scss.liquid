@@ -5671,13 +5671,21 @@ $cart-drawer-section-padding: #{$grid-gutter * 0.75};
 }
 
 .site-header__notice-bar {
-  padding: 0.25em 0;
+  padding: 0.25em 20px;
   font-size: 0.75em;
+  font-weight: $font-weight-bold;
   line-height: 1.5;
+  text-align: center;
 
   @include mq(md) {
-    padding: 0.375em 0;
-    font-size: 0.9em;
+    padding: 0.375em 40px;
+    font-size: 1rem;
+  }
+
+  >* {
+    color: inherit !important;
+    width: 100%;
+    display: block;
   }
 }
 
@@ -5685,18 +5693,26 @@ header.header--fixed-height {
   height: $header-height-mobile;
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  row-gap: 10px;
 
   @include mq(sm) {
     height: $header-height;
   }
 
   .site-header__main {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    @include transform(translate(-50%,-50%));
+    // position: absolute;
+    // top: 50%;
+    // left: 50%;
+    // @include transform(translate(-50%,-50%));
     padding-top: 0;
     padding-bottom: 0;
+
+    &.spread {
+      flex: 1 1 auto;
+    }
   }
 }
 
@@ -5833,7 +5849,7 @@ button.site-header__mobile-nav-link {
 
 .site-header__logo {
   font-size: 2.4rem;
-  padding: 0 0 0.125em;
+  // padding: 0 0 0.125em;
   @include transition('opacity 0.3s ease, transform 0.3s ease');
 
   svg.logo {
@@ -7574,6 +7590,7 @@ $mobile-nav-button-height: 50px;
   display: block;
   opacity: 1;
   overflow: hidden;
+  z-index: 5;
 }
 
 .modal__inner {
@@ -15616,10 +15633,21 @@ $product-grid-image-height-sm: 250px;
   margin-bottom: $section-padding-medium;
 }
 
+.product-range-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: $grid-gutter;
+  row-gap: $grid-gutter;
+
+  @include mq(md) {
+  grid-template-columns: repeat(6, 1fr);
+  }
+}
+
 .product-range-grid-item {
   display: block;
-  margin-top: #{$grid-gutter / 2};
-  margin-bottom: #{$grid-gutter / 2};
+  // margin-top: #{$grid-gutter / 2};
+  // margin-bottom: #{$grid-gutter / 2};
 }
 
 .product-range-grid-item__image {
